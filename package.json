@@ -1,0 +1,26 @@
+{
+  "name": "portfolio",
+  "version": "0.0.1",
+  "description": "My portfolio website",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/core": "^10.0.27",
+    "@emotion/styled": "^10.0.27",
+    "gatsby": "^2.19.19",
+    "gatsby-image": "^2.2.41",
+    "gatsby-plugin-emotion": "^4.1.22",
+    "gatsby-plugin-google-fonts": "^1.0.1",
+    "gatsby-plugin-layout": "^1.1.22",
+    "gatsby-plugin-robots-txt": "^1.5.0",
+    "gatsby-plugin-sharp": "^2.4.5",
+    "gatsby-plugin-sitemap": "^2.2.27",
+    "gatsby-plugin-theme-ui": "^0.3.0",
+    "gatsby-source-filesystem": "^2.1.48",
+    "gatsby-transformer-json": "^2.2.26",
+    "gatsby-transformer-sharp": "^2.3.14",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-icons": "^3.9.0"
+  }
+}
