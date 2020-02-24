@@ -8,7 +8,7 @@ const ProjectImage = props => (
       border: "1px solid",
       borderColor: "accent",
       padding: "2em",
-      width: "350px"
+      width: ["250px", "300px", "350px"]
     }}
     fluid={props.fluid}
     alt={props.alt}

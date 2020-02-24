@@ -7,10 +7,11 @@ const Nav = () => {
     <nav
       sx={{
         display: "flex",
-        justifyContent: "space-evenly",
+        flexDirection: ["column", "row", "row"],
+        justifyContent: ["space-around", "space-evenly", "space-evenly"],
         alignItems: "center",
         width: "100%",
-        height: "100%"
+        height: "auto"
       }}
     >
       <Link

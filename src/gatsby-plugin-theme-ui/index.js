@@ -24,5 +24,6 @@ export default {
     secondary: "#E7E7E9",
     secondaryDarker: "#545455",
     accent: "#DE3C4B"
-  }
+  },
+  breakpoints: ["40em", "56em", "64em"]
 };
