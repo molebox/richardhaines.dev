@@ -1,11 +1,9 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { useSiteMetadata } from "./../../useSiteMetadata";
 import H1 from "./../../common/h1";
 import H2 from "./../../common/h2";
 
 const About = props => {
-  const { siteName } = useSiteMetadata();
   return (
     <section
       sx={{
@@ -15,7 +13,7 @@ const About = props => {
         fontFamily: "body"
       }}
     >
-      <H1>{siteName}</H1>
+      <H1>Hello, I'm Rich Haines</H1>
       <H2>{props.intro}</H2>
       <H2>{props.description}</H2>
     </section>

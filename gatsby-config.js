@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     siteName: 'richardhaines.dev',
-    intro: 'Hello Im Rich Haines. Im a software developer who specializes in JAMstack development.',
+    intro: 'A software developer who specializes in JAMstack development.',
     description: 'I currently work as a frontend developer for a network security company in the north of Sweden.',
     techStack: 'In my spare time i like to build websites and themes with Gatsby. Im proficient in JavaScript and React. These are 3 of my favorite projects: ',
     siteUrl: 'https://richardhaines.dev',

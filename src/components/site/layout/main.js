@@ -7,7 +7,7 @@ const Main = props => (
       gridArea: "main",
       backgroundColor: "background",
       minHeight: "calc(100vh - 60px)",
-      paddingTop: "60px"
+      paddingTop: ["2em", "60px", "60px"]
     }}
   >
     {props.children}

@@ -1,12 +1,15 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { Link } from "gatsby";
+import { useSiteMetadata } from "./../../useSiteMetadata";
 
 const Nav = () => {
+  const { siteName } = useSiteMetadata();
   return (
     <nav
       sx={{
         display: "flex",
+        flexDirection: ["column", "row", "row"],
         justifyContent: "space-evenly",
         alignItems: "center",
         width: "100%",
@@ -17,24 +20,25 @@ const Nav = () => {
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
-          fontSize: ["0.8em", "1.1em", "1.2em"],
+          fontSize: ["0.8em", "0.9em", "1em"],
           color: "text",
+          paddingTop: ["1em", null, null],
           letterSpacing: "text",
-          textTransform: "uppercase",
           ":hover": {
             color: "accent"
           }
         }}
         to="/"
       >
-        Home
+        {siteName}
       </Link>
       <Link
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
-          fontSize: ["0.8em", "1.1em", "1.2em"],
+          fontSize: ["0.8em", "0.9em", "1em"],
           color: "text",
+          paddingTop: ["1em", null, null],
           letterSpacing: "text",
           textTransform: "uppercase",
           ":hover": {
@@ -45,11 +49,11 @@ const Nav = () => {
       >
         Blog
       </Link>
-      <Link
+      {/* <Link
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
-          fontSize: ["0.8em", "1.1em", "1.2em"],
+          fontSize: ["0.8em", "0.9em", "1em"],
           color: "text",
           letterSpacing: "text",
           textTransform: "uppercase",
@@ -60,13 +64,14 @@ const Nav = () => {
         to="/"
       >
         Resume
-      </Link>
+      </Link> */}
       <Link
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
-          fontSize: ["0.8em", "1.1em", "1.2em"],
+          fontSize: ["0.8em", "0.9em", "1em"],
           color: "text",
+          paddingTop: ["1em", null, null],
           letterSpacing: "text",
           textTransform: "uppercase",
           ":hover": {

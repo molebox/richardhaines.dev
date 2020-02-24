@@ -9,7 +9,6 @@ const Projects = () => {
   return (
     <section
       sx={{
-        // maxWidth: "1200px"
         margin: "3em auto",
         display: "flex",
         flexDirection: ["column", "column", "row"],

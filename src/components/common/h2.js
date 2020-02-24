@@ -18,7 +18,6 @@ const H2 = props => {
         color: "text",
         fontFamily: "body",
         fontSize: ["1em", "1.7em", "2em"],
-        letterSpacing: "text",
         fontWeight: 400,
         margin: "1em auto"
       }}
