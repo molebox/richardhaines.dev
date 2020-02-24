@@ -8,12 +8,12 @@ import { useSiteMetadata } from "./../components/useSiteMetadata";
 import Divider from "../components/common/divider";
 
 export default () => {
-  const { description } = useSiteMetadata();
+  const { description, intro } = useSiteMetadata();
 
   return (
     <Main>
       <Divider />
-      <About>{description}</About>
+      <About description={description} intro={intro} />
       <Divider />
       <TechStack />
       <Projects />

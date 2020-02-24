@@ -7,17 +7,17 @@ const Nav = () => {
     <nav
       sx={{
         display: "flex",
-        flexDirection: ["column", "row", "row"],
-        justifyContent: ["space-around", "space-evenly", "space-evenly"],
+        justifyContent: "space-evenly",
         alignItems: "center",
         width: "100%",
-        height: "auto"
+        height: "100%"
       }}
     >
       <Link
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
+          fontSize: ["0.8em", "1.1em", "1.2em"],
           color: "text",
           letterSpacing: "text",
           textTransform: "uppercase",
@@ -33,6 +33,7 @@ const Nav = () => {
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
+          fontSize: ["0.8em", "1.1em", "1.2em"],
           color: "text",
           letterSpacing: "text",
           textTransform: "uppercase",
@@ -48,6 +49,7 @@ const Nav = () => {
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
+          fontSize: ["0.8em", "1.1em", "1.2em"],
           color: "text",
           letterSpacing: "text",
           textTransform: "uppercase",
@@ -63,6 +65,7 @@ const Nav = () => {
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
+          fontSize: ["0.8em", "1.1em", "1.2em"],
           color: "text",
           letterSpacing: "text",
           textTransform: "uppercase",
@@ -70,7 +73,7 @@ const Nav = () => {
             color: "accent"
           }
         }}
-        to="/"
+        to="/contact"
       >
         Contact
       </Link>

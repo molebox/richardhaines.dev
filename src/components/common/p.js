@@ -7,7 +7,7 @@ const P = props => {
       sx={{
         color: "text",
         fontFamily: "body",
-        fontSize: ["0.9em", "1.1em", "1.3em"],
+        fontSize: ["0.8em", "1.1em", "1.2em"],
         letterSpacing: "text",
         fontWeight: 400,
         margin: "1em auto"

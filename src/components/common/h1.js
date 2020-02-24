@@ -1,19 +1,19 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
-const variants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 }
-};
+// const variants = {
+//   visible: { opacity: 1 },
+//   hidden: { opacity: 0 }
+// };
 
 const H1 = props => {
   return (
-    <motion.h1
-      initial="hidden"
-      animate="visible"
-      variants={variants}
-      transition={{ ease: "easeIn", duration: 3 }}
+    <h1
+      // initial="hidden"
+      // animate="visible"
+      // variants={variants}
+      // transition={{ ease: "easeIn", duration: 3 }}
       sx={{
         color: "text",
         fontFamily: "body",
@@ -24,7 +24,7 @@ const H1 = props => {
       }}
     >
       {props.children}
-    </motion.h1>
+    </h1>
   );
 };
 

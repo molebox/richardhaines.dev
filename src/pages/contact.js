@@ -1,22 +1,43 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import Main from "../components/site/layout/main";
-import About from "./../components/site/home/about";
-import TechStack from "./../components/site/home/techstack";
-import Projects from "./../components/site/home/projects";
-import { useSiteMetadata } from "./../components/useSiteMetadata";
 import Divider from "../components/common/divider";
+import ContactLayout from "./../components/site/contact/contact-layout";
+import Form from "../components/site/contact/form";
+import P from "../components/common/p";
+import H1 from "../components/common/H1";
+import ExternalLink from "./../components/common/external-link";
 
 const Contact = () => {
-  const { description } = useSiteMetadata();
-
   return (
     <Main>
       <Divider />
-      <About>{description}</About>
+      <H1>Contact</H1>
       <Divider />
-      <TechStack />
-      <Projects />
+      <ContactLayout>
+        <div
+          sx={{
+            fontFamily: "body"
+          }}
+        >
+          <P>
+            Im most active on Twitter where you can reach me{" "}
+            <ExternalLink href="https://twitter.com/studio_hungry">
+              @studio_hungry
+            </ExternalLink>
+            , if you would prefer to contact me via email you can do so at{" "}
+            <ExternalLink href="mailto:hello@richardhaines.dev">
+              hello@richardhaines.dev
+            </ExternalLink>
+            .
+          </P>
+          <P>
+            Otherwise feel free to fill out the form and i will get back to you
+            within a couple of days.
+          </P>
+        </div>
+        <Form />
+      </ContactLayout>
     </Main>
   );
 };

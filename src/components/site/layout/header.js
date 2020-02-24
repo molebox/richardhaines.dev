@@ -10,7 +10,8 @@ const Header = props => (
       backgroundColor: "background",
       color: "text",
       height: "100%",
-      padding: "2em"
+      padding: [null, "2em", "2em"],
+      paddingTop: ["2em", null, null]
     }}
   >
     {props.children}

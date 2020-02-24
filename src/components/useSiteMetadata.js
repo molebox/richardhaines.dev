@@ -7,6 +7,7 @@ export const useSiteMetadata = () => {
         site {
           siteMetadata {
             siteName
+            intro
             description
             techStack
             siteUrl

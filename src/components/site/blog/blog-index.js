@@ -34,7 +34,30 @@ const BlogIndex = ({ posts }) => {
               }
             }}
           >
-            <P>{frontmatter.title}</P>
+            <p
+              sx={{
+                color: "text",
+                fontFamily: "body",
+                fontSize: ["0.8em", "1.1em", "1em"],
+                letterSpacing: "text",
+                fontWeight: 400,
+                margin: "1em auto"
+              }}
+            >
+              {frontmatter.title}
+            </p>
+            <p
+              sx={{
+                color: "text",
+                fontFamily: "body",
+                fontSize: ["0.5em", "0.6em", "0.8em"],
+                letterSpacing: "text",
+                fontWeight: 400,
+                margin: "1em auto"
+              }}
+            >
+              Category: {frontmatter.category}
+            </p>
           </div>
         </Link>
       ))}

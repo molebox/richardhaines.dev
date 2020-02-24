@@ -16,7 +16,8 @@ const About = props => {
       }}
     >
       <H1>{siteName}</H1>
-      <H2>{props.children}</H2>
+      <H2>{props.intro}</H2>
+      <H2>{props.description}</H2>
     </section>
   );
 };

@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import P from "../../common/p";
 import Divider from "./../../common/divider";
 
 const Footer = () => (
@@ -17,7 +16,18 @@ const Footer = () => (
     }}
   >
     <Divider />
-    <P>Created with Gatsby and MDX</P>
+    <p
+      sx={{
+        color: "text",
+        fontFamily: "body",
+        fontSize: ["0.7em", "0.8em", "1em"],
+        letterSpacing: "text",
+        fontWeight: 400,
+        margin: "1em auto"
+      }}
+    >
+      Created with Gatsby and MDX
+    </p>
   </footer>
 );
 
