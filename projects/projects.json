@@ -21,14 +21,14 @@
         "npm": "https://www.npmjs.com/package/gatsby-theme-pocket"
     },
     {
-        "name": "justask.dev",
-        "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
+        "name": "gatsby-theme-vulcan",
+        "description": "An ecommerce gatsby theme built with sanity.io for the backend and snipcart to handle payments. Currently work in progress.",
         "image": {
-            "src": "./images/justask.dev.PNG",
-            "alt": "justask.dev website screenshot"
+            "src": "./images/gatsby-theme-vulcan.PNG",
+            "alt": "gatsby-theme-vulcan website screenshot"
         },
-        "github": "https://github.com/molebox/justask.dev",
-        "website": "https://justask.dev/",
+        "github": "https://github.com/molebox/gatsby-theme-ecommerce-vulcan",
+        "website": "https://gatsby-theme-vulcan.netlify.com/",
         "npm": ""
     }
 ]
