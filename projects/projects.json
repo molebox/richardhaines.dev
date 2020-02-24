@@ -10,15 +10,15 @@
         "npm": ""
     },
     {
-        "name": "justask.dev",
-        "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
+        "name": "gatsby-theme-pocket",
+        "description": "A Gatsby theme that adds your saved pocket app articles to your website. Includes filtering by tag. You control all your articles via the mobile app and they are displyed on your site via the theme",
         "image": {
-            "src": "./images/justask.dev.PNG",
-            "alt": "justask.dev website screenshot"
+            "src": "./images/gatsby-theme-pocket.PNG",
+            "alt": "gatsby-theme-pocket example website screenshot"
         },
-        "github": "https://github.com/molebox/justask.dev",
-        "website": "https://justask.dev/",
-        "npm": ""
+        "github": "https://github.com/molebox/gatsby-theme-pocket",
+        "website": "https://gatsby-theme-pocket-example.netlify.com/articleIndex/",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-pocket"
     },
     {
         "name": "justask.dev",

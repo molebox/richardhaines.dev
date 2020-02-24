@@ -1,9 +1,19 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import { motion } from "framer-motion";
+
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 }
+};
 
 const H1 = props => {
   return (
-    <h1
+    <motion.h1
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      transition={{ ease: "easeIn", duration: 3 }}
       sx={{
         color: "text",
         fontFamily: "body",
@@ -14,7 +24,7 @@ const H1 = props => {
       }}
     >
       {props.children}
-    </h1>
+    </motion.h1>
   );
 };
 

@@ -58,6 +58,19 @@ const ProjectCard = props => (
       >
         View Github
       </a>
+      {props.npm ? (
+        <a
+          sx={{
+            color: "text",
+            ":hover": {
+              color: "accent"
+            }
+          }}
+          href={props.npm}
+        >
+          View NPM
+        </a>
+      ) : null}
     </div>
   </div>
 );

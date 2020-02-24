@@ -24,6 +24,7 @@ const Projects = () => {
           alt={project.image.alt}
           website={project.website}
           github={project.github}
+          npm={project.npm}
         />
       ))}
     </section>
