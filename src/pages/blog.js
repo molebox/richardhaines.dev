@@ -4,7 +4,7 @@ import Main from "../components/site/layout/main";
 import { graphql } from "gatsby";
 import { useSearchBar } from "./../components/site/blog/useSearchBar";
 import H1 from "./../components/common/h1";
-import P from "./../components/common/P";
+import P from "./../components/common/p";
 import SearchBar from "./../components/site/blog/SearchBar";
 import Divider from "./../components/common/divider";
 import BlogIndex from "../components/site/blog/blog-index";

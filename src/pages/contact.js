@@ -5,7 +5,7 @@ import Divider from "../components/common/divider";
 import ContactLayout from "./../components/site/contact/contact-layout";
 import Form from "../components/site/contact/form";
 import P from "../components/common/p";
-import H1 from "../components/common/H1";
+import H1 from "../components/common/h1";
 import ExternalLink from "./../components/common/external-link";
 
 const Contact = () => {
