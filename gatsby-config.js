@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     siteName: 'richardhaines.dev',
     description: 'Hello Im Rich Haines. Im a software developer who specializes in JAMstack development. I currently work as a frontend developer for a network security company in the north of Sweden.',
-    techStack: 'In my spare time i like to build websites and themes with Gatsby. Im proficient in JavaScript and React. These are 3 of my projects: ',
+    techStack: 'In my spare time i like to build websites and themes with Gatsby. Im proficient in JavaScript and React. These are 3 of my favorite projects: ',
     siteUrl: 'https://richardhaines.dev',
   },
     plugins: [
@@ -31,6 +31,13 @@ module.exports = {
             name: 'projects'
           },
       },
+      {
+        resolve: 'gatsby-source-filesystem',
+        options: {
+          path: `${__dirname}/projects/images/`,
+          name: 'images'
+        },
+    },
         {
           resolve: 'gatsby-source-filesystem',
           options: {

@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import ProjectImage from "./project-image";
 
 const ProjectCard = props => (
   <div
@@ -9,10 +10,55 @@ const ProjectCard = props => (
       padding: "2em",
       backgroundColor: "background",
       color: "text",
-      fontFamily: "body"
+      fontFamily: "body",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignItems: "center",
+      margin: "1em",
+      height: "auto"
     }}
   >
-    {props.children}
+    <ProjectImage fluid={props.fluid} alt={props.alt} />
+    <p
+      sx={{
+        margin: "2em auto"
+      }}
+    >
+      {props.name}
+    </p>
+    <p>{props.description}</p>
+    <div
+      sx={{
+        display: "flex",
+        justifyContent: "space-evenly",
+        width: "100%",
+        margin: "2em auto"
+      }}
+    >
+      <a
+        sx={{
+          color: "text",
+          ":hover": {
+            color: "accent"
+          }
+        }}
+        href={props.website}
+      >
+        View Site
+      </a>
+      <a
+        sx={{
+          color: "text",
+          ":hover": {
+            color: "accent"
+          }
+        }}
+        href={props.github}
+      >
+        View Github
+      </a>
+    </div>
   </div>
 );
 

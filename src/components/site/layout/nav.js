@@ -24,6 +24,21 @@ const Nav = () => {
             color: "accent"
           }
         }}
+        to="/"
+      >
+        Home
+      </Link>
+      <Link
+        sx={{
+          textDecoration: "none",
+          fontFamily: "heading",
+          color: "text",
+          letterSpacing: "text",
+          textTransform: "uppercase",
+          ":hover": {
+            color: "accent"
+          }
+        }}
         to="/blog"
       >
         Blog
@@ -39,7 +54,7 @@ const Nav = () => {
             color: "accent"
           }
         }}
-        to="/resume"
+        to="/"
       >
         Resume
       </Link>
@@ -54,7 +69,7 @@ const Nav = () => {
             color: "accent"
           }
         }}
-        to="/contact"
+        to="/"
       >
         Contact
       </Link>

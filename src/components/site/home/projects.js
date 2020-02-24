@@ -16,7 +16,14 @@ const Projects = () => {
       }}
     >
       {projects.map(({ node: project }) => (
-        <ProjectCard>{project.name}</ProjectCard>
+        <ProjectCard
+          name={project.name}
+          description={project.description}
+          fluid={project.image.src.childImageSharp.fluid}
+          alt={project.image.alt}
+          website={project.website}
+          github={project.github}
+        />
       ))}
     </section>
   );
@@ -34,6 +41,16 @@ export const query = graphql`
           github
           website
           npm
+          image {
+            alt
+            src {
+              childImageSharp {
+                fluid {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
         }
       }
     }

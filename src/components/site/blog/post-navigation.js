@@ -5,7 +5,11 @@ import { Link } from "gatsby";
 const PostNavigation = props => (
   <Link
     sx={{
-      gridArea: "header"
+      fontFamily: "body",
+      color: "text",
+      ":hover": {
+        color: "accent"
+      }
     }}
     to={props.destination}
   >

@@ -1,35 +1,34 @@
-[
-       {
-           "name": "Test One",
-           "description": "",
-           "image": {
-            "src": "./images/",
-            "alt": ""
-           },
-           "github": "",
-           "website": "",
-           "npm": ""
-       },
-       {
-        "name": "Test Two",
-        "description": "",
+[{
+        "name": "justask.dev",
+        "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
         "image": {
-            "src": "./images/",
-            "alt": ""
-           },
-        "github": "",
-        "website": "",
+            "src": "./images/justask.dev.PNG",
+            "alt": "justask.dev website screenshot"
+        },
+        "github": "https://github.com/molebox/justask.dev",
+        "website": "https://justask.dev/",
         "npm": ""
     },
     {
-        "name": "Test Three",
-        "description": "",
+        "name": "justask.dev",
+        "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
         "image": {
-            "src": "./images/",
-            "alt": ""
-           },
-        "github": "",
-        "website": "",
+            "src": "./images/justask.dev.PNG",
+            "alt": "justask.dev website screenshot"
+        },
+        "github": "https://github.com/molebox/justask.dev",
+        "website": "https://justask.dev/",
+        "npm": ""
+    },
+    {
+        "name": "justask.dev",
+        "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
+        "image": {
+            "src": "./images/justask.dev.PNG",
+            "alt": "justask.dev website screenshot"
+        },
+        "github": "https://github.com/molebox/justask.dev",
+        "website": "https://justask.dev/",
         "npm": ""
     }
 ]

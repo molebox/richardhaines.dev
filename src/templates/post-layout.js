@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import PostTitle from "../components/site/blog/post-title";
@@ -8,6 +9,10 @@ import PostCategory from "../components/site/blog/post-category";
 import PostDate from "../components/site/blog/post-date";
 import PostNavigation from "./../components/site/blog/post-navigation";
 import EditPost from "./../components/site/blog/edit-post";
+import Main from "./../components/site/layout/main";
+import Divider from "./../components/common/divider";
+import H1 from "./../components/common/h1";
+import PostInfo from "../components/site/blog/post-info";
 
 const PostLayout = ({ data, pageContext }) => {
   const {
@@ -19,32 +24,42 @@ const PostLayout = ({ data, pageContext }) => {
   const { previous, next } = pageContext;
 
   return (
-    <>
-      <PostTitle>{title}</PostTitle>
-      <PostAuthor>{author}</PostAuthor>
-      <PostCategory>{category}</PostCategory>
-      <PostDate>{date}</PostDate>
-      <EditPost editLink={editLink}>Edit this post on GitHub.</EditPost>
-      <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
-      {previous === false ? null : (
-        <>
-          {previous && (
-            <PostNavigation destination={previous.fields.slug}>
-              {previous.frontmatter.title}
-            </PostNavigation>
+    <Main>
+      <section sx={{}}>
+        <Divider />
+        <H1>{title}</H1>
+        <PostInfo author={author} date={date} category={category} />
+        <Divider />
+        <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
+        <div
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            margin: "2em auto"
+          }}
+        >
+          <EditPost editLink={editLink}>Edit this post on GitHub.</EditPost>
+          {previous === false ? null : (
+            <>
+              {previous && (
+                <PostNavigation destination={previous.fields.slug}>
+                  Previous: {previous.frontmatter.title}
+                </PostNavigation>
+              )}
+            </>
           )}
-        </>
-      )}
-      {next === false ? null : (
-        <>
-          {next && (
-            <PostNavigation destination={next.fields.slug}>
-              {next.frontmatter.title}
-            </PostNavigation>
+          {next === false ? null : (
+            <>
+              {next && (
+                <PostNavigation destination={next.fields.slug}>
+                  Next: {next.frontmatter.title}
+                </PostNavigation>
+              )}
+            </>
           )}
-        </>
-      )}
-    </>
+        </div>
+      </section>
+    </Main>
   );
 };
 
