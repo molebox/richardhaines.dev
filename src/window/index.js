@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { window, document } from "browser-monads";
+import { window as monadsWindow, document as monadsDoc } from "browser-monads";
 
 const getWidth = () =>
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth;
+  monadsWindow.innerWidth ||
+  monadsDoc.documentElement.clientWidth ||
+  monadsDoc.body.clientWidth;
 
 function useCurrentWitdh() {
   let [width, setWidth] = useState(getWidth());
@@ -16,10 +16,10 @@ function useCurrentWitdh() {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => setWidth(getWidth()), 150);
     };
-    window.addEventListener("resize", resizeListener);
+    monadsWindow.addEventListener("resize", resizeListener);
 
     return () => {
-      window.removeEventListener("resize", resizeListener);
+      monadsWindow.removeEventListener("resize", resizeListener);
     };
   }, []);
 
