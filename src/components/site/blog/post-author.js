@@ -4,7 +4,8 @@ import { jsx } from "theme-ui";
 const PostAuthor = props => (
   <p
     sx={{
-      fontFamily: "heading"
+      fontFamily: "heading",
+      fontSize: ["0.7em", "1em", "1em"]
     }}
   >
     {props.children}

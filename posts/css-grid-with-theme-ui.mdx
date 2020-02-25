@@ -1,0 +1,167 @@
+---
+title: CSS grid with theme-ui
+date: 2020-02-25
+published: true
+category: Theme-ui
+author: Richard Haines
+---
+
+## Before i knew how to do this i was using media queries....
+
+When i started using theme-ui i was already an avid emotion user. I would splatter my files with styled components without really thinking about if they could (or should) be shared. It was a well drilled operation that i felt was giving me the results i wanted.
+
+For example, i would generally use css grid for my sites base layout, this would be wrapped around the whole app using gatsby-plugin-layout. One such example:
+
+```jsx
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "nav"
+    "main"
+    "footer";
+  height: 100%;
+  width: fit-content;
+
+  /* 48em = 768px */
+  @media (min-width: 48em) {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 0.5fr 4fr 0.5fr;
+    grid-template-areas:
+      "nav nav nav nav nav nav"
+      "main main main main main main"
+      "footer footer footer footer footer footer";
+    height: 100vh;
+    width: auto;
+  }
+`;
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <Container>
+        <Header>
+          <Nav />
+        </Header>
+        {children}
+        <Footer />
+      </Container>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+This worked perfectly fine, but i had learned through discussions with other devs, and through seeing their work that mixing both emotion and theme-ui not only wasnt really neccesary but also a bit clunky to say the least. Thats without going into how theme-ui uses emotion under the hood (what was i thinking?)
+
+When i decided to do a complete redesign of my website i wanted to try and use theme-ui only to style my site, and more specifically the sx prop. The problem i faced was not how to add the grid systme via the sx prop, but how to make it responsive, that is, how to do what i was doing with media queries but via the sx prop. 
+
+The solution was surprisingly simple. With css variables on the sx prop you can use an array format to give different values depending on the browser width. With this knowledge in hand i converted the above code to the following: 
+
+```jsx
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div
+        sx={{
+          display: "grid",
+          gridTemplateRows: "auto",
+          gridTemplateColumns: [
+            "repeat(4, 1fr)",
+            "repeat(6, 1fr)",
+            "repeat(8, 1fr)"
+          ],
+          gridTemplateAreas: [`
+            'nav      nav     nav     nav'
+            'main     main    main    main'
+            'footer   footer  footer  footer'
+          `,
+            `
+            'nav      nav     nav     nav     nav     nav'
+            'main     main    main    main    main    main'
+            'footer   footer  footer  footer  footer  footer'
+          `,
+            `
+            '.    nav      nav     nav     nav     nav     nav    .'
+            '.    main     main    main    main    main    main   .'
+            '.    footer   footer  footer  footer  footer  footer .'
+          `
+          ],
+          padding: "0 1em"
+        }}
+      >
+        <Header>
+          <Nav />
+        </Header>
+        {children}
+        <Footer />
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+This was a great improvement and when looking at it with the understanding that the array notation works like so ['mobile', 'tablet', 'desktop'] it becomes really easy to read and understand what is going on. Having all those long strings in there was kinda messy though so i moved them out into another file and replaced them: 
+
+```jsx
+ <div
+    sx={{
+      display: "grid",
+      gridTemplateRows: "auto",
+      gridTemplateColumns: [
+        "repeat(4, 1fr)",
+        "repeat(6, 1fr)",
+        "repeat(8, 1fr)"
+      ],
+      gridTemplateAreas: [
+        PhoneTemplateAreas,
+        TabletTemplateAreas,
+        DesktopTemplateAreas
+      ],
+        padding: "0 1em"
+      }}
+    >
+      <Header>
+        <Nav />
+      </Header>
+        {children}
+      <Footer />
+  </div>
+```
+
+Much better! 😎

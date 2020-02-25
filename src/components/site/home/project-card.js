@@ -38,6 +38,7 @@ const ProjectCard = props => (
     >
       <a
         sx={{
+          fontSize: ["0.8em", "1em", "1em"],
           color: "text",
           ":hover": {
             color: "accent"
@@ -49,6 +50,7 @@ const ProjectCard = props => (
       </a>
       <a
         sx={{
+          fontSize: ["0.8em", "1em", "1em"],
           color: "text",
           ":hover": {
             color: "accent"
@@ -61,6 +63,7 @@ const ProjectCard = props => (
       {props.npm ? (
         <a
           sx={{
+            fontSize: ["0.8em", "1em", "1em"],
             color: "text",
             ":hover": {
               color: "accent"

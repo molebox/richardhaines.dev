@@ -7,13 +7,13 @@ const BlogIndex = ({ posts }) => {
     <section
       sx={{
         display: "grid",
-        gridAutoRows: "150px",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        gap: "2em",
+        gridAutoRows: "auto",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 450px))",
+        gap: "1.5em",
         margin: "3em auto"
       }}
     >
-      {posts.map(({ id, frontmatter, fields }) => (
+      {posts.map(({ id, frontmatter, fields, excerpt }) => (
         <Link
           sx={{
             textDecoration: "none"
@@ -26,10 +26,14 @@ const BlogIndex = ({ posts }) => {
               border: "solid 2px",
               borderColor: "accent",
               padding: "1.5em",
-              height: "150px",
+              height: "auto",
+              display: "grid",
+              gridTemplateRows: "1fr 2fr",
+
+              justifyContent: "space-evenly",
               ":hover": {
-                border: "solid 3px",
-                borderColor: "accent"
+                backgroundColor: "accent",
+                color: "background"
               }
             }}
           >
@@ -49,14 +53,46 @@ const BlogIndex = ({ posts }) => {
               sx={{
                 color: "text",
                 fontFamily: "body",
-                fontSize: ["0.5em", "0.6em", "0.8em"],
+                fontSize: ["0.8em", "1.1em", "1em"],
                 letterSpacing: "text",
                 fontWeight: 400,
                 margin: "1em auto"
               }}
             >
-              Category: {frontmatter.category}
+              {excerpt}
             </p>
+            <div
+              sx={{
+                display: "flex"
+              }}
+            >
+              <p
+                sx={{
+                  color: "text",
+                  fontFamily: "body",
+                  fontSize: ["0.5em", "0.6em", "0.8em"],
+                  letterSpacing: "text",
+                  fontWeight: 400,
+                  margin: "1em auto",
+                  alignSelf: "flex-end"
+                }}
+              >
+                Category: {frontmatter.category}
+              </p>
+              <p
+                sx={{
+                  color: "text",
+                  fontFamily: "body",
+                  fontSize: ["0.5em", "0.6em", "0.8em"],
+                  letterSpacing: "text",
+                  fontWeight: 400,
+                  margin: "1em auto",
+                  alignSelf: "flex-end"
+                }}
+              >
+                {frontmatter.date}
+              </p>
+            </div>
           </div>
         </Link>
       ))}

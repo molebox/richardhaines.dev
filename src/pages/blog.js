@@ -41,10 +41,10 @@ export const query = graphql`
     ) {
       nodes {
         id
-        excerpt(pruneLength: 250)
+        excerpt(pruneLength: 100)
         frontmatter {
           title
-          date
+          date(formatString: "DD MMM YYYY")
           category
           author
         }

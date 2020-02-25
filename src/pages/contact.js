@@ -21,19 +21,9 @@ const Contact = () => {
           }}
         >
           <P>
-            Im most active on Twitter where you can reach me{" "}
-            <ExternalLink href="https://twitter.com/studio_hungry">
-              @studio_hungry
-            </ExternalLink>
-            , if you would prefer to contact me via email you can do so at{" "}
-            <ExternalLink href="mailto:hello@richardhaines.dev">
-              hello@richardhaines.dev
-            </ExternalLink>
-            .
-          </P>
-          <P>
-            Otherwise feel free to fill out the form and i will get back to you
-            within a couple of days.
+            If you would like to get in touch about a project, or if you have
+            any questions for me, dont hesitate to send me a message by filling
+            out the form. I will aim to get back to you within a couple of days
           </P>
         </div>
         <Form />

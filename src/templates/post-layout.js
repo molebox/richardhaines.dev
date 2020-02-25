@@ -24,7 +24,7 @@ const PostLayout = ({ data, pageContext }) => {
       <section sx={{}}>
         <Divider />
         <H1>{title}</H1>
-        <PostInfo author={author} date={date} category={category} />
+        <PostInfo author={author} date={date} />
         <Divider />
         <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
         <div
@@ -66,7 +66,7 @@ export const query = graphql`
     mdx(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
-        date(formatString: "YYYY MMMM Do")
+        date(formatString: "DD MMM YYYY")
         category
         author
       }

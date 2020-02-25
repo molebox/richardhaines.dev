@@ -6,6 +6,9 @@ import TechStack from "./../components/site/home/techstack";
 import Projects from "./../components/site/home/projects";
 import { useSiteMetadata } from "./../components/useSiteMetadata";
 import Divider from "../components/common/divider";
+import P from "../components/common/p";
+import ExternalLink from "./../components/common/external-link";
+import H3 from "../components/common/h3";
 
 export default () => {
   const { description, intro } = useSiteMetadata();
@@ -15,8 +18,28 @@ export default () => {
       <Divider />
       <About description={description} intro={intro} />
       <Divider />
-      <TechStack />
+      <div
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "1em"
+        }}
+      >
+        <H3>Top 3 current favorite projects!</H3>
+      </div>
       <Projects />
+      <TechStack />
+      <P>
+        Im most active on Twitter where you can reach me{" "}
+        <ExternalLink href="https://twitter.com/studio_hungry">
+          @studio_hungry
+        </ExternalLink>
+        , if you would prefer to contact me via email you can do so at{" "}
+        <ExternalLink href="mailto:hello@richardhaines.dev">
+          hello@richardhaines.dev
+        </ExternalLink>
+      </P>
     </Main>
   );
 };

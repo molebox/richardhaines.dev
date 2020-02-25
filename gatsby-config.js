@@ -2,8 +2,8 @@ module.exports = {
   siteMetadata: {
     siteName: 'richardhaines.dev',
     intro: 'A software developer who specializes in JAMstack development.',
-    description: 'I currently work as a frontend developer for a network security company in the north of Sweden.',
-    techStack: 'In my spare time i like to build websites and themes with Gatsby. Im proficient in JavaScript and React. These are 3 of my favorite projects: ',
+    description: 'I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby.',
+    techStack: 'Im proficient in JavaScript, React, C# and ASP.NET Core. I also have good knowledge of working with headless CMSs such as Sanity.io and Contentful.',
     siteUrl: 'https://richardhaines.dev',
   },
     plugins: [

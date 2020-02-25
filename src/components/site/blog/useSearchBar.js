@@ -13,8 +13,8 @@ export const useSearchBar = data => {
 
     const posts = data.allMdx.nodes || [];
 
-    const filteredData = posts.filter(answer => {
-      const { title } = answer.frontmatter;
+    const filteredData = posts.filter(post => {
+      const { title } = post.frontmatter;
       return title.toLowerCase().includes(query.toLowerCase());
     });
 

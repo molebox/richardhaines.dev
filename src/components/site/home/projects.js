@@ -9,7 +9,7 @@ const Projects = () => {
   return (
     <section
       sx={{
-        margin: "3em auto",
+        margin: "2em auto",
         display: "flex",
         flexDirection: ["column", "column", "row"],
         justifyContent: "space-evenly"
