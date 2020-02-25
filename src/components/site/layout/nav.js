@@ -9,8 +9,7 @@ const Nav = () => {
     <nav
       sx={{
         display: "flex",
-        flexDirection: ["column", "row", "row"],
-        justifyContent: "space-evenly",
+        justifyContent: ["center", "space-evenly", "space-evenly"],
         alignItems: "center",
         width: "100%",
         height: "100%"
@@ -41,6 +40,7 @@ const Nav = () => {
           paddingTop: ["1em", null, null],
           letterSpacing: "text",
           textTransform: "uppercase",
+          display: ["none", "block", "block"],
           ":hover": {
             color: "accent"
           }
@@ -74,6 +74,7 @@ const Nav = () => {
           paddingTop: ["1em", null, null],
           letterSpacing: "text",
           textTransform: "uppercase",
+          display: ["none", "block", "block"],
           ":hover": {
             color: "accent"
           }

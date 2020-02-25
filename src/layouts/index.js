@@ -10,6 +10,7 @@ import {
 } from "./../window/breakpoints";
 import Footer from "../components/site/layout/footer";
 import Nav from "./../components/site/layout/nav";
+import SidebarNav from "../components/site/layout/sidebar/sidebar-nav";
 
 const Layout = ({ children }) => {
   return (
@@ -49,6 +50,7 @@ const Layout = ({ children }) => {
       >
         <Header>
           <Nav />
+          <SidebarNav />
         </Header>
         {children}
         <Footer />
