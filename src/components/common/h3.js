@@ -19,7 +19,9 @@ const H3 = props => {
         fontFamily: "body",
         fontSize: ["1em", "1.3em", "1.5em"],
         fontWeight: 400,
-        margin: "1em auto"
+        margin: "1em auto",
+        textTransform: "uppercase",
+        letterSpacing: "text"
       }}
     >
       {props.children}

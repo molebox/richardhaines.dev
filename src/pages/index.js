@@ -8,10 +8,10 @@ import { useSiteMetadata } from "./../components/useSiteMetadata";
 import Divider from "../components/common/divider";
 import P from "../components/common/p";
 import ExternalLink from "./../components/common/external-link";
-import H3 from "../components/common/h3";
 
 export default () => {
   const { description, intro } = useSiteMetadata();
+  const smiley = "\u{1F60A}";
 
   return (
     <Main>
@@ -19,16 +19,23 @@ export default () => {
       <About description={description} intro={intro} />
       <Divider />
       <Projects />
-      <H3>
-        Im most active on Twitter where you can reach me{" "}
-        <ExternalLink href="https://twitter.com/studio_hungry">
-          @studio_hungry
-        </ExternalLink>
-        , if you would prefer to contact me via email you can do so at{" "}
-        <ExternalLink href="mailto:hello@richardhaines.dev">
-          hello@richardhaines.dev
-        </ExternalLink>
-      </H3>
+      <div
+        sx={{
+          margin: "5em auto"
+        }}
+      >
+        <P>
+          Im most active on Twitter where you can reach me{" "}
+          <ExternalLink href="https://twitter.com/studio_hungry">
+            @studio_hungry
+          </ExternalLink>
+          , if you would prefer to contact me via email you can do so at{" "}
+          <ExternalLink href="mailto:hello@richardhaines.dev">
+            hello@richardhaines.dev
+          </ExternalLink>{" "}
+          or by heading to the contact page.
+        </P>
+      </div>
     </Main>
   );
 };
