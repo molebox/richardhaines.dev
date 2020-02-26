@@ -22,9 +22,9 @@ const Blog = ({ data }) => {
       <P>
         I recently started making an effort to write down any problems i have
         encountered and how i solved them with the goal to actually start
-        writing a blog. Maybe someone else will stumble upon this while
-        searching for a solution to their problem. If you have found your way
-        here, hi! I hope the post helps you {smiley}{" "}
+        writing a blog. Maybe someone else will stumble upon one of these posts
+        while searching for a solution to their problem. If you have found your
+        way here, hi! I hope the post helps you {smiley}
       </P>
       <Divider />
       <SearchBar handleSearchQuery={handleSearchQuery} />

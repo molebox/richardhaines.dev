@@ -11,7 +11,7 @@ const Projects = () => {
   return (
     <section
       sx={{
-        marginTop: ['3em', '3em', '15em']
+        marginTop: ["3em", "3em", "5em"]
       }}
     >
       <div

@@ -33,7 +33,9 @@ const Form = () => {
         Message:{" "}
         <textarea
           sx={{
-            marginTop: "1em"
+            marginTop: "1em",
+            border: "1px solid",
+            borderColor: "accent"
           }}
           rows="10"
           required

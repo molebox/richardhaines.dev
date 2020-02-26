@@ -8,6 +8,10 @@ import { useSiteMetadata } from "./../components/useSiteMetadata";
 import Divider from "../components/common/divider";
 import P from "../components/common/p";
 import ExternalLink from "./../components/common/external-link";
+import ContactLayout from "./../components/site/contact/contact-layout";
+import Form from "./../components/site/contact/form";
+import IconContainer from "../components/site/home/icon-container";
+import { GatsbyIcon, ReactIcon, JSIcon } from "../components/common/icons";
 
 export default () => {
   const { description, intro } = useSiteMetadata();
@@ -19,23 +23,36 @@ export default () => {
       <About description={description} intro={intro} />
       <Divider />
       <Projects />
-      <div
-        sx={{
-          margin: "5em auto"
-        }}
-      >
-        <P>
-          Im most active on Twitter where you can reach me{" "}
-          <ExternalLink href="https://twitter.com/studio_hungry">
-            @studio_hungry
-          </ExternalLink>
-          , if you would prefer to contact me via email you can do so at{" "}
-          <ExternalLink href="mailto:hello@richardhaines.dev">
-            hello@richardhaines.dev
-          </ExternalLink>{" "}
-          or by heading to the contact page.
-        </P>
-      </div>
+      <IconContainer>
+        <GatsbyIcon />
+        <ReactIcon />
+        <JSIcon />
+      </IconContainer>
+      <Divider />
+      <ContactLayout>
+        <div
+          sx={{
+            fontFamily: "body"
+          }}
+        >
+          <P>
+            If you would like to get in touch about a project, or if you have
+            any questions for me, dont hesitate to send me a message by filling
+            out the form. I will aim to get back to you within a couple of days
+          </P>
+          <P>
+            You can also reach me on Twitter where im most active{" "}
+            <ExternalLink href="https://twitter.com/studio_hungry">
+              @studio_hungry
+            </ExternalLink>
+            . If you would prefer to contact me via email you can do so at{" "}
+            <ExternalLink href="mailto:hello@richardhaines.dev">
+              hello@richardhaines.dev
+            </ExternalLink>
+          </P>
+        </div>
+        <Form />
+      </ContactLayout>
     </Main>
   );
 };

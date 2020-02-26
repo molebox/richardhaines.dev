@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-const Education = ({ children }) => {
+const AboutMe = ({ children }) => {
   return <section sx={{}}>{children}</section>;
 };
 
-export default Education;
+export default AboutMe;

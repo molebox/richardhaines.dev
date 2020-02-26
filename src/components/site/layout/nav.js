@@ -65,7 +65,7 @@ const Nav = () => {
       >
         Resume
       </Link> */}
-      <Link
+      {/* <Link
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
@@ -82,7 +82,7 @@ const Nav = () => {
         to="/contact"
       >
         Contact
-      </Link>
+      </Link> */}
     </nav>
   );
 };
