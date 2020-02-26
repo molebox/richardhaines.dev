@@ -8,15 +8,17 @@ import P from "./../components/common/p";
 import SearchBar from "./../components/site/blog/SearchBar";
 import Divider from "./../components/common/divider";
 import BlogIndex from "../components/site/blog/blog-index";
+import AnimatedH1 from "./../components/common/animated-h1";
 
 const smiley = "\u{1F60A}";
 
 const Blog = ({ data }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
+  const blog = Array.from("Blog");
   return (
     <Main>
       <Divider />
-      <H1>Blog</H1>
+      <AnimatedH1 string={blog} />
       <P>
         I recently started making an effort to write down any problems i have
         encountered and how i solved them with the goal to actually start

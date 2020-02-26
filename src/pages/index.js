@@ -18,19 +18,8 @@ export default () => {
       <Divider />
       <About description={description} intro={intro} />
       <Divider />
-      <div
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: "1em"
-        }}
-      >
-        <H3>Top 3 current favorite projects!</H3>
-      </div>
       <Projects />
-      <TechStack />
-      <P>
+      <H3>
         Im most active on Twitter where you can reach me{" "}
         <ExternalLink href="https://twitter.com/studio_hungry">
           @studio_hungry
@@ -39,7 +28,7 @@ export default () => {
         <ExternalLink href="mailto:hello@richardhaines.dev">
           hello@richardhaines.dev
         </ExternalLink>
-      </P>
+      </H3>
     </Main>
   );
 };

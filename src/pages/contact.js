@@ -7,12 +7,14 @@ import Form from "../components/site/contact/form";
 import P from "../components/common/p";
 import H1 from "../components/common/h1";
 import ExternalLink from "./../components/common/external-link";
+import AnimatedH1 from "./../components/common/animated-h1";
 
 const Contact = () => {
+  const contact = Array.from("Contact");
   return (
     <Main>
       <Divider />
-      <H1>Contact</H1>
+      <AnimatedH1 string={contact} />
       <Divider />
       <ContactLayout>
         <div

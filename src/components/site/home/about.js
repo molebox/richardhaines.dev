@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import H1 from "./../../common/h1";
 import H2 from "./../../common/h2";
+import AnimatedH1 from "../../common/animated-h1";
 
 const About = props => {
+  const hello = Array.from("Hello, I'm Rich Haines");
   return (
     <section
       sx={{
@@ -13,7 +14,7 @@ const About = props => {
         fontFamily: "body"
       }}
     >
-      <H1>Hello, I'm Rich Haines</H1>
+      <AnimatedH1 string={hello} />
       <H2>{props.intro}</H2>
       <H2>{props.description}</H2>
     </section>
