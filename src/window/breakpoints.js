@@ -22,3 +22,27 @@ export const DesktopTemplateAreas = `
   '.    main     main    main    main    main    main   .'
   '.    footer   footer  footer  footer  footer  footer .'
 `;
+
+export const PhoneAboutMeTemplateAreas = `
+'name      name     name    name'
+'role      role     role    role'
+'email     site     github  phone'
+'about     about    about   about'
+'location  location location  location';
+`;
+
+export const TabletAboutMeTemplateAreas = `
+'name      name     name     name   name     name'
+'role      role     role     role   role     role'
+'email     site     github   phone  .        .'
+'about     about    about    about  about    about'
+'location  location location location location location';
+`;
+
+export const DesktopAboutMeTemplateAreas = `
+  'name      name     name     name     name    name    name    name'
+  'role      role     role     role     role    role    role    role'
+  'email     email    site     site     github  github  phone   phone'
+  'about     about    about    about    about   about   about   about'
+  'location  location location location location location location location';
+`;

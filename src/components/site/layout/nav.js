@@ -55,13 +55,15 @@ const Nav = () => {
           fontFamily: "heading",
           fontSize: ["0.8em", "0.9em", "1em"],
           color: "text",
+          paddingTop: ["1em", null, null],
           letterSpacing: "text",
           textTransform: "uppercase",
+          display: ["none", "block", "block"],
           ":hover": {
             color: "accent"
           }
         }}
-        to="/"
+        to="/resume"
       >
         Resume
       </Link> */}

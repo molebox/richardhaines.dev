@@ -109,7 +109,7 @@ const LinkContainer = ({ toggle }) => {
                 Resume
             </Link>
            </motion.li> */}
-      <motion.li
+      {/* <motion.li
         variants={liVariants}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -131,7 +131,7 @@ const LinkContainer = ({ toggle }) => {
         >
           Contact
         </Link>
-      </motion.li>
+      </motion.li> */}
     </motion.ul>
   );
 };
