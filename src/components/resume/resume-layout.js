@@ -6,7 +6,7 @@ const ResumeLayout = ({ children }) => {
     <section
       sx={{
         display: "grid",
-        gridTemplateRows: ["auto", "repeat(6, 1fr)"],
+        gridTemplateRows: ["auto", "repeat(6, minmax(100px, auto))"],
         gap: "3em",
         margin: "3em auto"
       }}

@@ -19,7 +19,7 @@ const H1 = props => {
         fontFamily: "body",
         fontSize: ["1.7em", "2.5em", "5em"],
         fontWeight: 400,
-        margin: "1em auto"
+        margin: "0 auto"
       }}
     >
       {props.children}

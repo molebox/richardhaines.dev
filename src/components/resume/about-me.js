@@ -12,8 +12,8 @@ import Site from "./aboutme/site";
 import Github from "./aboutme/github";
 import Phone from "./aboutme/phone";
 import AboutInfo from "./aboutme/about-info";
-import H2 from "./../common/h2";
-import H3 from "./../common/h3";
+import H1 from "./../common/h1";
+import P from "./../common/p";
 import Location from "./aboutme/location";
 
 const AboutMe = () => {
@@ -42,10 +42,10 @@ const AboutMe = () => {
       }}
     >
       <Name>
-        <H2>Richard Haines</H2>
+        <H1>Richard Haines</H1>
       </Name>
       <Role>
-        <H3>Software Developer</H3>
+        <P>Software Developer</P>
       </Role>
       <Email>hello@richardhaines.dev</Email>
       <Site>richardhaines.dev</Site>
