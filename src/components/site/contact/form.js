@@ -9,7 +9,7 @@ const Form = () => {
       sx={{
         padding: "1em",
         fontFamily: "body",
-        border: "solid 1px",
+        border: "solid 2px",
         borderColor: "accent",
         display: "flex",
         justifyContent: "space-evenly",
@@ -34,7 +34,7 @@ const Form = () => {
         <textarea
           sx={{
             marginTop: "1em",
-            border: "1px solid",
+            border: "2px solid",
             borderColor: "accent"
           }}
           rows="10"
@@ -47,7 +47,7 @@ const Form = () => {
         sx={{
           fontFamily: "heading",
           fontWeight: "heading",
-          border: "0.1em solid",
+          border: "2px solid",
           padding: "0.35em 1.2em",
           borderColor: "accent",
           backgroundColor: "background",

@@ -39,7 +39,7 @@ const AnimatedH1 = ({ string }) => (
     sx={{
       color: "text",
       fontFamily: "body",
-      fontSize: ["1.7em", "2.5em", "5em"],
+      fontSize: ["1.7em", "2.5em", "4em"],
       fontWeight: 400,
       margin: "1em auto",
       display: "flex",

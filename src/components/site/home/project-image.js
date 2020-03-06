@@ -5,8 +5,8 @@ import GatsbyImage from "gatsby-image";
 const ProjectImage = props => (
   <GatsbyImage
     sx={{
-      border: "1px solid",
-      borderColor: "accent",
+      border: "2px solid",
+      borderColor: "primary",
       padding: "2em",
       width: ["250px", "300px", "350px"]
     }}

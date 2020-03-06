@@ -1,4 +1,6 @@
 export default {
+  initialColorMode: "dark",
+  useCustomProperties: false,
   fonts: {
     body: "Open Sans",
     heading: "Muli"
@@ -23,7 +25,17 @@ export default {
     primary: "#000010",
     secondary: "#E7E7E9",
     secondaryDarker: "#545455",
-    accent: "#DE3C4B"
+    accent: "#DE3C4B",
+    modes: {
+      dark: {
+        text: "#000010",
+        background: "#FFFfff",
+        primary: "#000010",
+        secondary: "#E7E7E9",
+        secondaryDarker: "#545455",
+        accent: "#DE3C4B"
+      }
+    }
   },
   breakpoints: ["40em", "56em", "64em"]
 };

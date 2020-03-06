@@ -28,7 +28,7 @@ const SearchBar = ({ handleSearchQuery }) => {
           color: "greyBlack",
           fontFamily: "body",
           border: "2px solid",
-          borderColor: "background"
+          borderColor: "accent"
         }}
         type="text"
         id="blog-searchbar"

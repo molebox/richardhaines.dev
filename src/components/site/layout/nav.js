@@ -2,6 +2,7 @@
 import { jsx } from "theme-ui";
 import { Link } from "gatsby";
 import { useSiteMetadata } from "./../../useSiteMetadata";
+import Darkmode from "../darkmode";
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
@@ -12,7 +13,8 @@ const Nav = () => {
         justifyContent: ["center", "space-evenly", "space-evenly"],
         alignItems: "center",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        position: "relative"
       }}
     >
       <Link
@@ -85,6 +87,7 @@ const Nav = () => {
       >
         Contact
       </Link> */}
+      <Darkmode />
     </nav>
   );
 };
