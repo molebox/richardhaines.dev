@@ -1,0 +1,225 @@
+---
+title: How to make a gatsby ecommerce theme. Part 1
+date: 2020-03-08
+published: true
+category: Gatsby Themes
+author: Richard Haines
+---
+
+## We're going to go from start to finish and create a gatsby theme that you can deploy as an npm package. In the first part we will cover the base setup of the project.
+
+### This is part 1 in a series of tutorials. The format is step by step.
+
+So where to start? You have an idea, you want to create an ecommerce theme for all the world to use. In this tutorial we are going to create a new gatsby theme from scratch, handle payments using snipcart and style it with theme-ui. Its going to be dope 😎
+
+There are a few prerequisits, Im going to asume you know how to use Gatsby and React to a certain degree, the rest we will walk through.
+
+We are going to be building this from scratch so lets start by creating our new project
+
+```bash
+mkdir gatsby-theme-fashion
+cd gatsby-theme-fashion
+```
+
+Cool beans, so lets now create our project. When working with gatsby themes i like to use yarn workspaces, this allows us to keep our theme and an example site in a monorepo with yarn controlling the dependencies between them. Lets create our projects root, we'll use the -y flag to auto fill the package.json stuff as we will be removing it all anyway.
+
+```bash
+yarn init -y
+```
+
+Now that we have a package.json in our folder we can open our code editor and remove the auto filled stuff and add our own. We want to add the workspaces key and add our project folders. There are many ways of doing this and people have different opinions about which way is best. This is my preffered method.
+
+```js
+{
+  "private": true,
+  "workspaces": [
+    "demo",
+    "packages/*"
+  ]
+}
+```
+
+We want the project to be private as we wont publish it and also workspaces wont work if we dont set this. We have also specified that we will have one folder for our demo project and another which will hold our packages, or our theme(s).
+
+Create the demo and packages folders
+
+```bash
+mkdir demo
+mkdir packages
+```
+
+We'll start with our theme and hop over to the demo site a bit later on. Lets move into the packages folder and create our themes folder and initialize the project, following yarns instructions for setup as we go. I like to set the version to 0.0.1 from the start as during development we will be publish our package and when it comes time to release it in the wild its going to look strange if our version number is 54.9.7 or something. Keep it at the patches in development until release.
+
+```bash
+cd packages
+mkdir gatsby-theme-fashion
+cd gatsby-theme-fashion
+yarn init
+```
+
+Now that we have our theme project installed lets add the base packages we are going to need. For us those are gatsby, react, react-dom, theme-ui, gatsby-plugin-theme-ui @emotion/core and @mdx-js/react. Lets also add prettier so that all our code looks pretty once we save it! 😇
+
+```bash
+yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui @emotion/core @mdx-js/react
+yarn add prettier -D
+```
+
+Niiiice! Cool, now lets add some scripts to our package.json for building, cleaning and making stuff pretty.
+
+```js
+  "scripts": {
+    "dev": "gatsby develop",
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "pretty": "prettier --write \"src/**/*js\""
+  },
+```
+
+You can give the keys whatever name makes sense to you. We'll be mostly using dev, clean and pretty. We could set up a pre commit hook to run pretty when we commit code, you can llok that up, for this example we will skip it. I quite like typing out yarn pretty and watching all my code transform. You can also set it up to run on save in vscode, again, that is something for you to google.
+
+We want to add gatsby, react and react-dom as peer dependencies so that the end user has to install them.
+
+```js
+  "peerDependencies": {
+    "gatsby": "^2.19.8",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+```
+
+I should add at this point that the versions are explicit to this tutorial, everything should work regardless, that being said it can be that some breaking chnages are introduced at some point in the future so yours may differ from mine, if you have any problems check the changelog from my version to the version you are using to debug the problem.
+
+Ok so lets add some folders and files to our project.
+
+```bash
+touch src/pages
+touch src/components
+touch src/pages/index.js
+```
+
+We also want to create an index.js file at the root of out theme as thats what gatsby is looking for
+
+```bash
+touch index.js
+```
+
+Add a comment to this file so it has some content and we know whats going on. Later on we can if we like export some of our theme components from this file for the end use to import.
+
+Sweet! We've got a really basic theme setup, it doesnt do anything right now, first we want to setup our demo site and link it to our theme. The magic of yarn workspaces!
+
+```bash
+cd ..
+cd demo
+yarn init
+yarn add gatsby react react-dom dotenv
+```
+
+Your demo sites package.json should look something like this:
+
+```js
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "gatsby develop",
+    "build": "gatsby build",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "gatsby": "^2.19.8",
+    "gatsby-theme-fashion": "*",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}
+```
+
+We have added dotenv so that we can access the environment variables later on. We are also telling our demo site to use any version of our theme it finds. We have also added our scripts so that we can actaully run the thing!
+
+Next create a new file called gatsby-config.js at our demo projects root and add our theme as a plugin.
+
+```js
+module.exports = {
+  plugins: ["gatsby-theme-fashion"]
+};
+```
+
+Right now we dont have any options that our theme requires so this will do. Then we run yarn from the root of our project to link it all up and we can then check if its all cool
+
+```bash
+yarn
+yarn workspaces info
+```
+
+We should see the following output indicating that our demo site is linked to our theme:
+
+```bash
+yarn workspaces v1.21.1
+{
+  "demo": {
+    "location": "packages/demo",
+    "workspaceDependencies": [
+      "gatsby-theme-fashion"
+    ],
+    "mismatchedWorkspaceDependencies": []
+  },
+  "gatsby-theme-fashion": {
+    "location": "packages/gatsby-theme-fashion",
+    "workspaceDependencies": [],
+    "mismatchedWorkspaceDependencies": []
+  }
+}
+Done in 0.06s.
+```
+
+BOOM!
+
+So now might be a good time to commit our work. Go to github and login to your account and create a new repository called gatsby-theme-fashion. Then from the root of our project....
+
+WHOA there ✋ Lets think about this for a second, we have just installed a bunch of packages, which means we have a node_modules folder at our root and in each project, thats a hell of alot of files that we do not want git to see. Lets create our gitignore file at our projects root.
+
+```bash
+touch .gitignore
+```
+
+Then add the following to it:
+
+```bash
+node_modules/
+.env.*
+public/
+.cache/
+```
+
+Now i'll be honest, im not sure if you need to do this but i do it anyway, lets copy that file to our theme and demo projects.
+
+Ok, nice! Now that thats done lets initialize our project with git and commit our work. You can get your remote repository url from the repository page you created.
+
+```bash
+git init
+git add .
+git commit -m "My first commit"
+git remote add origin <remote repository url>
+git remote -v
+git push origin master
+```
+
+So lets recap what we have done so far:
+
+- Setup a project
+- Added our demo and theme projects
+- Linked our demo to our theme
+- Created a repository and commited our work
+
+Before we end this part lets add some content and check that our theme is working. Head into your theme projects index.js file located inside src/pages folders and add a generic component to display an h1 that will render from our demo site as the imported theme.
+
+```jsx
+import React from 'react'
+
+export default () => <h1>Hello im coming at you from the theme!!<h1>
+```
+
+Now head into your demo project and run gatsby dev. You should see a white page with the h1 text at the top left of the page, hurrah 🥳

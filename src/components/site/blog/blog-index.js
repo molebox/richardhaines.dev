@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { Link } from "gatsby";
+import { motion } from "framer-motion";
 
 const BlogIndex = ({ posts }) => {
   return (
@@ -8,7 +9,7 @@ const BlogIndex = ({ posts }) => {
       sx={{
         display: "grid",
         gridAutoRows: "auto",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 450px))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(500px, 1fr))",
         gap: "1.5em",
         margin: "3em auto"
       }}
@@ -21,20 +22,22 @@ const BlogIndex = ({ posts }) => {
           key={id}
           to={fields.slug}
         >
-          <div
+          <motion.div
+            whileHover={{ rotate: -1 }}
+            transition={{
+              duration: 0.2,
+              ease: "easeOut"
+            }}
             sx={{
               border: "solid 2px",
               borderColor: "accent",
               padding: "1.5em",
               height: "auto",
+              minHeight: "350px",
               display: "grid",
               gridTemplateRows: "1fr 2fr",
 
-              justifyContent: "space-evenly",
-              ":hover": {
-                backgroundColor: "accent",
-                color: "background"
-              }
+              justifyContent: "space-evenly"
             }}
           >
             <p
@@ -93,7 +96,7 @@ const BlogIndex = ({ posts }) => {
                 {frontmatter.date}
               </p>
             </div>
-          </div>
+          </motion.div>
         </Link>
       ))}
     </section>

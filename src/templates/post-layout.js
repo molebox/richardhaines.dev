@@ -6,9 +6,9 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import PostNavigation from "./../components/site/blog/post-navigation";
 import EditPost from "./../components/site/blog/edit-post";
 import Main from "./../components/site/layout/main";
-import Divider from "./../components/common/divider";
 import H1 from "./../components/common/h1";
-import PostInfo from "../components/site/blog/post-info";
+import PostAuthor from "./../components/site/blog/post-author";
+import PostDate from "./../components/site/blog/post-date";
 
 const PostLayout = ({ data, pageContext }) => {
   const {
@@ -22,18 +22,18 @@ const PostLayout = ({ data, pageContext }) => {
   return (
     <Main>
       <section sx={{}}>
-        <Divider />
         <H1>{title}</H1>
-        <PostInfo author={author} date={date} />
-        <Divider />
         <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
         <div
           sx={{
             display: "flex",
+            flexDirection: ["column", "row", "row"],
             justifyContent: "space-around",
             margin: "2em auto"
           }}
         >
+          <PostAuthor>Author: {author}</PostAuthor>
+          <PostDate> Posted: {date}</PostDate>
           <EditPost editLink={editLink}>Edit this post on GitHub.</EditPost>
           {previous === false ? null : (
             <>

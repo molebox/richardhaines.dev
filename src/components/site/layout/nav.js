@@ -10,7 +10,7 @@ const Nav = () => {
     <nav
       sx={{
         display: "flex",
-        justifyContent: ["center", "space-evenly", "space-evenly"],
+        justifyContent: ["center", "space-between", "space-between"],
         alignItems: "center",
         width: "100%",
         height: "100%",
@@ -43,6 +43,7 @@ const Nav = () => {
           letterSpacing: "text",
           textTransform: "uppercase",
           display: ["none", "block", "block"],
+          marginRight: [0, "10vw", "5vw"],
           ":hover": {
             color: "accent"
           }
@@ -68,24 +69,6 @@ const Nav = () => {
         to="/resume"
       >
         Resume
-      </Link> */}
-      {/* <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "1em"],
-          color: "text",
-          paddingTop: ["1em", null, null],
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/contact"
-      >
-        Contact
       </Link> */}
       <Darkmode />
     </nav>

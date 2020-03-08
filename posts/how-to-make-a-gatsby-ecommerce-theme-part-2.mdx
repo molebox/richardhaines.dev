@@ -1,0 +1,37 @@
+---
+title: How to make a gatsby ecommerce theme. Part 2
+date: 2020-03-09
+published: false
+category: Gatsby Themes
+author: Richard Haines
+---
+
+## We have setup our project but it doesnt do much. Lets get creative and add some base styling!
+
+### This is part 2 in a series of tutorials. The format is step by step.
+
+Now that we have the base setup complete we can start thinking about what we want to have in our theme. As this is an ecommerce theme there are some basic things that we should consider before we continue. There will be alot to add so lets get started!
+
+- Navbar
+- Landing/home page
+  - Hero image
+  - Showcase of products
+  - Blog snippets
+  - Instagram feed
+  - Contact section
+  - About section
+- Products page
+- Blog page
+  - Blog posts page
+
+These are some of the basic thing we expect a modern ecommerce site to have. There are of course alot more thing we could add but lets keep it simple for our example theme. We will be keeping our layout fairly simple with a navbar at the top followed by a hero image and a section explaining about the store. Then a showcase of our top 3 most popular products followed by our Instagram feed and finishing off with our contact form in our footer.
+
+We can begin by creating all the necessary pages:
+
+```bash
+cd packages/gatsby-theme-fashion/src/pages
+touch products.js
+touch blog.js
+```
+
+If you remember from the previous tutorial we had installed theme-ui to use for our styling. This will enable our end user to override some of our style with ease through shadowing our theme file which will hold all of our colours, fonts and spacings. In order to get started with adding our themeable variables we need to shadow the index.js file form the gatsby-plugin-theme-ui package in our src folder. See [Theme-ui](https://theme-ui.com/) for more details.

@@ -13,12 +13,13 @@ const Darkmode = () => {
       className={colorMode !== "light" ? "active" : ""}
       onClick={() => setColorMode(colorMode === "light" ? "dark" : "light")}
       sx={{
+        display: ["none", "block", "block"],
         backgroundColor: "primary",
         border: "1px solid",
         borderColor: "accent",
         borderRadius: "25px",
         position: "absolute",
-        right: "5vw",
+        right: "0",
         top: 3,
         height: "20px",
         width: "40px",

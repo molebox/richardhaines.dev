@@ -3,6 +3,7 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "gatsby";
+import Darkmode from "./../../darkmode";
 
 const variants = {
   open: {
@@ -132,6 +133,7 @@ const LinkContainer = ({ toggle }) => {
           Contact
         </Link>
       </motion.li> */}
+      <Darkmode />
     </motion.ul>
   );
 };

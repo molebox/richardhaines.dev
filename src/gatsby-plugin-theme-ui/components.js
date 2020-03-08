@@ -20,6 +20,18 @@ export default {
       {props.children}
     </h2>
   ),
+  h3: props => (
+    <h2
+      sx={{
+        fontFamily: "heading",
+        fontWeight: "400",
+        margin: "1em auto"
+      }}
+      {...props}
+    >
+      {props.children}
+    </h2>
+  ),
   p: props => (
     <p
       sx={{
@@ -31,5 +43,32 @@ export default {
     >
       {props.children}
     </p>
+  ),
+  a: props => (
+    <a
+      sx={{
+        fontFamily: "body",
+        fontWeight: 400,
+        color: "text",
+        ":hover": {
+          color: "accent"
+        }
+      }}
+      {...props}
+    >
+      {props.children}
+    </a>
+  ),
+  li: props => (
+    <li
+      sx={{
+        fontFamily: "body",
+        fontWeight: "400",
+        margin: "0.5em auto"
+      }}
+      {...props}
+    >
+      {props.children}
+    </li>
   )
 };
