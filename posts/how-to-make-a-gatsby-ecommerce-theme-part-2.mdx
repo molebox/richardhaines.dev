@@ -1,37 +1,170 @@
 ---
 title: How to make a gatsby ecommerce theme. Part 2
-date: 2020-03-09
+date: 2020-03-12
 published: false
 category: Gatsby Themes
 author: Richard Haines
 ---
+import AccentBox from '../src/components/site/blog/accent-box.js';
 
-## We have setup our project but it doesnt do much. Lets get creative and add some base styling!
+We have setup our project but it doesnt do much right now. Lets add a backend to store our products!
 
-### This is part 2 in a series of tutorials. The format is step by step.
+This is part 2 in a series of tutorials. The format is step by step.
 
-Now that we have the base setup complete we can start thinking about what we want to have in our theme. As this is an ecommerce theme there are some basic things that we should consider before we continue. There will be alot to add so lets get started!
+<AccentBox>
+So lets recap what we have done so far:
 
-- Navbar
-- Landing/home page
-  - Hero image
-  - Showcase of products
-  - Blog snippets
-  - Instagram feed
-  - Contact section
-  - About section
-- Products page
-- Blog page
-  - Blog posts page
+- Setup a project
+- Added our demo and theme projects
+- Linked our demo to our theme
+- Created a repository and commited our work
+- Added a site layout
+- Added our theme styles
 
-These are some of the basic thing we expect a modern ecommerce site to have. There are of course alot more thing we could add but lets keep it simple for our example theme. We will be keeping our layout fairly simple with a navbar at the top followed by a hero image and a section explaining about the store. Then a showcase of our top 3 most popular products followed by our Instagram feed and finishing off with our contact form in our footer.
+</AccentBox>
 
-We can begin by creating all the necessary pages:
+### Backend support
+
+Having a website that looks sweet is all well and good but we are going to need somewhere to store and our products data. We could do it from the filesystem but thats not very user friendly. What if we could not only store our products data somewhere, but we could also give the user of our theme a nice UI from which to enter their data..... Enter [Sanity.io](https://www.sanity.io/) 💃
+
+Sanity will allow us easily (and i really mean easily 😉) set up our backend with a React based dashboard. The schema is super easy to get the hang of. Lets get started!
+
+At our project root create a new folder called studio. Navigate into that folder and install the sanity CLI then initialize the sanity project.
 
 ```bash
-cd packages/gatsby-theme-fashion/src/pages
-touch products.js
-touch blog.js
+yarn global add @sanity/cli
+sanity init
+```
+This will globally install the CLI and create a new project for us. You can follow the step provided by the CLI, choose the ecommerce template and for the rest you can accept the defaults.
+
+<AccentBox>
+I have noticed some lag when running sanity init via the in built vscode terminal, it can hang. If it does i recommend quiting and running the command from another terminal. I use Cmder.
+</AccentBox>
+
+Once installed open the studio folder and you will see some schema definition files. Open the product.js file. It should look like this: 
+
+```js
+export default {
+  name: 'product',
+  title: 'Product',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string'
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96
+      }
+    },
+    {
+      title: 'Default variant',
+      name: 'defaultProductVariant',
+      type: 'productVariant'
+    },
+    {
+      title: 'Variants',
+      name: 'variants',
+      type: 'array',
+      of: [
+        {
+          title: 'Variant',
+          type: 'productVariant'
+        }
+      ]
+    },
+    {
+      title: 'Tags',
+      name: 'tags',
+      type: 'array',
+      of: [
+        {
+          type: 'string'
+        }
+      ],
+      options: {
+        layout: 'tags'
+      }
+    },
+    {
+      name: 'vendor',
+      title: 'Vendor',
+      type: 'reference',
+      to: {type: 'vendor'}
+    },
+    {
+      name: 'blurb',
+      title: 'Blurb',
+      type: 'localeString'
+    },
+    {
+      name: 'body',
+      title: 'Body',
+      type: 'localeBlockContent'
+    }
+  ],
+
+  preview: {
+    select: {
+      title: 'title',
+      manufactor: 'manufactor.title',
+      media: 'defaultProductVariant.images[0]'
+    }
+  }
+}
+
 ```
 
-If you remember from the previous tutorial we had installed theme-ui to use for our styling. This will enable our end user to override some of our style with ease through shadowing our theme file which will hold all of our colours, fonts and spacings. In order to get started with adding our themeable variables we need to shadow the index.js file form the gatsby-plugin-theme-ui package in our src folder. See [Theme-ui](https://theme-ui.com/) for more details.
+Each object in the fields array corresponds to an input field in the studio, you can see the type the field expects with the type key. For some they refer to other objects which themsleves define their own input fields. For example the Default variant object field. For more information of the inner workings of sanity i highly suggest you go over their docs. They are really exceptional. For now we can leave this file as is.
+
+After you have had a little explore of the different schema files and read the docs on the sanity site create a new file in the schemas folder and call it home.js. We will use this to allow the theme user to add a hero image to the home page of our theme. Add the following to the new home.js schema file: 
+
+```js
+export default {
+    title: 'Home Page Image',
+    name: 'home',
+    type: 'document',
+    fields: [
+      {
+        name: 'title',
+        title: 'Title',
+        type: 'string'
+      },
+      {
+        name: 'slug',
+        title: 'Slug',
+        type: 'slug',
+        options: {
+          source: 'title',
+          maxLength: 96
+        }
+      },
+      {
+        name: 'images',
+        title: 'Home Images',
+        type: 'array',
+        of: [
+          {
+            type: 'image',
+            options: {
+              hotspot: true
+            }
+          }
+        ]
+      },
+    ]
+  }
+  
+```
+
+The title field will be the name of our website. You can auto generate the slug in the studio. The images array will allow us to add multiple images which we will be able to access via a graphql query on our home page, page. Wait till you check out the image handling in the studio 👯‍♀️
+
+Next open the schema.js file located in the same folder and inside the createSchema builder we can add our home schema, make sure you import it if vscode doesnt automatically do this for you. By default the function is well commented.
+
+next is sanity graphql deploy and sanity deploy... add that the graphlq bit is often missed!

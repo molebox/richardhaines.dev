@@ -9,9 +9,11 @@ const BlogIndex = ({ posts }) => {
       sx={{
         display: "grid",
         gridAutoRows: "auto",
-        gridTemplateColumns: "repeat(auto-fill, minmax(auto, 550px))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(auto, 650px))",
         gap: "1.5em",
-        margin: "3em auto"
+        margin: "2em auto",
+        width: "100%",
+        placeContent: "center"
       }}
     >
       {posts.map(({ id, frontmatter, fields, excerpt }) => (
