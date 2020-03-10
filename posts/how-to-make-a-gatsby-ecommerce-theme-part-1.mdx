@@ -31,6 +31,8 @@ yarn init -y
 
 Now that we have a package.json in our folder we can open our code editor and remove the auto filled stuff and add our own. We want to add the workspaces key and add our project folders. There are many ways of doing this and people have different opinions about which way is best. This is my preffered method.
 
+### package.json
+
 ```js
 {
   "private": true,
@@ -68,6 +70,8 @@ yarn add prettier -D
 
 Niiiice! Cool, now lets add some scripts to our package.json for building, cleaning and making stuff pretty.
 
+### package.json
+
 ```js
   "scripts": {
     "dev": "gatsby develop",
@@ -81,6 +85,8 @@ You can give the keys whatever name makes sense to you. We'll be mostly using de
 
 We want to add gatsby, react and react-dom as peer dependencies so that the end user has to install them.
 
+### package.json
+
 ```js
   "peerDependencies": {
     "gatsby": "^2.19.8",
@@ -90,6 +96,8 @@ We want to add gatsby, react and react-dom as peer dependencies so that the end 
 ```
 
 Now we need to add our gatsby-config.js file and add the plugins we have installed for our theme. Its important to add the gatsby-plugin-theme-ui plugin at the end as it will be overriden by the theme consumer if they have it installed also.
+
+### gatsby-config.js
 
 ```js
 module.exports = {
@@ -164,6 +172,8 @@ Your demo sites package.json should look something like this:
 We have added dotenv so that we can access the environment variables later on. We are also telling our demo site to use any version of our theme it finds. We have also added our scripts so that we can actaully run the thing!
 
 Next create a new file called gatsby-config.js at our demo projects root and add our theme as a plugin.
+
+### gatsby-config.js
 
 ```js
 module.exports = {
@@ -286,6 +296,8 @@ yarn add gatsby-plugin-layout
 
 Then we need to add it to our gatsby-config.js file:
 
+### gatsby-config.js
+
 ```js
 module.exports = {
     plugins: [
@@ -312,6 +324,8 @@ module.exports = {
 ```
 
 Create a layouts folder inside your src folder and add an index.js file. This will be our base layout for our site.
+
+### Layout
 
 ```jsx
 /** @jsx jsx */
@@ -373,6 +387,8 @@ const DesktopTemplateAreas = `
 ```
 
 Then we can add these to the div that wraps our returned children in the layout component.
+
+### Layout
 
 ```jsx
 /** @jsx jsx */
@@ -443,7 +459,7 @@ const Layout = ({ children }) => {
 export default Layout;
 ```
 
-Lets breakdown whats going on here. I used to use Emotion css plus theme-ui to design and style my components, you can read about my experience here (...link other post). Basically theme-ui allows us to specify breakpoints using an array syntax, so [mobile, tablet, desktop]. Pretty cool huh! Now we need to create our nav, main and footer components. All the sites amin content will live inside the main component, by using gatsby-plugin-layout we can just import main as a wrapper to tell gatsby that whatever component should be rendered inside this grid area.
+Lets breakdown whats going on here. I used to use Emotion css plus theme-ui to design and style my components, you can read about my experience here [CSS grid with Theme-ui]('./css-grid-with-theme-ui.mdx'). Basically theme-ui allows us to specify breakpoints using an array syntax, so [mobile, tablet, desktop]. Pretty cool huh! Now we need to create our nav, main and footer components. All the sites amin content will live inside the main component, by using gatsby-plugin-layout we can just import main as a wrapper to tell gatsby that whatever component should be rendered inside this grid area.
 
 Create a layout folder inside our components folder and add these three components:
 
@@ -570,6 +586,8 @@ export default {
 These values can be accessed via the sx prop as seen above.
 
 Lets add them to our layout to complete this part of the tutorial.
+
+### Layout
 
 ```jsx
 /** @jsx jsx */
