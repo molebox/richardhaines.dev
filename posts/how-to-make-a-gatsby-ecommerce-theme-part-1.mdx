@@ -1,10 +1,12 @@
 ---
 title: How to make a gatsby ecommerce theme. Part 1
 date: 2020-03-08
-published: true
+published: false
 category: Gatsby Themes
 author: Richard Haines
+keywords: [gatsby, theme-ui, css-in-js, ecommerce, gatsby theme, tutorial]
 ---
+import AccentBox from '../src/components/site/blog/accent-box.js';
 
 ## We're going to go from start to finish and create a gatsby theme that you can deploy as an npm package. In the first part we will cover the base setup of the project.
 
@@ -60,7 +62,7 @@ yarn init
 Now that we have our theme project installed lets add the base packages we are going to need. For us those are gatsby, react, react-dom, theme-ui, gatsby-plugin-theme-ui @emotion/core and @mdx-js/react. Lets also add prettier so that all our code looks pretty once we save it! 😇
 
 ```bash
-yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui @emotion/core @mdx-js/react
+yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui @emotion/core @mdx-js/react gatsby-plugin-google-fonts
 yarn add prettier -D
 ```
 
@@ -86,6 +88,28 @@ We want to add gatsby, react and react-dom as peer dependencies so that the end 
     "react-dom": "^16.12.0"
   },
 ```
+
+Now we need to add our gatsby-config.js file and add the plugins we have installed for our theme. Its important to add the gatsby-plugin-theme-ui plugin at the end as it will be overriden by the theme consumer if they have it installed also.
+
+```js
+module.exports = {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700' 
+              ]
+            }
+        },
+          'gatsby-plugin-theme-ui'
+    ]
+}
+```
+
+We have used gatsby-plugin-google-fonts so that we can easily install some nice fonts from google. Feel free to choose your own.
 
 I should add at this point that the versions are explicit to this tutorial, everything should work regardless, that being said it can be that some breaking chnages are introduced at some point in the future so yours may differ from mine, if you have any problems check the changelog from my version to the version you are using to debug the problem.
 
@@ -206,7 +230,7 @@ git remote add origin <remote repository url>
 git remote -v
 git push origin master
 ```
-
+<AccentBox>
 So lets recap what we have done so far:
 
 - Setup a project
@@ -214,7 +238,9 @@ So lets recap what we have done so far:
 - Linked our demo to our theme
 - Created a repository and commited our work
 
-Before we end this part lets add some content and check that our theme is working. Head into your theme projects index.js file located inside src/pages folders and add a generic component to display an h1 that will render from our demo site as the imported theme.
+</AccentBox>
+
+Now would be a good time to add some content and check that our theme is working. Head into your theme projects index.js file located inside src/pages folders and add a generic component to display an h1 that will render from our demo site as the imported theme.
 
 ```jsx
 import React from 'react'
@@ -222,4 +248,322 @@ import React from 'react'
 export default () => <h1>Hello im coming at you from the theme!!<h1>
 ```
 
-Now head into your demo project and run gatsby dev. You should see a white page with the h1 text at the top left of the page, hurrah 🥳
+Go into your demo project and run gatsby dev. You should see a white page with the h1 text at the top left of the page, hurrah 🥳
+
+Now that we have the base setup complete we can start thinking about what we want to have in our theme. As this is an ecommerce theme there are some basic things that we should consider before we continue. There will be alot to add so lets get started!
+
+- Navbar
+- Landing/home page
+  - Hero image
+  - Showcase of products
+  - Blog snippets
+  - Instagram feed
+  - Contact section
+  - About section
+- Products page
+- Blog page
+  - Blog posts page
+
+These are some of the basic thing we expect an ecommerce site to have. There are of course alot more thing we could add but lets keep it simple for our example theme. We will be keeping our layout fairly simple with a navbar at the top followed by a hero image and a section explaining about the store. Then a showcase of our top 3 most popular products followed by our Instagram feed and finishing off with our contact form in our footer.
+
+We can begin by creating all the necessary pages:
+
+```bash
+cd packages/gatsby-theme-fashion/src/pages
+touch products.js
+touch blog.js
+```
+
+Theme-ui will enable our end user to override some of our style with ease through shadowing our theme file which will hold all of our colours, fonts and spacings. In order to get started with adding our themeable variables we need to shadow the index.js file form the gatsby-plugin-theme-ui package in our src folder. See [Theme-ui](https://theme-ui.com/) for more details.
+
+I often start with the sites basic layout. There are a couple of ways to do this. We could create a layout component in our components folder with a css reset and import that into all or our components/pages but there is an easier way utilizing gatsby-plugin-layout. 
+
+Lets add that plugin
+
+```bash
+yarn add gatsby-plugin-layout
+```
+
+Then we need to add it to our gatsby-config.js file:
+
+```js
+module.exports = {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700' 
+              ]
+            }
+        },
+        {
+            resolve: 'gatsby-plugin-layout',
+            options: {
+              component: require.resolve('./src/layouts/index.js'),
+            },
+        },
+          'gatsby-plugin-theme-ui'
+
+    ]
+}
+```
+
+Create a layouts folder inside your src folder and add an index.js file. This will be our base layout for our site.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { Global, css } from "@emotion/core";
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div>
+        {children}
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+This doesnt do much apart from reset some css and render the children within it. Lets create a basic grid layout using css grid. We are going to be using the theme-ui sx prop to add styling to our elements.
+
+First up create some grid area strings as constants to be used in our grid. You can add these to a seperate file if you wish but we will be adding them to the layout file in this example.
+
+```js
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+```
+
+Then we can add these to the div that wraps our returned children in the layout component.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { Global, css } from "@emotion/core";
+
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div
+        sx={{
+          display: "grid",
+          gridTemplateRows: "auto",
+          gridTemplateColumns: [
+            "repeat(4, 1fr)",
+            "repeat(6, 1fr)",
+            "repeat(8, 1fr)"
+          ],
+          gridTemplateAreas: [
+            PhoneTemplateAreas,
+            TabletTemplateAreas,
+            DesktopTemplateAreas
+          ],
+          padding: "0 1em"
+        }}
+      >
+        {children}
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+Lets breakdown whats going on here. I used to use Emotion css plus theme-ui to design and style my components, you can read about my experience here (...link other post). Basically theme-ui allows us to specify breakpoints using an array syntax, so [mobile, tablet, desktop]. Pretty cool huh! Now we need to create our nav, main and footer components. All the sites amin content will live inside the main component, by using gatsby-plugin-layout we can just import main as a wrapper to tell gatsby that whatever component should be rendered inside this grid area.
+
+Create a layout folder inside our components folder and add these three components:
+
+### Header
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Header = props => (
+  <header
+    sx={{
+      gridArea: "nav",
+      padding: "1em",
+      backgroundColor: "background",
+      color: "text",
+      height: "100%",
+      padding: [null, "2em", "2em"],
+      paddingTop: ["2em", null, null]
+    }}
+  >
+    {props.children}
+  </header>
+);
+
+export default Header;
+```
+
+### Main
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Main = props => (
+  <main
+    sx={{
+      gridArea: "main",
+      backgroundColor: "background",
+      minHeight: "calc(100vh - 60px)",
+      paddingTop: ["2em", "60px", "60px"]
+    }}
+  >
+    {props.children}
+  </main>
+);
+
+export default Main;
+
+```
+
+### Footer
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Footer = () => (
+  <footer
+    sx={{
+      gridArea: "footer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "background",
+      color: "text"
+    }}
+  >
+    <p
+      sx={{
+        color: "text",
+        fontFamily: "body",
+        fontSize: ["0.7em", "0.8em", "1em"],
+        letterSpacing: "text",
+        fontWeight: 400,
+        margin: "1em auto"
+      }}
+    >
+      This is my footer!
+    </p>
+  </footer>
+);
+
+export default Footer;
+```
+
+You may be wondering where the background colour is coming from... When using theme-ui we import all of our styles from one main index file. This file can be shadowed by the theme consumer and thus they can override whatever styles we have in there to change the look of the theme. Lets create that now.
+
+Inside the src folder create a new folder called gatsby-plugin-theme-ui, inside that folder create a new file named index.js and add the following:
+
+### Our theme styles
+
+```js
+export default {
+  fonts: {
+    body: "Open Sans",
+    heading: "Muli"
+  },
+  fontWeights: {
+    body: 300,
+    heading: 400,
+    bold: 700
+  },
+  lineHeights: {
+    body: "110%",
+    heading: 1.125,
+    tagline: "100px"
+  },
+  letterSpacing: {
+    body: "2px",
+    text: "5px"
+  },
+  colors: {
+    text: "#FFFfff",
+    background: "#121212",
+    primary: "#000010",
+    secondary: "#E7E7E9",
+    secondaryDarker: "#545455",
+    accent: "#DE3C4B"
+  }
+};
+```

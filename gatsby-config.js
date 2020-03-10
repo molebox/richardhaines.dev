@@ -27,13 +27,6 @@ module.exports = {
         },
         'gatsby-transformer-json',
         {
-            resolve: 'gatsby-source-filesystem',
-            options: {
-              path: 'resumedata',
-              name: 'resumedata'
-            },
-        },
-        {
           resolve: 'gatsby-source-filesystem',
           options: {
             path: 'projects',
@@ -67,6 +60,18 @@ module.exports = {
               component: require.resolve('./src/layouts/index.js'),
             },
         },
+        {
+          resolve: 'gatsby-theme-seo', 
+          options: {
+              title: 'richardhaines.dev',
+              description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby.',
+              author: 'Rich Haines',
+              siteUrl: 'https://richardhaines.dev',
+              social: {
+                  twitter: 'studio_hungry'
+              }
+          }
+      },
           'gatsby-transformer-sharp',
           'gatsby-plugin-sharp',
           'gatsby-plugin-emotion',

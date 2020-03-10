@@ -9,18 +9,27 @@ import Main from "./../components/site/layout/main";
 import H1 from "./../components/common/h1";
 import PostAuthor from "./../components/site/blog/post-author";
 import PostDate from "./../components/site/blog/post-date";
+import SEO from "gatsby-theme-seo/src/components/seo";
 
-const PostLayout = ({ data, pageContext }) => {
+const PostLayout = ({ data, pageContext, location }) => {
   const {
     frontmatter,
     body,
+    excerpt,
     fields: { editLink }
   } = data.mdx;
-  const { title, date, category, author } = frontmatter;
+  const { title, date, category, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
 
   return (
     <Main>
+      <SEO
+        title={title}
+        description={excerpt}
+        keywords={keywords}
+        pathname={location.pathname}
+        twitter="studio_hungry"
+      />
       <section sx={{}}>
         <H1>{title}</H1>
         <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
@@ -69,6 +78,7 @@ export const query = graphql`
         date(formatString: "DD MMM YYYY")
         category
         author
+        keywords
       }
       body
       excerpt

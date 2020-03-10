@@ -92,6 +92,33 @@ const LinkContainer = ({ toggle }) => {
           Blog
         </Link>
       </motion.li>
+      <motion.li
+        variants={liVariants}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        sx={{
+          margin: "2em auto"
+        }}
+      >
+        <a
+          sx={{
+            textDecoration: "none",
+            fontFamily: "heading",
+            fontSize: ["0.8em", "0.9em", "1em"],
+            color: "text",
+            letterSpacing: "text",
+            textTransform: "uppercase",
+            ":hover": {
+              color: "accent"
+            }
+          }}
+          href="https://richardhainesresume.netlify.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Resume
+        </a>
+      </motion.li>
       {/* <motion.li>
             <Link
                 sx={{

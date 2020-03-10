@@ -10,7 +10,7 @@ const Nav = () => {
     <nav
       sx={{
         display: "flex",
-        justifyContent: ["center", "space-between", "space-between"],
+        justifyContent: ["center", "space-between", "space-around"],
         alignItems: "center",
         width: "100%",
         height: "100%",
@@ -43,7 +43,7 @@ const Nav = () => {
           letterSpacing: "text",
           textTransform: "uppercase",
           display: ["none", "block", "block"],
-          marginRight: [0, "10vw", "5vw"],
+          // marginRight: [0, "10vw", "5vw"],
           ":hover": {
             color: "accent"
           }
@@ -52,7 +52,7 @@ const Nav = () => {
       >
         Blog
       </Link>
-      {/* <Link
+      <a
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
@@ -62,14 +62,17 @@ const Nav = () => {
           letterSpacing: "text",
           textTransform: "uppercase",
           display: ["none", "block", "block"],
+          // marginRight: [0, "10vw", "5vw"],
           ":hover": {
             color: "accent"
           }
         }}
-        to="/resume"
+        href="https://richardhainesresume.netlify.com/"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Resume
-      </Link> */}
+      </a>
       <Darkmode />
     </nav>
   );

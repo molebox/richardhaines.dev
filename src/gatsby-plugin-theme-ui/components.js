@@ -59,6 +59,18 @@ export default {
       {props.children}
     </a>
   ),
+  ul: props => (
+    <ul
+      sx={{
+        fontFamily: "body",
+        fontWeight: "400",
+        margin: "0 2em"
+      }}
+      {...props}
+    >
+      {props.children}
+    </ul>
+  ),
   li: props => (
     <li
       sx={{

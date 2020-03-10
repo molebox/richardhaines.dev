@@ -12,6 +12,22 @@ import ContactLayout from "./../components/site/contact/contact-layout";
 import Form from "./../components/site/contact/form";
 import IconContainer from "../components/site/home/icon-container";
 import { GatsbyIcon, ReactIcon, JSIcon } from "../components/common/icons";
+import SEO from "gatsby-theme-seo/src/components/seo";
+
+const SEODescription = `
+	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
+`;
+
+const SEOKeywords = [
+  "Web Developer",
+  "JAMstack",
+  "JAMstack Development",
+  "Headless CMS",
+  "React",
+  "Gatsby",
+  "Expo",
+  "Sanity.io"
+];
 
 export default () => {
   const { description, intro } = useSiteMetadata();
@@ -19,6 +35,12 @@ export default () => {
 
   return (
     <Main>
+      <SEO
+        title="HomePage"
+        description={SEODescription}
+        keywords={SEOKeywords}
+        twitter="studio_hungry"
+      />
       <Divider />
       <About description={description} intro={intro} />
       <Divider />

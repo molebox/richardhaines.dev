@@ -9,14 +9,37 @@ import SearchBar from "./../components/site/blog/SearchBar";
 import Divider from "./../components/common/divider";
 import BlogIndex from "../components/site/blog/blog-index";
 import AnimatedH1 from "./../components/common/animated-h1";
+import SEO from "gatsby-theme-seo/src/components/seo";
 
 const emoji = "\u{1F57A}";
 
-const Blog = ({ data }) => {
+const Blog = ({ data, location }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
   const blog = Array.from("Blog");
+  const SEODescription = `
+	I'm a software developer who specializes in JAMstack development. This is my blog where I write
+  about stuff i code, problems i encounter and projects im working on.
+`;
+
+  const SEOKeywords = [
+    "Web Developer",
+    "JAMstack",
+    "JAMstack Development",
+    "Headless CMS",
+    "React",
+    "Gatsby",
+    "Expo",
+    "Sanity.io"
+  ];
   return (
     <Main>
+      <SEO
+        title="Blog"
+        description={SEODescription}
+        keywords={SEOKeywords}
+        pathname={location.pathname}
+        twitter="studio_hungry"
+      />
       <Divider />
       <AnimatedH1 string={blog} />
       <P>
