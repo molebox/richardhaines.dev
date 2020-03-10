@@ -9,7 +9,7 @@ const BlogIndex = ({ posts }) => {
       sx={{
         display: "grid",
         gridAutoRows: "auto",
-        gridTemplateColumns: "repeat(auto-fill, minmax(500px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(auto, 550px))",
         gap: "1.5em",
         margin: "3em auto"
       }}
