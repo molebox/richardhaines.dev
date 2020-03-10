@@ -1,7 +1,7 @@
 ---
 title: How to make a gatsby ecommerce theme. Part 1
-date: 2020-03-08
-published: false
+date: 2020-03-10
+published: true
 category: Gatsby Themes
 author: Richard Haines
 keywords: [gatsby, theme-ui, css-in-js, ecommerce, gatsby theme, tutorial]
@@ -567,3 +567,81 @@ export default {
   }
 };
 ```
+These values can be accessed via the sx prop as seen above.
+
+Lets add them to our layout to complete this part of the tutorial.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { Global, css } from "@emotion/core";
+import Header from "../components/layout/header";
+import {
+  PhoneTemplateAreas,
+  TabletTemplateAreas,
+  DesktopTemplateAreas
+} from "./../window/breakpoints";
+import Footer from "../components/layout/footer";
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div
+        sx={{
+          display: "grid",
+          gridTemplateRows: "auto",
+          gridTemplateColumns: [
+            "repeat(4, 1fr)",
+            "repeat(6, 1fr)",
+            "repeat(8, 1fr)"
+          ],
+          gridTemplateAreas: [
+            PhoneTemplateAreas,
+            TabletTemplateAreas,
+            DesktopTemplateAreas
+          ],
+          padding: "0 1em"
+        }}
+      >
+        <Header>
+          navbar will go here
+        </Header>
+        {children}
+        <Footer />
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+<AccentBox>
+So lets recap what we have done so far:
+
+- Setup a project
+- Added our demo and theme projects
+- Linked our demo to our theme
+- Created a repository and commited our work
+- Added a site layout
+- Added our theme styles
+
+</AccentBox>
+
+In the next part we will start adding our main content components and a backend to store our products. 😎
