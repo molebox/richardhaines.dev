@@ -1,13 +1,13 @@
 ---
 title: How to make a gatsby ecommerce theme. Part 2
-date: 2020-03-12
-published: false
+date: 2020-03-11
+published: true
 category: Gatsby Themes
 author: Richard Haines
 ---
 import AccentBox from '../src/components/site/blog/accent-box.js';
 
-We have setup our project but it doesnt do much right now. Lets add a backend to store our products!
+We have setup our project but it doesn't do much right now. Lets add a backend to store our products!
 
 This is part 2 in a series of tutorials. The format is step by step.
 
@@ -17,7 +17,7 @@ So lets recap what we have done so far:
 - Setup a project
 - Added our demo and theme projects
 - Linked our demo to our theme
-- Created a repository and commited our work
+- Created a repository and committed our work
 - Added a site layout
 - Added our theme styles
 
@@ -38,10 +38,12 @@ sanity init
 This will globally install the CLI and create a new project for us. You can follow the step provided by the CLI, choose the ecommerce template and for the rest you can accept the defaults.
 
 <AccentBox>
-I have noticed some lag when running sanity init via the in built vscode terminal, it can hang. If it does i recommend quiting and running the command from another terminal. I use Cmder.
+I have noticed some lag when running sanity init via the in built vscode terminal, it can hang. If it does i recommend quitting and running the command from another terminal. I use Cmder.
 </AccentBox>
 
 Once installed open the studio folder and you will see some schema definition files. Open the product.js file. It should look like this: 
+
+### Product Schema
 
 ```js
 export default {
@@ -121,9 +123,11 @@ export default {
 
 ```
 
-Each object in the fields array corresponds to an input field in the studio, you can see the type the field expects with the type key. For some they refer to other objects which themsleves define their own input fields. For example the Default variant object field. For more information of the inner workings of sanity i highly suggest you go over their docs. They are really exceptional. For now we can leave this file as is.
+Each object in the fields array corresponds to an input field in the studio, you can see the type the field expects with the type key. For some they refer to other objects which themselves define their own input fields. For example the Default variant object field. For more information of the inner workings of sanity i highly suggest you go over their docs. They are really exceptional. For now we can leave this file as is.
 
 After you have had a little explore of the different schema files and read the docs on the sanity site create a new file in the schemas folder and call it home.js. We will use this to allow the theme user to add a hero image to the home page of our theme. Add the following to the new home.js schema file: 
+
+### Home Schema
 
 ```js
 export default {
@@ -145,6 +149,11 @@ export default {
           maxLength: 96
         }
       },
+            {
+        name: 'alt',
+        title: 'Alt text',
+        type: 'string'
+      },
       {
         name: 'images',
         title: 'Home Images',
@@ -165,6 +174,717 @@ export default {
 
 The title field will be the name of our website. You can auto generate the slug in the studio. The images array will allow us to add multiple images which we will be able to access via a graphql query on our home page, page. Wait till you check out the image handling in the studio 👯‍♀️
 
-Next open the schema.js file located in the same folder and inside the createSchema builder we can add our home schema, make sure you import it if vscode doesnt automatically do this for you. By default the function is well commented.
+We can also create our blog post schema. You'll notice that this time we have added a description to each field object. This will show in the studio as helper text to explain to the user what they should do or what the input expects. Its a small but important feature when thinking about studio handover, in our case, the end user of our theme.
 
-next is sanity graphql deploy and sanity deploy... add that the graphlq bit is often missed!
+### Blog Post Schema
+
+```js
+export default {
+  name: 'post',
+  type: 'document',
+  title: 'Blog Post',
+  fields: [
+    {
+      name: 'title',
+      type: 'string',
+      title: 'Title',
+      description: 'Titles should be catchy, descriptive, and not too long'
+    },
+    {
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      description: 'Some frontends will require a slug to be set to be able to show the post',
+      options: {
+        source: 'title',
+        maxLength: 96
+      }
+    },
+    {
+      name: 'publishedAt',
+      type: 'datetime',
+      title: 'Published at',
+      description: 'This can be used to schedule post for publishing'
+    },
+    {
+      name: 'mainImage',
+      type: 'mainImage',
+      title: 'Main image'
+    },
+    {
+      name: 'excerpt',
+      type: 'excerptPortableText',
+      title: 'Excerpt',
+      description:
+        'This ends up on summary pages, on Google, when people share your post in social media.'
+    },
+    {
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      of: [
+        {
+          type: 'authorReference'
+        }
+      ]
+    },
+    {
+      name: 'categories',
+      type: 'array',
+      title: 'Categories',
+      of: [
+        {
+          type: 'reference',
+          to: {
+            type: 'category'
+          }
+        }
+      ]
+    },
+    {
+      name: 'body',
+      type: 'bodyPortableText',
+      title: 'Body'
+    }
+  ],
+  orderings: [
+    {
+      name: 'publishingDateAsc',
+      title: 'Publishing date new–>old',
+      by: [
+        {
+          field: 'publishedAt',
+          direction: 'asc'
+        },
+        {
+          field: 'title',
+          direction: 'asc'
+        }
+      ]
+    },
+    {
+      name: 'publishingDateDesc',
+      title: 'Publishing date old->new',
+      by: [
+        {
+          field: 'publishedAt',
+          direction: 'desc'
+        },
+        {
+          field: 'title',
+          direction: 'asc'
+        }
+      ]
+    }
+  ]
+}
+```
+
+Next open the schema.js file located in the same folder and inside the createSchema builder we can add our home and blog schemas, make sure you import it if vscode doesn't automatically do this for you. By default the function is well commented.
+
+Now that we have created our new home page and blog schemas and exported them in the builder function we can deploy and start our studio! 
+
+```bash
+sanity graphql deploy
+sanity deploy
+```
+
+When deploying we can host our studio anywhere we like but sanity can also handle this for us. If we make a change to our schema we have to remember to run sanity graphql deploy for the changes to take affect. You should now be able to view the studio at gatsby-theme-fashion.sanity.studio. On the left of the studio you will see all of our content, the stuff created from the schema definitions. Click on the product and then click to create a new product. Now you should be able to see how each of the field type are represented in the studio. The default variant box is where we will be getting most of our data from. Feel free add some products, filling in the necessary information. As we chose the ecommerce template there will already be some products you can use for reference. I would suggest looking over them and adding your own. Once done remove the default template products.
+
+Open the home content tab on the left and add an image to be displayed on the home page of our theme. Make sure you remember to hit publish every time you add or change something in the studio otherwise nothing will happen 😆. If you open the blog content tab and scroll down you will see what looks like a wysiwyg editor. This is sanities rich text editor. In order to properly display its contents in our theme we will need to install another package.
+
+```bash
+yarn add @sanity/block-content-to-react
+```
+
+This will render an array of block text from the rich text editor in our studio. Each paragraph will be an index in the array. Now in order to use this component and display our rich text properly we will have to create some serializers. This concept was hard for me to understand at first and i did do some hacky stuff to get it working. The actual way of doing it, once you get it right is very simple. There is a handy blog post about it by Eric Howey - [using-theme-ui-with-sanity](https://www.erichowey.dev/writing/using-theme-ui-with-sanity/)
+that gives an example of using the serializers with theme-ui, we'll be using the sx prop directly instead of importing the theme-ui Styled component but it will work much the same way. Lets create a folder under components and name it common. Inside create a file called index.js and add the following:
+
+ ### Serializers
+
+ ```js
+ /** @jsx jsx */
+import { jsx } from "theme-ui";
+
+export const serializers = {
+  types: {
+    block(props) {
+      switch (props.node.style) {
+        case "h1":
+          return <h1 sx={{
+            fontFamily: 'heading',
+            fontWeight: 'bold'
+          }}>{props.children}</h1>;
+        case "h2":
+          return <h2 sx={{
+            fontFamily: 'heading'
+          }}>{props.children}</h2>;
+        default:
+          return <p sx={{
+            fontFamily: 'body'
+          }}>{props.children}</p>;
+      }
+    }
+  }
+};
+ ```
+
+We are styling the html elements that are specified in the rich text editor in our studio with the theme-ui sx prop, getting the values from our theme file. Pretty nifty. For a more in depth look into how it works check out the sanity.io [docs](https://www.sanity.io/docs/block-content). Of course you can add all the html elements your heart desires so long as they are already defined in the schema for block content. In fact, lets take a peek at that file so that you know what i mean:
+
+### Block Content
+
+```js
+/**
+ * This is the schema definition for the rich text fields used for
+ * for this blog studio. When you import it in schemas.js it can be
+ * reused in other parts of the studio with:
+ *  {
+ *    name: 'someName',
+ *    title: 'Some title',
+ *    type: 'blockContent'
+ *  }
+ */
+export default {
+  title: 'Block Content',
+  name: 'blockContent',
+  type: 'array',
+  of: [
+    {
+      title: 'Block',
+      type: 'block',
+      // Styles let you set what your user can mark up blocks with. These
+      // corresponds with HTML tags, but you can set any title or value
+      // you want and decide how you want to deal with it where you want to
+      // use your content.
+      styles: [
+        {title: 'Normal', value: 'normal'},
+        {title: 'H1', value: 'h1'},
+        {title: 'H2', value: 'h2'},
+        {title: 'H3', value: 'h3'},
+        {title: 'H4', value: 'h4'},
+        {title: 'Quote', value: 'blockquote'}
+      ],
+      lists: [{title: 'Bullet', value: 'bullet'}],
+      // Marks let you mark up inline text in the block editor.
+      marks: {
+        // Decorators usually describe a single property – e.g. a typographic
+        // preference or highlighting by editors.
+        decorators: [{title: 'Strong', value: 'strong'}, {title: 'Emphasis', value: 'em'}],
+        // Annotations can be any object structure – e.g. a link or a footnote.
+        annotations: [
+          {
+            title: 'URL',
+            name: 'link',
+            type: 'object',
+            fields: [
+              {
+                title: 'URL',
+                name: 'href',
+                type: 'url'
+              }
+            ]
+          }
+        ]
+      }
+    },
+    // You can add additional types here. Note that you can't use
+    // primitive types such as 'string' and 'number' in the same array
+    // as a block type.
+    {
+      type: 'image',
+      options: {hotspot: true}
+    }
+  ]
+}
+
+```
+
+This is taken directly from the template project output. You should have the same in your sanity project under the schemas folder. As you can see the blocks array defines the markup we want to use in our rich text editor, these are the defaults, you can add or remove as many as you wish. Again, see the docs for more info 😊
+
+<AccentBox>
+So lets recap what we have done so far:
+
+- Added sanity to our project
+- Looked at the schemas
+- Added our own home and blog post schemas
+- Deployed our studio and added some products and a home page image
+- Looked at serializers and added our own to handle the rich text input for our blog posts
+
+</AccentBox>
+
+We're making great headway! Now that we have our sanity backend up and running we need to hook it up to our theme. Head over to the theme projects root and install the gatsby-source-sanity plugin.
+
+```bash
+yarn add gatsby-source-sanity
+```
+
+Now create two .env files at the demo sites root. .env.development and .env.production. In these files add the following: 
+
+### Env Files
+
+```text
+SANITY_PROJECT_ID=<your-sanity-project-id>
+SANITY_PROJECT_DATASET=<your-sanity-dataset>
+```
+
+If you go to [https://manage.sanity.io/](https://manage.sanity.io/) and click on your project, gatsby-theme-fashion, or whatever you chose to name it you will find your project id below the project name. You can find the dataset name if you have forgotten what you called it (it will be production if you went with the defaults) under the datasets tab directly under the project id and studio link.
+
+Lets tell our theme to expect these variables form the consumer. Open the themes gatsby-config.js file and add the following: 
+
+### Theme - gatsby-config.js
+
+```js
+module.exports = (options) => {
+  const {SANITY_PROJECT_ID, SANITY_PROJECT_DATASET} = options;
+
+  return {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700' 
+              ]
+            }
+        },
+              {
+        resolve: 'gatsby-source-sanity',
+        options: {
+          projectId: SANITY_PROJECT_ID,
+          dataset: SANITY_PROJECT_DATASET,
+          watchMode: false
+        }
+      },
+          'gatsby-plugin-theme-ui'
+    ]
+  }
+}
+```
+
+Now we want to navigate to our gatsby-config.js file in our demo sites folder and add the following: 
+
+### Demo- gatsby-config.js
+
+```js
+let activeEnv =
+  process.env.GATSBY_ACTIVE_ENV || process.env.NODE_ENV || "development" || "production"
+
+require("dotenv").config({
+  path: `.env.${activeEnv}`,
+})
+
+module.exports = {
+  plugins: [
+    {
+      resolve: 'gatsby-theme-fashion',
+      options: {
+        SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
+        SANITY_PROJECT_DATASET: process.env.SANITY_PROJECT_DATASET
+      }
+    }
+  ]
+};
+```
+
+Here we are checking what environment we are in and getting the env variables dependant on that. We will just add the same data to both the development and production env files but you can create different ones dependant on your needs. Its important to always keep your API keys and other sensitive information hidden so the go to thing to do is use env variables.
+
+Now that we have configured our theme to use our sanity backend we can start creating some components to fetch the data and display it. We'll start with the home page. As of now all we have to display is our hero image we added to our home content in the studio. Create a folder under components and call it home. Inside create a new file and call it hero.js.
+
+### Hero Image
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import { graphql, useStaticQuery } from "gatsby";
+import GatsbyImage from "gatsby-image";
+
+const Hero = () => {
+  const home = useStaticQuery(query);
+  const { images, title, alt } = home.sanityHome;
+
+  return (
+    <section sx={{
+      margin: '2em'
+    }}>
+      <GatsbyImage sx={{
+        width: 'auto',
+        height: 'auto',
+        maxWidth: '80%',
+        maxHeight: '90%',
+        margin: '0 auto'
+      }} fluid={images[0].asset.fluid} alt={alt} />
+    </section>
+  );
+};
+
+export default Hero;
+
+export const query = graphql`
+  query HeroQuery {
+    sanityHome {
+      title
+      alt
+      images {
+        asset {
+          fluid(maxHeight: 865) {
+            ...GatsbySanityImageFluid
+          }
+        }
+      }
+    }
+  }
+`;
+```
+Lets break it down. 
+- We have created a new component that fetches the hero image via a graphql query. 
+- We access that query using gatsbys nifty hook useStaticQuery. 
+- We have destructured the resulting content and passed it to a gatsby image component. 
+- We have added some styling using the sx prop. 
+
+This component is now ready to be imported into our index.js file that is waiting for us all lonley in the pages folder of our theme. Right now it looks like this:
+
+### Home Page
+
+```jsx
+import React from 'react'
+
+export default () => <h1>Hello im coming at you from the theme!!<h1>
+```
+
+Lets remove all that and add our hero image!
+
+### Home Page
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import Main from "../components/layout/main"; 
+import Hero from "../components/home/hero";
+
+export default () => { 
+
+  return (
+    <Main>
+      <Hero/>
+    </Main>
+  )
+}
+```
+
+By importing the Main component and using it as the parent to all others in this component we have told gatsby that anything inside this component will live in the grid area main. This will be the pattern moving forward for all of our pages.
+
+Go to the demo project and run yarn dev to see your image displayed. Lets take a look at our content plan again and check off what we have done:
+
+- Navbar
+- Landing/home page ✅
+  - Hero image ✅
+  - Showcase of products
+  - Blog snippets
+  - Instagram feed
+  - Contact section
+  - About section
+- Products page
+- Blog page
+  - Blog posts page
+
+We've still got some way to go 😅 The showcase and blog post snippets both require us to do some setup before we can add them to the home page. So lets go ahead and create the about, contact and instagram feed sections!
+
+We can begin by adding a container div to our home page component (index.js) and styling it with our trusty friend the grid.
+
+### Home Page
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import Main from "../components/layout/main"; 
+import Hero from "../components/home/hero";
+
+export default () => { 
+
+  return (
+    <Main>
+      <div sx={{
+        display: 'grid',
+        gridTemplateRows: "auto",
+      }}>
+        <Hero/>
+        <section>About Section</section>
+        <section>Showcase Section</section>
+        <section>Blog Snippet Section</section>
+        <section>Instagram Feed</section>
+      </div>
+    </Main>
+  )
+}
+```
+
+Seeing as our home page sections are all going to be the same we can extract that to a new component. Create a new home-section.js file under the components/home folder.
+
+### Home Section
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const HomeSection = ({children}) => (
+  <section
+    sx={{
+      height: 'max-content',
+      padding: '1em'
+    }}
+  >
+    {children}
+  </section>
+);
+
+export default HomeSection;
+```
+
+We can now import and use that component to wrap our placeholder sections in our home page.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import Main from "../components/layout/main"; 
+import Hero from "../components/home/hero";
+import HomeSection from "../components/home/home-section";
+
+export default () => { 
+
+  return (
+    <Main>
+      <div sx={{
+        display: 'grid',
+        gridTemplateRows: "auto",
+      }}>
+        <Hero/>
+        <HomeSection>About Section</HomeSection>
+        <HomeSection>Showcase Section</HomeSection>
+        <HomeSection>Blog Snippet Section</HomeSection>
+        <HomeSection>Instagram Feed</HomeSection>
+      </div>
+    </Main>
+  )
+}
+```
+
+Our about section will simply display some text that we will import via a graphql query form our sanity backend. First we need to create the schema for that. Head into the sanity project and create a new schema file under the schema folder and call it about.js
+
+### About Schema
+
+```js
+export default {
+    name: 'about',
+    title: 'About',
+    type: 'document',
+    fields: [
+        {
+            name: 'title',
+            title: 'About Title',
+            type: 'string',
+            description: 'The title of the page',
+          },
+          {
+            name: 'slug',
+            title: 'Slug',
+            type: 'slug',
+            description: 'The slug for the page',
+            options: {
+              source: 'title',
+              maxLength: 96
+            }
+          },
+          {
+            title: 'About Us',
+            name: 'aboutUs',
+            type: 'array',
+            of: [
+                    {
+                        type: 'block'
+                    },
+                    {
+                        type: 'image'
+                    }
+                ]
+        }
+    ]
+}
+```
+
+Import it into the schema file and deploy. Then add some content.
+
+```bash
+sanity graphql deploy
+sanity deploy
+```
+
+Now we can use the sanity block-content-to-react package and our sanitizers. Create an about-section.js file under components/home
+
+### About Section
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import PortableText from "@sanity/block-content-to-react";
+import { graphql, useStaticQuery } from "gatsby";
+import {serializers} from "../components/common";
+
+const AboutSection = () => {
+    const about = useStaticQuery(query);
+    const info = about.allSanityAbout.nodes;
+
+    return (
+      <div sx={{
+        width: '100%'
+      }}>
+        {info.map((node, index) => (
+          <PortableText
+            key={node.title + index}
+            blocks={node._rawAboutUs}
+            serializers={serializers}
+          />
+        ))}
+      </div>
+  );
+}
+
+export default AboutSection;
+
+export const query = graphql`
+  query AboutQuery {
+    allSanityAbout {
+      nodes {
+        title
+        _rawAboutUs(resolveReferences: { maxDepth: 10 })
+      }
+    }
+  }
+`;
+```
+
+Lets add our new about component to our home page:
+
+### Home Page
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import Main from "../components/layout/main"; 
+import Hero from "../components/home/hero";
+import HomeSection from "../components/home/home-section";
+import AboutSection from "../components/home/about-section";
+
+export default () => { 
+
+  return (
+    <Main>
+      <div sx={{
+        display: 'grid',
+        gridTemplateRows: "auto",
+      }}>
+        <Hero/>
+        <AboutSection/>
+        <HomeSection>Showcase Section</HomeSection>
+        <HomeSection>Blog Snippet Section</HomeSection>
+        <HomeSection>Instagram Feed</HomeSection>
+      </div>
+    </Main>
+  )
+}
+```
+
+Next up is our instagram feed. For this we will be using a great theme by [Horacio Herrera](https://twitter.com/hhg2288) called @horacioh/gatsby-theme-instagram. Its super simple to use and gives great results. Just what we need! From our themes root run then navigate to the themes gatsby-config.js and add it there.
+
+```bash
+yarn add @horacioh/gatsby-theme-instagram
+```
+
+### Theme - gatsby-config.js
+
+```js
+module.exports = (options) => {
+  const {SANITY_PROJECT_ID, SANITY_PROJECT_DATASET} = options;
+
+  return {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700' 
+              ]
+            }
+        },
+        {
+          resolve: 'gatsby-source-sanity',
+          options: {
+            projectId: SANITY_PROJECT_ID,
+            dataset: SANITY_PROJECT_DATASET,
+            watchMode: false
+          }
+        },
+        {
+          resolve: "@horacioh/gatsby-theme-instagram",
+          options: {
+            username: "your-instagram-username-here",
+          },
+        },
+          'gatsby-plugin-theme-ui'
+    ]
+  }
+}
+```
+
+Now we can add it to our home page. There are number of options for how to display the data, i suggest checking out the package [docs](https://www.npmjs.com/package/@horacioh/gatsby-theme-instagram), we will be using the grid with that standard styling.
+
+### Home Page
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import Main from "../components/layout/main"; 
+import Hero from "../components/home/hero";
+import HomeSection from "../components/home/home-section";
+import AboutSection from "../components/home/about-section";
+import { Grid } from "@horacioh/gatsby-theme-instagram";
+
+export default () => { 
+
+  return (
+    <Main>
+      <div sx={{
+        display: 'grid',
+        gridTemplateRows: "auto",
+      }}>
+        <Hero/>
+        <AboutSection/>
+        <HomeSection>Showcase Section</HomeSection>
+        <HomeSection>Blog Snippet Section</HomeSection>
+        <HomeSection>
+          <Grid />
+        </HomeSection>
+      </div>
+    </Main>
+  )
+}
+```
+
+<AccentBox>
+So lets recap what we have done so far:
+
+- Added env variables and connected our theme to our sanity studio
+- Created a Hero image component
+- Created our home page layout
+- Extracted our home page sections to a component.
+- Created a new schema for about information
+- Created a new AboutSection component and fetched our about information from the studio via graphql query
+- Used the blockContent package to render our about information
+- Installed and added our Instagram feed to our home page
+
+</AccentBox>
+
+😅 Wow, we have accomplished a lot! I think this is a good place to stop and reflect on what we have done so far. In the next part we will be diving into gatsby-node.js and creating pages from queries on the fly using some templates that we will create. 😎

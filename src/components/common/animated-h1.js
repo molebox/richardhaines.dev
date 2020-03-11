@@ -16,7 +16,7 @@ const letterVariants = {
     transition: {
       type: "spring",
       damping: 16,
-      stiffness: 200
+      stiffness: 100
     }
   },
   after: {
@@ -25,7 +25,7 @@ const letterVariants = {
     transition: {
       type: "spring",
       damping: 16,
-      stiffness: 200
+      stiffness: 100
     }
   }
 };
