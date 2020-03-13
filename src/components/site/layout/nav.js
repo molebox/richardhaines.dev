@@ -37,7 +37,7 @@ const Nav = () => {
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "1em"],
+          fontSize: ["0.8em", "0.9em", "0.9em"],
           color: "text",
           paddingTop: ["1em", null, null],
           letterSpacing: "text",
@@ -56,7 +56,7 @@ const Nav = () => {
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "1em"],
+          fontSize: ["0.8em", "0.9em", "0.9em"],
           color: "text",
           paddingTop: ["1em", null, null],
           letterSpacing: "text",

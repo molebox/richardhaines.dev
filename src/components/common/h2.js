@@ -17,7 +17,7 @@ const H2 = props => {
       sx={{
         color: "text",
         fontFamily: "body",
-        fontSize: ["1em", "1.7em", "1.6em"],
+        fontSize: ["1em", "1.2em", "1.4em"],
         fontWeight: 400,
         margin: "1em auto"
       }}

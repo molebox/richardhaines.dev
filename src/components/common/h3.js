@@ -17,7 +17,7 @@ const H3 = props => {
       sx={{
         color: "text",
         fontFamily: "body",
-        fontSize: ["1em", "1.3em", "1.4em"],
+        fontSize: ["0.9em", "1em", "1.2em"],
         fontWeight: 400,
         margin: "1em auto",
         textTransform: "uppercase",
