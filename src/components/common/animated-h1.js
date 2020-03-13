@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 // Add staggering effect to the children of the container
 const containerVariants = {
   before: {},
-  after: { transition: { staggerChildren: 0.06 } }
+  after: { transition: { staggerChildren: 0.02 } }
 };
 
 // Variants for animating each letter
