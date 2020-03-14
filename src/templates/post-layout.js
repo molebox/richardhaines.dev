@@ -10,6 +10,7 @@ import H1 from "./../components/common/h1";
 import PostAuthor from "./../components/site/blog/post-author";
 import PostDate from "./../components/site/blog/post-date";
 import SEO from "gatsby-theme-seo/src/components/seo";
+import Twitter from "../components/site/home/twitter";
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
@@ -32,6 +33,19 @@ const PostLayout = ({ data, pageContext, location }) => {
       />
       <section sx={{}}>
         <H1>{title}</H1>
+        <div
+          sx={{
+            display: "flex",
+            flexDirection: ["column", "row", "row"],
+            justifyContent: ["space-between", "space-between", "space-evenly"],
+            // alignItems: 'center',
+            margin: "2em auto"
+          }}
+        >
+          <PostAuthor>Author: {author}</PostAuthor>
+          <PostDate> Posted: {date}</PostDate>
+          <Twitter />
+        </div>
         <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
         <div
           sx={{
@@ -41,8 +55,6 @@ const PostLayout = ({ data, pageContext, location }) => {
             margin: "2em auto"
           }}
         >
-          <PostAuthor>Author: {author}</PostAuthor>
-          <PostDate> Posted: {date}</PostDate>
           <EditPost editLink={editLink}>Edit this post on GitHub.</EditPost>
           {previous === false ? null : (
             <>

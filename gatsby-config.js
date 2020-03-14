@@ -76,6 +76,7 @@ module.exports = {
           'gatsby-plugin-sharp',
           'gatsby-plugin-emotion',
           'gatsby-plugin-mdx',
+          'gatsby-plugin-twitter',
           'gatsby-plugin-theme-ui'
 
     ]
