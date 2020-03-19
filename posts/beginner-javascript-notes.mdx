@@ -89,7 +89,7 @@ console.log(iserydFamily()); // output will be 'The Iseryd family is made up of 
 console.log(robinsFamily()); // output will be 'The Robins family is made up of (random number from 1 - 9) people. '
 ```
 
-In this example we have an outer function that will be used to create a family. Its scoped variable familyMembers will create a random number from 1 - 9. The inner function will return a string which gives the outer functions parameter as the family name and then uses the outer functions random number as the amount of people in the family. We could go one step further and use the inner function even though it has since been destroyed having been creating via its calling when creating the different families.
+In this example we have an outer function that will be used to create a family. Its scoped variable familyMembers will create a random number from 1 - 9. The inner function will return a string which gives the outer functions parameter as the family name and then uses the outer functions random number as the amount of people in the family. We could go one step further and use the inner function even though the outer function has since been destroyed having been creating via its calling when creating the different families.
 
 ```js
 function createFamily(familyName = "") {
