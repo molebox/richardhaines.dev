@@ -1,0 +1,109 @@
+---
+title: Notes on JavaScript
+date: 2020-03-19
+published: true
+category: JavaScript
+author: Richard Haines
+keywords: [javascript, javascript scope, javascript hoisting, javascript closures]
+---
+
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
+<AccentBox>
+  Ive been taking the Beginner JavaScript course by a certain Wes Bos. These are
+  my notes. This will be updated as and when i cover more ground in the course.
+  I highly recommend you purchase it, its great for a beginner or as a refresh.
+</AccentBox>
+
+Course link: [beginnerjavascript.com](https://beginnerjavascript.com/)
+
+### Global Variables
+
+A variable created in a javascript file while not inside of a function, module or code block. Can be accessed from anywhere.
+
+- var variables are attached to the window objects Scope
+- Anything in the global scope is attached to the window object except const and let. This includes custom functions
+
+### Function Scope
+
+- Any variables declared within a function are only available within that function and not from outside the function.
+- Scope lookup: If a variable in a function is used but not declared in the function it will go up a level in the scope to find it. That could be in a parent function if nested or to the global scope.
+- Variable shadow is two variables in different scope with the same name.
+
+### Block Scope
+
+Curly braces are blocks, like if statements. Variable declarations inside are scoped to the block.
+
+```js
+if (1 === 1) {
+  const yep = true;
+}
+```
+
+The variable yep is unavailable outside of the if statement. If however it was changed form a const to a var then it would be function scoped and available outside the if statement.
+
+### Hoisting
+
+- Hoisting allows accessing functions and variables before they have been created.
+- The javascript compiler will re-arrange the file so that a function that is run before its declaration will swap places so its declared then run.
+
+### Closures
+
+Closures give the ability to access a parent level scope from a child scope, even after the parent level scope has been destroyed.
+
+This example is taken directly from the course:
+
+```js
+function outer() {
+  const outerVar = "Hey I am the outer Var!";
+  function inner() {
+    const innerVar = "Hey I am an inner var!";
+    console.log(innerVar);
+    console.log(outerVar);
+  }
+  return inner;
+}
+
+const innerFn = outer();
+innerFn();
+```
+
+For a closure to work we must return a function from within a function where the inner functions scope references something from the outer functions scope. Looking at the above example, when we run innerFn() the two console logs are still registered to the console even though the outerVar (as part of the parent/outer function) would normally have been garbage collected having been called during the innerFns creation. This gives us the ability to keep access to variables that would have otherwise been destroyed. 
+
+Lets look at another example.
+
+```js
+function createFamily(familyName = "") {
+  const familyMembers = Math.floor(Math.random() * 10);
+  return function newFamily() {
+    return `The ${familyName} family is made up of ${familyMembers} people`;
+  };
+}
+
+const hainesFamily = createFamily("Haines");
+const iserydFamily = createFamily("Iseryd");
+const robinsFamily = createFamily("Robins");
+
+console.log(hainesFamily()); // output will be 'The Haines family is made up of (random number from 1 - 9) people. '
+console.log(iserydFamily()); // output will be 'The Iseryd family is made up of (random number from 1 - 9) people. '
+console.log(robinsFamily()); // output will be 'The Robins family is made up of (random number from 1 - 9) people. '
+```
+
+In this example we have an outer function that will be used to create a family. Its scoped variable familyMembers will create a random number from 1 - 9. The inner function will return a string which gives the outer functions parameter as the family name and then uses the outer functions random number as the amount of people in the family. We could go one step further and use the inner function even though it has since been destroyed having been creating via its calling when creating the different families.
+
+```js
+function createFamily(familyName = "") {
+  const familyMembers = Math.floor(Math.random() * 10);
+  return function newFamily(familyGreeting) {
+    return `The ${familyName} family is made up of ${familyMembers} people. We say ${familyGreeting}`;
+  };
+}
+
+const hainesFamily = createFamily("Haines");
+const iserydFamily = createFamily("Iseryd");
+const robinsFamily = createFamily("Robins");
+
+console.log(hainesFamily('Yo!')); // output will be 'The Haines family is made up of (random number from 1 - 9) people. We say Yo! '
+console.log(iserydFamily('Word Up!')); // output will be 'The Iseryd family is made up of (random number from 1 - 9) people. We say Word Up! '
+console.log(robinsFamily('Hiya!')); // output will be 'The Robins family is made up of (random number from 1 - 9) people. We say Hiya! '
+```
