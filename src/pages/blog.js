@@ -70,6 +70,7 @@ export const query = graphql`
           date(formatString: "DD MMM YYYY")
           category
           author
+          pin
         }
         fields {
           slug

@@ -4,6 +4,10 @@ import { Link } from "gatsby";
 import { motion } from "framer-motion";
 
 const BlogIndex = ({ posts }) => {
+  const pinned = posts.filter(post => post.frontmatter.pin === true);
+  const allPosts = posts.filter(post => !post.frontmatter.pin);
+  allPosts.unshift(pinned[0]);
+
   return (
     <section
       sx={{
@@ -38,8 +42,22 @@ const BlogIndex = ({ posts }) => {
               minHeight: "350px",
               display: "grid",
               gridTemplateRows: "1fr 2fr",
-
-              justifyContent: "space-evenly"
+              justifyContent: "space-evenly",
+              ":before": frontmatter.pin
+                ? {
+                    content: "'Pinned'",
+                    width: "6em",
+                    backgroundColor: "accent",
+                    color: "background",
+                    textTransform: "uppercase",
+                    fontFamily: "heading",
+                    fontWeight: "700",
+                    letterSpacing: "body",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }
+                : null
             }}
           >
             <p

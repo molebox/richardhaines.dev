@@ -4,7 +4,9 @@ date: 2020-03-19
 published: true
 category: JavaScript
 author: Richard Haines
-keywords: [javascript, javascript scope, javascript hoisting, javascript closures]
+keywords:
+  [javascript, javascript scope, javascript hoisting, javascript closures]
+pin: true
 ---
 
 import AccentBox from "../src/components/site/blog/accent-box.js";
@@ -68,7 +70,7 @@ const innerFn = outer();
 innerFn();
 ```
 
-For a closure to work we must return a function from within a function where the inner functions scope references something from the outer functions scope. Looking at the above example, when we run innerFn() the two console logs are still registered to the console even though the outerVar (as part of the parent/outer function) would normally have been garbage collected having been called during the innerFns creation. This gives us the ability to keep access to variables that would have otherwise been destroyed. 
+For a closure to work we must return a function from within a function where the inner functions scope references something from the outer functions scope. Looking at the above example, when we run innerFn() the two console logs are still registered to the console even though the outerVar (as part of the parent/outer function) would normally have been garbage collected having been called during the innerFns creation. This gives us the ability to keep access to variables that would have otherwise been destroyed.
 
 Lets look at another example.
 
@@ -103,9 +105,9 @@ const hainesFamily = createFamily("Haines");
 const iserydFamily = createFamily("Iseryd");
 const robinsFamily = createFamily("Robins");
 
-console.log(hainesFamily('Yo!')); // output will be 'The Haines family is made up of (random number from 1 - 9) people. We say Yo! '
-console.log(iserydFamily('Word Up!')); // output will be 'The Iseryd family is made up of (random number from 1 - 9) people. We say Word Up! '
-console.log(robinsFamily('Hiya!')); // output will be 'The Robins family is made up of (random number from 1 - 9) people. We say Hiya! '
+console.log(hainesFamily("Yo!")); // output will be 'The Haines family is made up of (random number from 1 - 9) people. We say Yo! '
+console.log(iserydFamily("Word Up!")); // output will be 'The Iseryd family is made up of (random number from 1 - 9) people. We say Word Up! '
+console.log(robinsFamily("Hiya!")); // output will be 'The Robins family is made up of (random number from 1 - 9) people. We say Hiya! '
 ```
 
 More to follow.... 😊

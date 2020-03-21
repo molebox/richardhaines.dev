@@ -37,7 +37,7 @@ export default () => {
   return (
     <Main>
       <SEO
-        title="HomePage"
+        title="Hello I'm Rich Haines. I'm a software developer who specializes in JAMstack development"
         description={SEODescription}
         keywords={SEOKeywords}
         twitter="studio_hungry"

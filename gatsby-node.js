@@ -21,6 +21,7 @@ exports.createPages = ({ actions, graphql }) => {
             date
             category
             author
+            pin
           }
           fields {
             slug

@@ -31,8 +31,9 @@ const Projects = () => {
           justifyContent: "space-evenly"
         }}
       >
-        {projects.map(({ node: project }) => (
+        {projects.map(({ node: project, index }) => (
           <ProjectCard
+            key={project.name + index}
             name={project.name}
             description={project.description}
             fluid={project.image.src.childImageSharp.fluid}
