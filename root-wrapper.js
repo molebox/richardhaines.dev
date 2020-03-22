@@ -9,6 +9,7 @@ const components = {
   pre: ({ children: { props } }) => {
     if (props.mdxType === 'code') {
       return (
+        <div style={{ position: 'relative' }}>
         <Code
           codeString={props.children.trim()}
           language={
@@ -17,6 +18,7 @@ const components = {
           }
           {...props}
         />
+        </div>
       )
     }
   },

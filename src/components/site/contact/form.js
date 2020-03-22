@@ -10,11 +10,13 @@ const Form = () => {
         padding: "1em",
         fontFamily: "body",
         border: "solid 2px",
+        borderRadius: "5px",
         borderColor: "accent",
         display: "flex",
         justifyContent: "space-evenly",
         flexDirection: "column",
-        width: "100%"
+        width: "100%",
+        backgroundColor: "secondaryDarker"
       }}
       name="contact"
       method="POST"
@@ -35,7 +37,8 @@ const Form = () => {
           sx={{
             marginTop: "1em",
             border: "2px solid",
-            borderColor: "accent"
+            borderColor: "accent",
+            borderRadius: "5px"
           }}
           rows="10"
           required
@@ -48,6 +51,7 @@ const Form = () => {
           fontFamily: "heading",
           fontWeight: "heading",
           border: "2px solid",
+          borderRadius: "5px",
           padding: "0.35em 1.2em",
           borderColor: "accent",
           backgroundColor: "background",
@@ -58,8 +62,7 @@ const Form = () => {
           "&:hover": {
             color: "primary",
             backgroundColor: "accent",
-            fontWeight: "bold",
-            boxShadow: "-3px 3px #00001F"
+            fontWeight: "bold"
           },
           "&:active": {
             boxShadow: "-1px 1px #00001F"

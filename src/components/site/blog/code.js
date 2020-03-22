@@ -6,7 +6,6 @@ import styled from "@emotion/styled";
 import { copyToClipboard } from "./copy-to-clipboard";
 
 const Pre = styled.pre`
-  position: relative;
   text-align: left;
   margin: 1em;
   padding: 1.5em;
@@ -30,7 +29,7 @@ const LineNo = styled.span`
 
 const CopyCode = styled.button`
   position: absolute;
-  right: 0.25rem;
+  right: 1.25rem;
   top: 0.5rem;
   border: 0;
   border-radius: 3px;

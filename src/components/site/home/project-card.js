@@ -7,8 +7,9 @@ const ProjectCard = props => (
     sx={{
       border: "2px solid",
       borderColor: "accent",
+      borderRadius: "5px",
       padding: "2em",
-      backgroundColor: "background",
+      backgroundColor: "secondaryDarker",
       color: "text",
       fontFamily: "body",
       display: "flex",

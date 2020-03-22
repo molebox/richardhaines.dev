@@ -6,6 +6,7 @@ const Input = ({ type, name }) => (
     sx={{
       border: "2px solid",
       borderColor: "accent",
+      borderRadius: "5px",
       height: "2em",
       marginTop: "1em"
     }}

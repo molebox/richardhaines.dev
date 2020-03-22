@@ -6,6 +6,7 @@ const AccentBox = props => (
     sx={{
       border: "2px solid",
       borderColor: "accent",
+      borderRadius: "5px",
       padding: "2em",
       fontFamily: "body",
       margin: "0 auto"

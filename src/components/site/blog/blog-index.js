@@ -37,12 +37,14 @@ const BlogIndex = ({ posts }) => {
             sx={{
               border: "solid 2px",
               borderColor: "accent",
+              borderRadius: "5px",
               padding: "1.5em",
               height: "auto",
               minHeight: "350px",
               display: "grid",
               gridTemplateRows: "1fr 2fr",
               justifyContent: "space-evenly",
+              backgroundColor: "secondaryDarker",
               ":before": frontmatter.pin
                 ? {
                     content: "'Pinned'",
@@ -55,7 +57,8 @@ const BlogIndex = ({ posts }) => {
                     letterSpacing: "body",
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    borderRadius: "5px"
                   }
                 : null
             }}
