@@ -62,10 +62,12 @@ const Blog = ({ data, location }) => {
       <SearchBar handleSearchQuery={handleSearchQuery} />
       <section
         sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          height: "auto"
+          display: "grid",
+          gridAutoRows: "auto",
+          gridTemplateColumns: "repeat(auto-fit, minmax(auto, 100px))",
+          gap: "1.5em",
+          width: "100%",
+          placeContent: "center"
         }}
       >
         <AllCategory handleCategoryQuery={handleCategoryQuery} />

@@ -11,7 +11,7 @@ const Category = ({ category, handleCategoryQuery }) => {
         padding: "1em",
         height: "auto",
         width: "max-content",
-        minWidth: "6em",
+        minWidth: ["3em", "5em", "6em"],
         color: "text",
         fontFamily: "heading",
         fontSize: ["0.8em", "1em", "1em"],
