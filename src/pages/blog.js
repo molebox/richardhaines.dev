@@ -18,9 +18,13 @@ const emoji = "\u{1F57A}";
 const Blog = ({ data, location }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
   const { categories, handleCategoryQuery } = useCategory(posts);
+  console.log({ categories });
   const categoriesList = [
     ...new Set(posts.map(post => post.frontmatter.category))
   ];
+  const pinned = posts.filter(post => post.frontmatter.pin === true);
+  const allPosts = [pinned[0], ...posts.filter(post => !post.frontmatter.pin)];
+
   const blog = Array.from("Blog");
   const SEODescription = `
 	I'm a software developer who specializes in JAMstack development. This is my blog where I write
@@ -51,7 +55,8 @@ const Blog = ({ data, location }) => {
       <P>
         This is my blog, there are many like it, but this one is mine. I write
         about stuff i code, problems i encounter and projects im working on. Use
-        the search bar below to filter posts by any keyword, or the category buttons to choose a post category {emoji}
+        the search bar below to filter posts by any keyword, or the category
+        buttons to choose a post category {emoji}
       </P>
       <Divider />
       <SearchBar handleSearchQuery={handleSearchQuery} />
@@ -72,7 +77,7 @@ const Blog = ({ data, location }) => {
           />
         ))}
       </section>
-      <BlogIndex posts={categories.length ? categories : posts} />
+      <BlogIndex posts={categories.length ? categories : allPosts} />
     </Main>
   );
 };

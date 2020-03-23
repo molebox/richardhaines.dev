@@ -4,11 +4,6 @@ import { Link } from "gatsby";
 import { motion } from "framer-motion";
 
 const BlogIndex = ({ posts }) => {
-  console.log({ posts });
-  const pinned = posts.filter(post => post.frontmatter.pin === true);
-  const allPosts = posts.filter(post => !post.frontmatter.pin);
-  allPosts.unshift(pinned[0]);
-
   return (
     <section
       sx={{

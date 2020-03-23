@@ -19,7 +19,12 @@ export const useCategory = posts => {
 
   const { filteredData } = categoryQuery;
   const hasSearchResult = filteredData !== [];
-  const categories = hasSearchResult ? filteredData : posts;
+
+  const sortedPosts = posts.sort(
+    (a, b) => b.frontmatter.pin - a.frontmatter.pin
+  );
+
+  const categories = hasSearchResult ? filteredData : sortedPosts;
 
   return { categories, handleCategoryQuery };
 };
