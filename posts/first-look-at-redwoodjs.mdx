@@ -1,13 +1,287 @@
 ---
 title: First look at RedwoodJS
 date: 2020-03-23
-published: false
+published: true
 category: First Look
 author: Richard Haines
 keywords: [javascript, redwoodjs]
 pin: false
 ---
 
-RedwoodJS is a new opinionated full stack, serverless web app framework that takes all the good parts of what a JAMstack website offers and packages it up into something that promises to offer all the good and much more. Its still in alpha phase but i decided to take it for a spin to learn a little about how it works and how its workflow compares to my favorite dev tool Gatsby.
+RedwoodJS is a new opinionated full stack, serverless web app framework that takes all the good parts of what a JAMstack website offers and packages it up into something that promises to offer all the good and much more. Its still in alpha phase but i decided to take it for a spin to learn a little about how it works and how its workflow compares to my favorite dev tool Gatsby. This post is about some of the things i found along the way that i thought were cool and wanted to point out.
 
-Of course its unfair to compare the two as they are very different beasts. While Gatsby is a progressive web app
+Of course its unfair to compare the two as they are very different beasts. While Gatsby is a progressive web app generator where you can connect to any backend headless CMS you like, Redwood aims to take the full stack approach and gives you an api setup via prisma. The main difference could be argued to be their approaches to data and how you store and retrieve it. With Gatsby you get the database connection at build time where as with Redwood its at runtime. Having said that there is in fact more to it but i will not dive into such things in this post. See [here](https://www.gatsbyjs.org/docs/data-fetching/) and [here](https://stackoverflow.com/questions/846103/runtime-vs-compile-time) for some googling inspiration.
+
+I highly suggest you take a look at the [Redwood docs](https://redwoodjs.com/docs/introduction) and follow their tutorial, which i have to say is one of the best out there! Thats where i began, my aim was to follow along, get a site up and running and try to add a few things along the way that i would normally include in my day to day toolchain.
+
+To that end i wanted to see if i could transfer some of my workflow from Gatsby over to Redwood. By that i mean, how i generally like to develop a Gatsby site.
+
+It looks something like this.
+
+- Clean install of gatsby, react and react-dom
+- Add [theme-ui](https://theme-ui.com/)
+- Create my folder structure
+- Create my base layout
+- If using the filesystem install plugins and setup gatsby-node.js stuff, otherwise install correct CMS plugin and set up components and queries
+
+Now im not going to focus too much on what Gatsby offers as thats not what this post is about but i will say that i love the fact that Gatsby gives you the option to start fresh with a blank folder or if you dont fancy that, with a starter with alot of the leg work done for you.
+
+Even though i love setting things up in Gatsby my first impression of Redwoods scaffold architecture could best be summerized by 😱 followed by 🧐 then 😍. The ease from which you can start creating your routes, components and pages is a delight to work with. There are some best practices borrowed from Rails (which i have never looked at) and these scaffolded implementation take advantage of them, but you are not tied to them. I have to say that i found it a breath of fresh air to have a CLI that gave me what i (thought) i wanted. An interesting case in point is the concept of Cells. When we load data into a component or page we have to take into consideration a couple of factors before we can show said data to the user.
+
+- Is the data loading?
+- Has it loaded successfully?
+- Was there an error?
+
+These are all standard things we check for. Now, this may be a popular pattern that other developers adopt in their projects but it was new to me. With the idea of Cells Redwood lets wants to you take a declarative approach to fetching the data by having one file related to the data being fetched that exports a few named constants:
+
+- Loading
+- Empty
+- Failure
+- Success
+
+Within your Loading function you can export any kind of loading logic you would like to be shown before the data has been fetched. Empty? You guessed it, the data is empty. And Success is where you actually show the loaded data.
+
+An example of how this might look, borrowing from the Redwood tutorial:
+
+```js
+export const QUERY = gql`
+  query {
+    posts {
+      id
+      title
+      body
+      createdAt
+    }
+  }
+`;
+
+// We can show anything we like here, maybe a cool animation?
+export const Loading = () => <div>Loading...</div>;
+
+// Don't just show an empty page or section, get creative and show a dancing banana!
+export const Empty = () => <div>No posts yet!</div>;
+
+// The posts failed to load, lets show the error message
+export const Failure = ({ error }) => (
+  <div>Error loading posts: {error.message}</div>
+);
+
+// The data to show in whatever format you like
+export const Success = ({ posts }) => {
+  return posts.map(post => (
+    <article>
+      <h2>{post.title}</h2>
+      <div>{post.body}</div>
+    </article>
+  ));
+};
+```
+
+The magic happens behind the scenes but the gist is that it will show the Loading component first then once the query is run Redwood will show one of the three other states. These functions are placed in a file appended with Cell. The beauty is that you can use the CLI to scaffold out the files, you can use a multitude of ways to format how the file should be named so long as it indicates that its two word:
+
+From the tutorial:
+
+```bash
+yarn rw g cell blog_posts
+yarn rw g cell blog-posts
+yarn rw g cell blogPosts
+yarn rw g cell BlogPosts
+```
+
+These will all result in a BlogPostCell folder being created for you with a file and a test file and a passing test, Mr Dodds would be oh so proud of us! From here we import our Cell component into our view and the rest is taken care of for us.
+
+Another aspect of Redwood i really liked was the routing, its intuitive, easy to grasp and powerful. When we want to create a new page we can again use the CLI which will do a couple of nifty things for us:
+
+```bash
+yarn rw generate page post
+```
+
+- Redwood will create a folder and page by appending the name in the command with Page
+- Create a test file
+- Add a route to the routes.js file for us
+
+Here is my routes.js file after going through the tutorial:
+
+```js
+import { Router, Route } from "@redwoodjs/router";
+
+const Routes = () => {
+  return (
+    <Router>
+      <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />
+      <Route path="/posts" page={PostsPage} name="posts" />
+      <Route path="/posts/{id:Int}" page={PostPage} name="post" />
+      <Route path="/posts/{id:Int}/edit" page={EditPostPage} name="editPost" />
+      <Route path="/posts/new" page={NewPostPage} name="newPost" />
+      <Route path="/about" page={AboutPage} name="about" />
+      <Route path="/" page={HomePage} name="home" />
+      <Route notfound page={NotFoundPage} />
+    </Router>
+  );
+};
+
+export default Routes;
+```
+
+There a few things off the bat which are striking, we dont have any imports! (Except for the router ones) Redwood handles all of that automatically for us so will dont end up with 100 lines of imports. Nice 😎. Before i continue i should probably show you how to use the routes via the Link component:
+
+Taken from the tutorial.
+
+```js
+// web/src/components/BlogPostsCell/BlogPostsCell.js
+
+import { Link, routes } from "@redwoodjs/router";
+
+// QUERY, Loading, Empty and Failure definitions...
+
+export const Success = ({ posts }) => {
+  return posts.map(post => (
+    <article key={post.id}>
+      <header>
+        <h2>
+          <Link to={routes.blogPost({ id: post.id })}>{post.title}</Link>
+        </h2>
+      </header>
+      <p>{post.body}</p>
+      <div>Posted at: {post.createdAt}</div>
+    </article>
+  ));
+};
+```
+
+As you can see its very similar to what we are familiar with already. Except that we can pass variables to the routes with ease, in fact we can pass whatever we want! Here we are passing the id of the blog post which is taken form the query and expected in the BlogPostCell component as a prop. But we can also pass anything we want, like a random number 😕, for example:
+
+Taken from the tutorial:
+
+```js
+<BlogPostCell id={id} rand={Math.random()}>
+```
+
+Ive worked on code bases with extremely complicated routing systems where passing values, whatever they may be, via the routes has been a headache, and im sure im not alone. You can read more about routing in the [routing-params docs](https://redwoodjs.com/tutorial/routing-params).
+
+There isnt much info on how to style your website in the docs and when looking at the project all i saw was an index.css file. Nowadays i really enjoy using theme-ui to style my websites so i wanted to see how easy it would be to integrate that with Redwood. Turns out its super simple. Now, im not blowing smoke up Redwoods backside here, this is also a great benefit to using theme-ui but i was happy that Redwood didn't put any obstacles in the way.
+
+If you are the theme-ui way inclined (and you should be 😜) all you have to do is install theme-ui, remembering that Redwood operates as a yarn workspace so:
+
+```bash
+yarn workspace web add theme-ui
+```
+
+Then simply create a theme.js folder under your src folder. For those that dont know how that looks, something like this will get yo started:
+
+```js
+export default {
+  initialColorMode: "dark",
+  useCustomProperties: false,
+  fonts: {
+    body: "Open Sans",
+    heading: "Muli"
+  },
+  fontWeights: {
+    body: 300,
+    heading: 400,
+    bold: 700
+  },
+  lineHeights: {
+    body: "110%",
+    heading: 1.125,
+    tagline: "100px"
+  },
+  letterSpacing: {
+    body: "2px",
+    text: "5px"
+  },
+  colors: {
+    text: "#FFFfff",
+    background: "#121212",
+    primary: "#000010",
+    secondary: "#E7E7E9",
+    secondaryDarker: "#212935",
+    accent: "#DE3C4B",
+    modes: {
+      dark: {
+        text: "#000010",
+        background: "#FFFfff",
+        primary: "#000010",
+        secondary: "#E7E7E9",
+        secondaryDarker: "#212935",
+        accent: "#DE3C4B"
+      }
+    }
+  },
+  breakpoints: ["40em", "56em", "64em"]
+};
+```
+
+You must then wrap the Redwood app in the ThemeProvider by heading to the web apps entry point at index.js and importing and wrapping the RedwoodProvider and importing and passing in your theme file like so:
+
+```js
+import ReactDOM from "react-dom";
+import { RedwoodProvider, FatalErrorBoundary } from "@redwoodjs/web";
+import FatalErrorPage from "src/pages/FatalErrorPage";
+import { ThemeProvider } from "theme-ui";
+import theme from "./theme";
+
+import Routes from "src/Routes";
+
+import "./scaffold.css";
+import "./index.css";
+
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <FatalErrorBoundary page={FatalErrorPage}>
+      <RedwoodProvider>
+        <Routes />
+      </RedwoodProvider>
+    </FatalErrorBoundary>
+  </ThemeProvider>,
+  document.getElementById("redwood-app")
+);
+```
+
+From here you can use the jsx pragma (more info [here](https://theme-ui.com/guides/jsx-pragma/)) and then use the sx prop to access and style your components like so:
+
+```js
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import { Link, routes } from "@redwoodjs/router";
+
+const BlogPost = ({ post }) => {
+  return (
+    <article>
+      <header>
+        <h2>
+          <Link
+            sx={{
+              fontFamily: "heading",
+              fontWeight: 400,
+              color: "text",
+              ":hover": {
+                color: "accent"
+              }
+            }}
+            to={routes.blogPost({ id: post.id })}
+          >
+            {post.title}
+          </Link>
+        </h2>
+      </header>
+      <div
+        sx={{
+          fontFamily: "heading",
+          fontWeight: 400,
+          color: "text"
+        }}
+      >
+        {post.body}
+      </div>
+    </article>
+  );
+};
+
+export default BlogPost;
+```
+
+Easy peezy, lemon squeezy!
+
+Thats as far as i have got for now. I plan on looking into the database in more detail and i will write a post about my experience with that. All in all im really liking where this project is heading, im not going to jump ship from Gatsby as i feel that they both have their places but im excited to see how Redwood develops and will be following the project closely!
