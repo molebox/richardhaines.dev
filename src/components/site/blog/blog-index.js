@@ -35,7 +35,7 @@ const BlogIndex = ({ posts }) => {
               ease: "easeOut"
             }}
             sx={{
-              border: "solid 2px",
+              border: "solid 1px",
               borderColor: "accent",
               borderRadius: "5px",
               padding: "1.5em",

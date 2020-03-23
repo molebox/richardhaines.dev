@@ -11,6 +11,7 @@ const Pre = styled.pre`
   padding: 1.5em;
   overflow-x: auto;
   border-radius: 3px;
+  border: 1px solid;
 
   & .token-lline {
     line-height: 1.3em;

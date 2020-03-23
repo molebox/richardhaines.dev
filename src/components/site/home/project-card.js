@@ -5,7 +5,7 @@ import ProjectImage from "./project-image";
 const ProjectCard = props => (
   <div
     sx={{
-      border: "2px solid",
+      border: "1px solid",
       borderColor: "accent",
       borderRadius: "5px",
       padding: "2em",
