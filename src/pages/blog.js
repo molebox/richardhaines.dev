@@ -3,18 +3,24 @@ import { jsx } from "theme-ui";
 import Main from "../components/site/layout/main";
 import { graphql } from "gatsby";
 import { useSearchBar } from "./../components/site/blog/useSearchBar";
-import H1 from "./../components/common/h1";
 import P from "./../components/common/p";
 import SearchBar from "./../components/site/blog/SearchBar";
 import Divider from "./../components/common/divider";
 import BlogIndex from "../components/site/blog/blog-index";
 import AnimatedH1 from "./../components/common/animated-h1";
 import SEO from "gatsby-theme-seo/src/components/seo";
+import Category from "../components/site/blog/category";
+import { useCategory } from "./../components/site/blog/useCategory";
+import AllCategory from "../components/site/blog/all-categories";
 
 const emoji = "\u{1F57A}";
 
 const Blog = ({ data, location }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
+  const { categories, handleCategoryQuery } = useCategory(posts);
+  const categoriesList = [
+    ...new Set(posts.map(post => post.frontmatter.category))
+  ];
   const blog = Array.from("Blog");
   const SEODescription = `
 	I'm a software developer who specializes in JAMstack development. This is my blog where I write
@@ -49,7 +55,24 @@ const Blog = ({ data, location }) => {
       </P>
       <Divider />
       <SearchBar handleSearchQuery={handleSearchQuery} />
-      <BlogIndex posts={posts} />
+      <section
+        sx={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          height: "auto"
+        }}
+      >
+        <AllCategory handleCategoryQuery={handleCategoryQuery} />
+        {categoriesList.map((cat, index) => (
+          <Category
+            key={cat + index}
+            category={cat}
+            handleCategoryQuery={handleCategoryQuery}
+          />
+        ))}
+      </section>
+      <BlogIndex posts={categories.length ? categories : posts} />
     </Main>
   );
 };

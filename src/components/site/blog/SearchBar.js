@@ -2,13 +2,6 @@
 import { jsx } from "theme-ui";
 import styled from "@emotion/styled";
 
-const SearchBarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1em auto;
-`;
-
 const Input = styled.input`
   padding: 0.4em;
 `;
