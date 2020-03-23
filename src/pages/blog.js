@@ -51,7 +51,7 @@ const Blog = ({ data, location }) => {
       <P>
         This is my blog, there are many like it, but this one is mine. I write
         about stuff i code, problems i encounter and projects im working on. Use
-        the search bar below to filter posts by any keyword. {emoji}
+        the search bar below to filter posts by any keyword, or the category buttons to choose a post category {emoji}
       </P>
       <Divider />
       <SearchBar handleSearchQuery={handleSearchQuery} />
