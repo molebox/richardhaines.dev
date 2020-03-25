@@ -26,9 +26,12 @@ const Projects = () => {
       <div
         sx={{
           margin: "2em auto",
-          display: "flex",
-          flexDirection: ["column", "column", "row"],
-          justifyContent: "space-evenly"
+          display: "grid",
+          gridAutoRows: "auto",
+          gridTemplateColumns: "repeat(auto-fill, minmax(auto, 450px))",
+          gap: "1.5em",
+          justifyContent: "space-evenly",
+          width: "100%"
         }}
       >
         {projects.map(({ node: project, index }) => (

@@ -24,7 +24,7 @@ It looks something like this.
 - Create my base layout
 - If using the filesystem install plugins and setup gatsby-node.js stuff, otherwise install correct CMS plugin and set up components and queries
 
-Now im not going to focus too much on what Gatsby offers as thats not what this post is about but i will say that i love the fact that Gatsby gives you the option to start fresh with a blank folder or if you dont fancy that, with a starter with alot of the leg work done for you.
+Now im not going to focus too much on what Gatsby offers as thats not what this post is about but i will say that i love the fact that Gatsby gives you the option to start fresh with a blank folder or if you don't fancy that, with a starter with a lot of the leg work done for you.
 
 Even though i love setting things up in Gatsby my first impression of Redwoods scaffold architecture could best be summerized by 😱 followed by 🧐 then 😍. The ease from which you can start creating your routes, components and pages is a delight to work with. There are some best practices borrowed from Rails (which i have never looked at) and these scaffolded implementation take advantage of them, but you are not tied to them. I have to say that i found it a breath of fresh air to have a CLI that gave me what i (thought) i wanted. An interesting case in point is the concept of Cells. When we load data into a component or page we have to take into consideration a couple of factors before we can show said data to the user.
 
@@ -32,7 +32,7 @@ Even though i love setting things up in Gatsby my first impression of Redwoods s
 - Has it loaded successfully?
 - Was there an error?
 
-These are all standard things we check for. Now, this may be a popular pattern that other developers adopt in their projects but it was new to me. With the idea of Cells Redwood lets wants to you take a declarative approach to fetching the data by having one file related to the data being fetched that exports a few named constants:
+These are all standard things we check for. Now, this may be a popular pattern that other developers adopt in their projects but it was new to me. With the idea of Cells Redwood wants you to take a declarative approach to fetching the data by having one file related to the data being fetched that exports a few named constants:
 
 - Loading
 - Empty
@@ -123,7 +123,7 @@ const Routes = () => {
 export default Routes;
 ```
 
-There a few things off the bat which are striking, we dont have any imports! (Except for the router ones) Redwood handles all of that automatically for us so will dont end up with 100 lines of imports. Nice 😎. Before i continue i should probably show you how to use the routes via the Link component:
+There a few things off the bat which are striking, we don't have any imports! (Except for the router ones) Redwood handles all of that automatically for us so will don't end up with 100 lines of imports. Nice 😎. Before i continue i should probably show you how to use the routes via the Link component:
 
 Taken from the tutorial.
 
@@ -159,7 +159,7 @@ Taken from the tutorial:
 
 Ive worked on code bases with extremely complicated routing systems where passing values, whatever they may be, via the routes has been a headache, and im sure im not alone. You can read more about routing in the [routing-params docs](https://redwoodjs.com/tutorial/routing-params).
 
-There isnt much info on how to style your website in the docs and when looking at the project all i saw was an index.css file. Nowadays i really enjoy using theme-ui to style my websites so i wanted to see how easy it would be to integrate that with Redwood. Turns out its super simple. Now, im not blowing smoke up Redwoods backside here, this is also a great benefit to using theme-ui but i was happy that Redwood didn't put any obstacles in the way.
+There isn't much info on how to style your website in the docs and when looking at the project all i saw was an index.css file. Nowadays i really enjoy using theme-ui to style my websites so i wanted to see how easy it would be to integrate that with Redwood. Turns out its super simple. Now, im not blowing smoke up Redwoods backside here, this is also a great benefit to using theme-ui but i was happy that Redwood didn't put any obstacles in the way.
 
 If you are the theme-ui way inclined (and you should be 😜) all you have to do is install theme-ui, remembering that Redwood operates as a yarn workspace so:
 
@@ -167,7 +167,7 @@ If you are the theme-ui way inclined (and you should be 😜) all you have to do
 yarn workspace web add theme-ui
 ```
 
-Then simply create a theme.js folder under your src folder. For those that dont know how that looks, something like this will get yo started:
+Then simply create a theme.js folder under your src folder. For those that don't know how that looks, something like this will get yo started:
 
 ```js
 export default {

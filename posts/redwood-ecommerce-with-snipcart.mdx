@@ -1,0 +1,634 @@
+---
+title: Redwood ecommerce with Snipcart
+date: 2020-03-25
+published: true
+category: Tutorial
+author: Richard Haines
+keywords: [javascript, redwoodjs, tutorial, snipcart, ecommerce]
+pin: false
+---
+
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
+Im my previous post [First look at RedwoodJS]('./first-look-at-redwoodjs.mdx') i took a look at Redwood with fresh eyes and documented what i found interesting. I did have an idea to just outline adding snipcart to a RedwoodJS project but as i went through the process and took notes i came to the conclusion that maybe a tutorial would be a better way to go.
+
+So this is what you might call a simple tutorial, by that i mean that we are not going to make a full blown ecommerce website, rather we are going to setup a RedwoodJS site and add snipcart to it. By the end of this tutorial we will have a website up and running and be able to sell products. Lets GOOOOOOOO 🕺
+
+<AccentBox>
+  This tutorial assumes that you have never used RedwoodJS, that you havent even
+  read my previous first look post!! OMG!
+</AccentBox>
+
+The end result will look like this: [redwood-snipcart.netlify.com](https://redwood-snipcart.netlify.com/), except we are going to go one better. We are going to add an admin route with CRUD operations that is accessed via sign up and login using Netlify Identity. 😱
+
+From the command line lets create our RedwoodJS project:
+
+```bash
+yarn create redwood-app <whatever-you-want-to-call-it>
+```
+
+Create a new repo in github and give it the same name you used when creating your RedwoodJS app. Now navigate into the projects root and create a git repo.
+
+```bash
+git init
+git add .
+git commit -m "My first commit"
+git remote add origin <your-github-repo-url>
+git push -u origin master
+```
+
+### Base layout and project files
+
+We are going to use [Theme-ui](https://theme-ui.com/) to style our website because its super simple and powerful. Lets install it, remembering that we are working in yarn workspaces so we need to prefix our install with workspaces and the workspace we want to install the package in.
+
+```bash
+yarn workspace web add theme-ui
+```
+
+Now that we have theme-ui installed we need to add it to our project. In the index.js file located at the web projects root add the ThemeProvider component.
+
+```jsx
+import ReactDOM from "react-dom";
+import { RedwoodProvider, FatalErrorBoundary } from "@redwoodjs/web";
+import FatalErrorPage from "src/pages/FatalErrorPage";
+import { ThemeProvider } from "theme-ui";
+import theme from "./theme";
+
+import Routes from "src/Routes";
+
+import "./scaffold.css";
+import "./index.css";
+
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <FatalErrorBoundary page={FatalErrorPage}>
+      <RedwoodProvider>
+        <Routes />
+      </RedwoodProvider>
+    </FatalErrorBoundary>
+  </ThemeProvider>,
+  document.getElementById("redwood-app")
+);
+```
+
+We are wrapping the ThemeProvider around our whole app so that everything gets our styles. But where are those styles coming from i hear you ask? That would be the theme.js file. Lets create that now inside our src directory.
+
+```js
+export default {
+  useCustomProperties: false,
+  fonts: {
+    body: "Open Sans",
+    heading: "Montserrat"
+  },
+  fontWeights: {
+    body: 300,
+    heading: 400,
+    bold: 700
+  },
+  lineHeights: {
+    body: "110%",
+    heading: 1.125,
+    tagline: "100px"
+  },
+  letterSpacing: {
+    body: "2px",
+    text: "5px"
+  },
+  colors: {
+    text: "#FFFfff",
+    background: "#1a202c",
+    primary: "#000010",
+    secondary: "#E7E7E9",
+    secondaryDarker: "#2d3748",
+    accent: "#DE3C4B"
+  },
+  breakpoints: ["40em", "56em", "64em"]
+};
+```
+
+Its all pretty self explanatory but if you need a reresh or have no idea what the hell this is then you can check our the [Theme-ui docs](https://theme-ui.com/theming).
+
+Ok nice. You don't need to run the project yet, lets do it blind and be surprised by the results!! Our standard RedwoodJS project gives us folders but not much else in the way of pages or components. Lets add our home page via the RedwoodJS CLI.
+
+```bash
+yarn rw g page home /
+```
+
+So what is going on here i hear you scream at the screen?? Well we are basically saying redwood (rw) can you generate (g) a page called home at route (/) which as we all know, because we are all professionals here, the root route.
+
+RedwoodJS will now generate two new files, one called HomePage (RedwoodJS prefixes the name we give in the command with page, because its nice like that) and a test file. Which passes! Of course this is just a render test and if we add more logic we should add tests for it in this file.
+
+We can leave the home page for a second and run some more RedwoodJS CLI commands because they are amazing and give us lots of stuff for free! All together now....
+
+```bash
+yarn rw g page contact
+yarn rw g layout main
+```
+
+We wont go through actually adding the contact form page in this tutorial but you can check the [RedwoodJS docs](https://redwoodjs.com/tutorial/everyone-s-favorite-thing-to-build-forms) to get a good idea of how to do it and why they are pretty sweet.
+
+We have created a contact page and a layout which we have called main. Our MainLayout component which was created in a new folder called MainLayout will hold the layout to our website. This is a common pattern used in Gatsby where you create a layout component and import and wrap all other components that are children to it. Lets take a look at out MainLayout component.
+
+```jsx
+import { Container } from "theme-ui";
+
+const MainLayout = ({ children }) => {
+  return (
+    <Container
+      sx={{
+        maxWidth: 1024
+      }}
+    >
+      <main>{children}</main>
+    </Container>
+  );
+};
+
+export default MainLayout;
+```
+
+Pretty simple right? But we want to have a header on all our pages which displays our website name and any links we may have to other pages in our site. Lets make that now.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import { Link, routes } from "@redwoodjs/router";
+
+const Header = () => {
+  return (
+    <header
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottom: "solid 2px",
+        borderColor: "secondaryDarker"
+      }}
+    >
+      <h1>
+        <Link
+          sx={{
+            fontFamily: "heading",
+            fontWeight: 400,
+            color: "text",
+            textDecoration: "none",
+            ":hover": {
+              color: "accent"
+            }
+          }}
+          to={routes.home()}
+        >
+          Redwood - Snipcart
+        </Link>
+      </h1>
+      <nav
+        sx={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          width: "15em"
+        }}
+      >
+        <Link
+          sx={{
+            fontFamily: "heading",
+            fontWeight: 400,
+            color: "text",
+            ":hover": {
+              color: "accent"
+            }
+          }}
+          to={routes.contact()}
+        >
+          Contact
+        </Link>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+```
+
+Lets add our Header component to the MainLayout to complete it.
+
+```jsx
+import { Container } from "theme-ui";
+import Header from "src/components/Header";
+
+const MainLayout = ({ children }) => {
+  return (
+    <Container
+      sx={{
+        maxWidth: 1024
+      }}
+    >
+      <Header />
+      <main>{children}</main>
+    </Container>
+  );
+};
+
+export default MainLayout;
+```
+
+We still don't know what this looks like! (unless you cheated and looked at the example site!) Lets carry on regardless. We'll use our new layout component to wrap the content of our home page, thus providing us with a consistent look to our site whatever page our visitors are on. Of course we can have different layouts for different pages and if we wanted to do that we could either create them ourselves or use the RedwoodJS CLI to create them for us.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import MainLayout from "src/layouts/MainLayout/MainLayout";
+
+const HomePage = () => {
+  return (
+    <MainLayout>
+      <h2
+        sx={{
+          fontFamily: "body",
+          fontWeight: 400
+        }}
+      >
+        Super Duper Ecommerce Website
+      </h2>
+      <p
+        sx={{
+          fontFamily: "body",
+          fontWeight: 400
+        }}
+      >
+        Some text here explaining how great your website is!
+      </p>
+    </MainLayout>
+  );
+};
+
+export default HomePage;
+```
+
+Note that we don't specify the route like we did when creating the home page (/), this is because RedwoodJS is clever enough to know that we want a new page at he route for the given name. By specifying / in our home page creating we are telling RedwoodJS that this will be our main page/route. Note that when creating pages via the CLI we can use more than one word for our pages but they have to conform to a standard that tells the CLI that is is in fact two word that will be joined together. Any of the following will work.
+
+Taken from the RedwoodJS docs:
+
+```bash
+yarn rw g cell blog_posts
+yarn rw g cell blog-posts
+yarn rw g cell blogPosts
+yarn rw g cell BlogPosts
+```
+
+### Adding some purchase power
+
+Before we dive into the graphql schema we will add our snipcart script. You will need to create an account with [snipcart](https://snipcart.com/), once done open the dashboard and click the little person icon in the top right hand corner. You'll want to go to domains & urls first and add localhost:8910 to the domain filed and hit save. This will tell snipcart to look for this domain in dev. Keep the protocal as http as thats what RedwoodJS uses for local dev. Next scroll down to api keys and copy the first line of the code they say to copy. For example:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://cdn.snipcart.com/themes/v3.0.10/default/snipcart.css"
+/>
+```
+
+Open the index.html file at the web projects root and past the style sheet into the head element. next copy the div ans script tags and paste them inside the body tag but below the div with id of redwood-app. It should look like this except your api key will be different.
+
+<AccentBox>
+  You can use this api key and keep it in your html file which will be committed
+  to git because, and i quote "The public API key is the key you need to add on
+  your website when including the snipcart.js file. This key can be shared
+  without security issues because it only allows a specific subset of API
+  operations."
+</AccentBox>
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.snipcart.com/themes/v3.0.10/default/snipcart.css"
+    />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <div id="redwood-app"></div>
+    <div id="snipcart" data-api-key="<your-api-key-here>" hidden></div>
+    <script src="https://cdn.snipcart.com/themes/v3.0.10/default/snipcart.js"></script>
+  </body>
+</html>
+```
+
+Now that we have added snipcart to our site we can start up our site and see whats what.
+
+```bash
+yarn rw dev
+```
+
+Open your dev tools and check the elements tab, check the head and body tags for the snipcart tags/scripts. Don't worry if you don't see your api key in the div at the bottom of the body tag, you're not supposed too. Snipcart will handle that for us. Check your console for any errors and sit back because there aren't any. (i hope 😶)
+
+### Adding product models the the graphql schema
+
+Close the web directory and open the api directory. Remove the commented code and add the following product model.
+
+```js
+model Product {
+  id          Int @id @default(autoincrement())
+  title       String
+  description String
+  price       String
+  image       String
+  imageAlt    String
+}
+```
+
+Next we want to take a snapshot as migration and then apply it. This reminds me of when i used to work with Entity Framework back in my C# days, oh the memories.... 🥴
+
+```bash
+yarn rw db save // create the local database
+yarn rw db up // apply the migration and create the table
+```
+
+### React, React, React!
+
+Lets code some components. We'll use the RedwoodJS CLI to scaffold out some CRUD components for us.
+
+```bash
+yarn rw g scaffold product
+```
+
+This is some kinda magic. We now have numerous files in our components folder.
+
+- EditProductCell
+- NewProduct
+- ProductForm
+- Products
+- ProductsCell
+
+These files each provide us with admin functionality to manipulate our sites data.
+
+<AccentBox>
+  Go through each file and look at the queries at the top of the file. For some
+  reason they will say posts instead of product(s), change them otherwise
+  nothing will work. Also change the query names.
+</AccentBox>
+
+We are going to leave the styling as it is as thats not the focus of this tutorial, but its would be very easy to just remove all the class names and replace them with an sx prop with our theme styles.
+
+Open Product.js and change the image table tr - td to return an img tag.
+
+```js
+<tr className="odd:bg-gray-100 even:bg-white border-t">
+  <td className="font-semibold p-3 text-right md:w-1/5">Image</td>
+  <td className="p-3">
+    <img src={product.Image} alt={product.imageAlt} />
+  </td>
+</tr>
+```
+
+Do the same in the Products.js file except add a width of 150px to the img element tag otherwise the image will be huge in the table that displays them.
+
+```js
+<td className="p-3">
+  <img src={truncate(product.image)} width="150px" alt={imageAlt} />
+</td>
+```
+
+For this tutorial we will be using some random images form unsplash. We will use a special url with a collection id to get random images for each of our products. Open a new tab and navigate to [https://source.unsplash.com/](https://source.unsplash.com/). an example url that we will use looks like this: https://source.unsplash.com/collection/190727/1600x900, pick a fitting alt tag.
+
+Lets create a new cell to handle showing all our products. A cell in RedwoodJS is basically a file that contains.
+
+- A query to fetch the data we want to showing
+- A loading function to show when the data is loading
+- An empty function to show if there is no data to show
+- A failure function to show when the request has failed to fetch any data
+- A success function which will show the data
+
+Go ahead and add some products by navigating to http//:localhost:8910/products
+
+We can forget about styling the first three and concentrate on then success function. Lets create this cell.
+
+```bash
+yarn rw g cell allProducts
+```
+
+<AccentBox>
+  We will need to change the query name to products to match our schema. Also
+  change it as the prop in the success function.
+</AccentBox>
+
+Now in our components folder create a new component called ProductsContainer.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const ProductsContainer = ({ children }) => (
+  <div
+    sx={{
+      margin: "2em auto",
+      display: "grid",
+      gridAutoRows: "auto",
+      gridTemplateColumns: "repeat(auto-fill, minmax(auto, 450px))",
+      gap: "1.5em",
+      justifyContent: "space-evenly",
+      width: "100%"
+    }}
+  >
+    {children}
+  </div>
+);
+
+export default ProductsContainer;
+```
+
+Next create a SingleProduct component.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const SingleProduct = ({ id, title, description, price, image, imageAlt }) => {
+  return (
+    <div
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        border: "solid 2px",
+        borderColor: "secondaryDarker",
+        width: "100%",
+        height: "auto",
+        padding: "1.5em"
+      }}
+    >
+      <p
+        sx={{
+          fontFamily: "heading",
+          fontSize: "2em",
+          textAlign: "center"
+        }}
+      >
+        {title}
+      </p>
+      <div
+        sx={{
+          width: "100%",
+          height: "auto"
+        }}
+      >
+        <img src={image} width="400px" alt={imageAlt} />
+      </div>
+      <p
+        sx={{
+          fontFamily: "heading",
+          fontSize: "1em"
+        }}
+      >
+        {description}
+      </p>
+    </div>
+  );
+};
+
+export default SingleProduct;
+```
+
+Now we can add them to our success function in AllProductsCell.js and pass in the product data.
+
+```jsx
+export const Success = ({ products }) => {
+  console.log({ products });
+  return (
+    <ProductsContainer>
+      {products.map(product => (
+        <SingleProduct
+          key={product.id}
+          id={product.id}
+          title={product.title}
+          description={product.description}
+          price={product.price}
+          image={product.image}
+          imageAlt={product.imageAlt}
+        />
+      ))}
+    </ProductsContainer>
+  );
+};
+```
+
+### How do we buy stuff?
+
+So we have our products on our site but we cant yet buy them. Lets use snipcart to add a buy button. Its really easy, i promise! Create a snipcart folder inside the components folder and add a file called BuyButton.js. Lets add the content then go through it.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const BuyButton = ({ id, title, price, image, description, url, path }) => (
+  <button
+    sx={{
+      fontFamily: "heading",
+      fontWeight: "bold",
+      border: "1px solid",
+      borderRadius: "5px",
+      padding: "0.35em 1.2em",
+      borderColor: "secondaryDarker",
+      backgroundColor: "secondary",
+      color: "background",
+      cursor: "pointer",
+      textTransform: "uppercase",
+      height: "2.5em",
+      "&:hover": {
+        color: "accent",
+        backgroundColor: "background",
+        fontWeight: "bold"
+      },
+      "&:active": {
+        boxShadow: "-1px 1px #00001F"
+      }
+    }}
+    className="snipcart-add-item"
+    data-item-id={id}
+    data-item-price={price}
+    data-item-image={image}
+    data-item-name={title}
+    data-item-description={description}
+    data-item-url={url + path}
+    data-item-stackable={true}
+    data-item-has-taxes-included={true}
+  >
+    Buy Now
+  </button>
+);
+
+export default BuyButton;
+```
+
+Snipcart works by recognizing the className we add to the element, as well as the path of the product. It also expects certain properties on that element. These are the base properties expected, you can also add variants but we wont cover that here. You can check out the [docs](https://docs.snipcart.com/v3/setup/products) for more info.
+
+We can now add the BuyButton to our SingleProduct component.
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import BuyButton from "./snipcart/BuyButton";
+
+const SingleProduct = ({ id, title, description, price, image, imageAlt }) => {
+  return (
+    <div
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        border: "solid 2px",
+        borderColor: "secondaryDarker",
+        width: "100%",
+        height: "auto",
+        padding: "1.5em"
+      }}
+    >
+      <p
+        sx={{
+          fontFamily: "heading",
+          fontSize: "2em",
+          textAlign: "center"
+        }}
+      >
+        {title}
+      </p>
+      <div
+        sx={{
+          width: "100%",
+          height: "auto"
+        }}
+      >
+        <img src={image} width="400px" alt={imageAlt} />
+      </div>
+      <p
+        sx={{
+          fontFamily: "heading",
+          fontSize: "1em"
+        }}
+      >
+        {description}
+      </p>
+      <BuyButton
+        id={id}
+        title={title}
+        price={price}
+        description={description}
+        image={image}
+        url="https://<your-netily-site-name>.netlify.com/"
+        path="/store"
+      />
+    </div>
+  );
+};
+
+export default SingleProduct;
+```
+
+Now as you can see above i have used the netlify deployed url for the product url. When in dev you van use localhost:8910. The reason i left this in the example is to try and remind you that you will have to change this when deploying otherwise snipcart wont recognize the products url. On that note lets commit and push our changes.
+
+Our site is ready to go live. We have setup a simple ecommerce website with minimal effort. Of course there is much more we can do, and will do! I wont cover deployment in this tutorial, you can check the awesome [docs](https://redwoodjs.com/tutorial/deployment). In the next tutorial we will add [Netlify Identity](https://docs.netlify.com/visitor-access/identity/) with a protected route so that our admins can add and edit products from within the website. I hope you enjoyed this, let me know what you think on [twitter](https://twitter.com/studio_hungry)! 😊
