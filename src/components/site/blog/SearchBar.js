@@ -20,7 +20,7 @@ const SearchBar = ({ handleSearchQuery }) => {
         sx={{
           color: "greyBlack",
           fontFamily: "body",
-          border: "2px solid",
+          border: "1px solid",
           borderColor: "accent"
         }}
         type="text"

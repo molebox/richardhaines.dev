@@ -4,12 +4,13 @@ import { jsx } from "theme-ui";
 const AccentBox = props => (
   <div
     sx={{
-      border: "2px solid",
+      border: "1px solid",
       borderColor: "accent",
       borderRadius: "5px",
       padding: "2em",
       fontFamily: "body",
-      margin: "0 auto"
+      margin: "0 auto",
+      backgroundColor: "secondaryDarker"
     }}
   >
     {props.children}

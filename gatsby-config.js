@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     siteName: 'richardhaines.dev',
     intro: 'A software developer who specializes in JAMstack development.',
-    description: 'I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby.',
+    description: 'I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby and exploring new technologies.',
     techStack: 'Im proficient in JavaScript, React, C# and ASP.NET Core. I also have good knowledge of working with headless CMSs such as Sanity.io and Contentful.',
     siteUrl: 'https://richardhaines.dev',
   },
@@ -64,7 +64,7 @@ module.exports = {
           resolve: 'gatsby-theme-seo', 
           options: {
               title: 'richardhaines.dev',
-              description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby.',
+              description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby and exploring new technologies.',
               author: 'Rich Haines',
               siteUrl: 'https://richardhaines.dev',
               social: {

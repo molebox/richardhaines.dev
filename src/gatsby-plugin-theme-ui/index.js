@@ -24,7 +24,7 @@ export default {
     background: "#121212",
     primary: "#000010",
     secondary: "#E7E7E9",
-    secondaryDarker: "#212935",
+    secondaryDarker: "#0F1218",
     accent: "#DE3C4B",
     modes: {
       dark: {
@@ -32,7 +32,7 @@ export default {
         background: "#FFFfff",
         primary: "#000010",
         secondary: "#E7E7E9",
-        secondaryDarker: "#212935",
+        secondaryDarker: "#0F1218",
         accent: "#DE3C4B"
       }
     }
