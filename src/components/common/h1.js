@@ -16,9 +16,9 @@ const H1 = props => {
       // transition={{ ease: "easeIn", duration: 3 }}
       sx={{
         color: "text",
-        fontFamily: "body",
+        fontFamily: "heading",
         fontSize: ["1.7em", "2.5em", "3em"],
-        fontWeight: 400,
+        fontWeight: "body",
         margin: "0 auto"
       }}
     >

@@ -16,9 +16,9 @@ const H3 = props => {
       // transition={{ ease: "easeIn", duration: 4 }}
       sx={{
         color: "text",
-        fontFamily: "body",
+        fontFamily: "heading",
+        fontWeight: "heading",
         fontSize: ["0.9em", "1em", "1.2em"],
-        fontWeight: 400,
         margin: "1em auto",
         textTransform: "uppercase",
         letterSpacing: "text"

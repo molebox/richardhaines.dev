@@ -3,7 +3,7 @@ export default {
   useCustomProperties: false,
   fonts: {
     body: "Open Sans",
-    heading: "Muli"
+    heading: "Montserrat"
   },
   fontWeights: {
     body: 300,
@@ -16,7 +16,7 @@ export default {
     tagline: "100px"
   },
   letterSpacing: {
-    body: "2px",
+    body: "1px",
     text: "5px"
   },
   colors: {
@@ -29,7 +29,7 @@ export default {
     modes: {
       dark: {
         text: "#000010",
-        background: "#FFFfff",
+        background: "#E7E7E9",
         primary: "#000010",
         secondary: "#E7E7E9",
         secondaryDarker: "#0F1218",

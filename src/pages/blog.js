@@ -52,12 +52,18 @@ const Blog = ({ data, location }) => {
       />
       <Divider />
       <AnimatedH1 string={blog} />
-      <P>
-        This is my blog, there are many like it, but this one is mine. I write
-        about stuff i code, problems i encounter and projects im working on. Use
-        the search bar below to filter posts by any keyword, or the category
-        buttons to choose a post category {emoji}
-      </P>
+      <div
+        sx={{
+          marginBottom: "4em"
+        }}
+      >
+        <P>
+          This is my blog, there are many like it, but this one is mine. I write
+          about stuff i code, problems i encounter and projects im working on.
+          Use the search bar below to filter posts by any keyword, or the
+          category buttons to choose a post category {emoji}
+        </P>
+      </div>
       <Divider />
       <SearchBar handleSearchQuery={handleSearchQuery} />
       <section

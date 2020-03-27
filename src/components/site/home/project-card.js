@@ -18,21 +18,26 @@ const ProjectCard = props => {
         justifyContent: "space-between",
         alignItems: "center",
         margin: "1em",
-        height: "auto"
+        height: "auto",
+        position: "relative"
       }}
     >
       <ProjectImage fluid={props.fluid} alt={props.alt} />
       <p
         sx={{
           margin: "2em auto",
-          color: "#ffffff"
+          color: "#ffffff",
+          fontFamily: "heading",
+          fontWeight: "body"
         }}
       >
         {props.name}
       </p>
       <p
         sx={{
-          color: "#ffffff"
+          color: "#ffffff",
+          fontWeight: "body",
+          fontFamily: "heading"
         }}
       >
         {props.description}
@@ -49,6 +54,8 @@ const ProjectCard = props => {
           sx={{
             fontSize: ["0.8em", "1em", "1em"],
             color: "#ffffff",
+            fontFamily: "heading",
+            fontWeight: "body",
             ":hover": {
               color: "accent"
             }
@@ -61,6 +68,8 @@ const ProjectCard = props => {
           sx={{
             fontSize: ["0.8em", "1em", "1em"],
             color: "#ffffff",
+            fontFamily: "heading",
+            fontWeight: "body",
             ":hover": {
               color: "accent"
             }
@@ -74,6 +83,8 @@ const ProjectCard = props => {
             sx={{
               fontSize: ["0.8em", "1em", "1em"],
               color: "#ffffff",
+              fontFamily: "heading",
+              fontWeight: "body",
               ":hover": {
                 color: "accent"
               }

@@ -19,14 +19,49 @@ const Footer = () => (
     <p
       sx={{
         color: "text",
-        fontFamily: "body",
+        fontFamily: "heading",
+        fontWeight: "body",
         fontSize: ["0.7em", "0.8em", "1em"],
         letterSpacing: "text",
-        fontWeight: 400,
         margin: "1em auto"
       }}
     >
-      Created with Gatsby and MDX
+      Created with{" "}
+      <a
+        sx={{
+          color: "#fff",
+          ":hover": {
+            color: "accent"
+          }
+        }}
+        href="https://www.gatsbyjs.org/"
+      >
+        Gatsby
+      </a>
+      ,{" "}
+      <a
+        sx={{
+          color: "#fff",
+          ":hover": {
+            color: "accent"
+          }
+        }}
+        href="https://mdxjs.com/"
+      >
+        MDX
+      </a>{" "}
+      and{" "}
+      <a
+        sx={{
+          color: "#fff",
+          ":hover": {
+            color: "accent"
+          }
+        }}
+        href="https://theme-ui.com/"
+      >
+        Theme-ui
+      </a>
     </p>
   </footer>
 );

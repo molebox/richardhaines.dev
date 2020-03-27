@@ -13,7 +13,7 @@ const SearchBar = ({ handleSearchQuery }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "2em auto"
+        margin: "4em auto"
       }}
     >
       <Input

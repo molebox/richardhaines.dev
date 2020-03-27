@@ -15,8 +15,14 @@ const About = props => {
       }}
     >
       <AnimatedH1 string={hello} />
-      <H2>{props.intro}</H2>
-      <H2>{props.description}</H2>
+      <div
+        sx={{
+          marginBottom: "4em"
+        }}
+      >
+        <H2>{props.intro}</H2>
+        <H2>{props.description}</H2>
+      </div>
     </section>
   );
 };

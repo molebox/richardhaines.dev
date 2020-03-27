@@ -37,13 +37,19 @@ const GatsbyThemes = ({ location }) => {
       />
       <Divider />
       <AnimatedH1 string={gatsbyThemes} />
-      <P>This a collection of gatsby themes i have created.</P>
+      <div
+        sx={{
+          marginBottom: "4em"
+        }}
+      >
+        <P>This a collection of gatsby themes i have created.</P>
+      </div>
       <Divider />
       <section
         sx={{
           display: "grid",
           gridAutoRows: "auto",
-          gridTemplateColumns: "repeat(auto-fill, minmax(auto, 500px))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(auto, 550px))",
           gap: "1.5em",
           margin: "2em auto",
           width: "100%",
@@ -57,22 +63,25 @@ const GatsbyThemes = ({ location }) => {
               border: "1px solid",
               borderColor: "accent",
               borderRadius: "5px",
-              padding: "2em",
+              padding: "0 2em 0 2em",
               backgroundColor: "secondaryDarker",
               color: "text",
-              fontFamily: "body",
+              fontFamily: "heading",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
               alignItems: "center",
               margin: "1em",
-              height: "auto"
+              height: "auto",
+              position: "relative"
             }}
           >
             <p
               sx={{
                 margin: "2em auto",
-                color: "#ffffff"
+                color: "#ffffff",
+                fontFamily: "heading",
+                fontWeight: "body"
               }}
             >
               {node.name}
@@ -81,7 +90,9 @@ const GatsbyThemes = ({ location }) => {
             <p
               sx={{
                 margin: "2em auto",
-                color: "#ffffff"
+                color: "#ffffff",
+                fontFamily: "heading",
+                fontWeight: "body"
               }}
             >
               {node.description}
@@ -99,6 +110,8 @@ const GatsbyThemes = ({ location }) => {
                 sx={{
                   fontSize: ["0.8em", "1em", "1em"],
                   color: "#ffffff",
+                  fontFamily: "heading",
+                  fontWeight: "body",
                   ":hover": {
                     color: "accent"
                   }
@@ -112,6 +125,8 @@ const GatsbyThemes = ({ location }) => {
                 sx={{
                   fontSize: ["0.8em", "1em", "1em"],
                   color: "#ffffff",
+                  fontFamily: "heading",
+                  fontWeight: "body",
                   ":hover": {
                     color: "accent"
                   }
@@ -126,6 +141,8 @@ const GatsbyThemes = ({ location }) => {
                   sx={{
                     fontSize: ["0.8em", "1em", "1em"],
                     color: "#ffffff",
+                    fontFamily: "heading",
+                    fontWeight: "body",
                     ":hover": {
                       color: "accent"
                     }

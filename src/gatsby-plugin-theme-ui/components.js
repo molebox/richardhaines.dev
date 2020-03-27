@@ -12,7 +12,7 @@ export default {
     <h2
       sx={{
         fontFamily: "heading",
-        fontWeight: "400",
+        fontWeight: "body",
         margin: "2em auto"
       }}
       {...props}
@@ -24,7 +24,7 @@ export default {
     <h2
       sx={{
         fontFamily: "heading",
-        fontWeight: "400",
+        fontWeight: "body",
         margin: "1em auto"
       }}
       {...props}
@@ -35,8 +35,8 @@ export default {
   p: props => (
     <p
       sx={{
-        fontFamily: "body",
-        fontWeight: "400",
+        fontFamily: "heading",
+        fontWeight: "body",
         margin: "2em auto"
       }}
       {...props}
@@ -47,8 +47,8 @@ export default {
   a: props => (
     <a
       sx={{
-        fontFamily: "body",
-        fontWeight: 400,
+        fontFamily: "heading",
+        fontWeight: "body",
         color: "text",
         ":hover": {
           color: "accent"
@@ -62,8 +62,8 @@ export default {
   ul: props => (
     <ul
       sx={{
-        fontFamily: "body",
-        fontWeight: "400",
+        fontFamily: "heading",
+        fontWeight: "body",
         margin: "0 2em"
       }}
       {...props}
@@ -74,8 +74,8 @@ export default {
   li: props => (
     <li
       sx={{
-        fontFamily: "body",
-        fontWeight: "400",
+        fontFamily: "heading",
+        fontWeight: "body",
         margin: "0.5em auto"
       }}
       {...props}

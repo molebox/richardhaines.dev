@@ -6,9 +6,9 @@ const P = props => {
     <p
       sx={{
         color: "text",
-        fontFamily: "body",
+        fontFamily: "heading",
+        fontWeight: "body",
         fontSize: ["0.9em", "1.1em", "1.2em"],
-        fontWeight: 400,
         margin: "1em auto"
       }}
     >

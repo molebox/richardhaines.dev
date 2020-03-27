@@ -11,7 +11,7 @@ const BlogIndex = ({ posts }) => {
         gridAutoRows: "auto",
         gridTemplateColumns: "repeat(auto-fill, minmax(auto, 650px))",
         gap: "1.5em",
-        margin: "2em auto",
+        margin: "4em auto",
         width: "100%",
         placeContent: "center"
       }}
@@ -49,7 +49,7 @@ const BlogIndex = ({ posts }) => {
                     color: "background",
                     textTransform: "uppercase",
                     fontFamily: "heading",
-                    fontWeight: "700",
+                    fontWeight: "bold",
                     letterSpacing: "body",
                     display: "flex",
                     justifyContent: "center",
@@ -62,10 +62,10 @@ const BlogIndex = ({ posts }) => {
             <p
               sx={{
                 color: "#ffffff",
-                fontFamily: "body",
+                fontFamily: "heading",
+                fontWeight: "body",
                 fontSize: ["0.8em", "1.1em", "1em"],
                 letterSpacing: "text",
-                fontWeight: 400,
                 margin: "1em auto"
               }}
             >
@@ -74,10 +74,10 @@ const BlogIndex = ({ posts }) => {
             <p
               sx={{
                 color: "#ffffff",
-                fontFamily: "body",
+                fontFamily: "heading",
+                fontWeight: "body",
                 fontSize: ["0.8em", "1.1em", "1em"],
                 letterSpacing: "text",
-                fontWeight: 400,
                 margin: "1em auto"
               }}
             >
@@ -91,10 +91,10 @@ const BlogIndex = ({ posts }) => {
               <p
                 sx={{
                   color: "#ffffff",
-                  fontFamily: "body",
+                  fontFamily: "heading",
+                  fontWeight: "body",
                   fontSize: ["0.5em", "0.6em", "0.8em"],
                   letterSpacing: "text",
-                  fontWeight: 400,
                   margin: "1em auto",
                   alignSelf: "flex-end"
                 }}
@@ -104,10 +104,10 @@ const BlogIndex = ({ posts }) => {
               <p
                 sx={{
                   color: "#ffffff",
-                  fontFamily: "body",
+                  fontFamily: "heading",
+                  fontWeight: "body",
                   fontSize: ["0.5em", "0.6em", "0.8em"],
                   letterSpacing: "text",
-                  fontWeight: 400,
                   margin: "1em auto",
                   alignSelf: "flex-end"
                 }}

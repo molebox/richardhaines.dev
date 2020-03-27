@@ -92,33 +92,34 @@ const LinkContainer = ({ toggle }) => {
           Blog
         </Link>
       </motion.li>
-      <motion.li         
+      <motion.li
         variants={liVariants}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         sx={{
           margin: "2em auto"
-        }}>
-      <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          paddingTop: ["1em", null, null],
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          // marginRight: [0, "10vw", "5vw"],
-          ":hover": {
-            color: "accent"
-          }
         }}
-        to="/gatsby-themes"
-        onClick={toggle}
       >
-        Gatsby Themes
-      </Link>
+        <Link
+          sx={{
+            textDecoration: "none",
+            fontFamily: "heading",
+            fontSize: ["0.8em", "0.9em", "0.9em"],
+            color: "text",
+            paddingTop: ["1em", null, null],
+            letterSpacing: "text",
+            textTransform: "uppercase",
+            display: ["none", "block", "block"],
+            // marginRight: [0, "10vw", "5vw"],
+            ":hover": {
+              color: "accent"
+            }
+          }}
+          to="/gatsby-themes"
+          onClick={toggle}
+        >
+          Gatsby Themes
+        </Link>
       </motion.li>
       <motion.li
         variants={liVariants}

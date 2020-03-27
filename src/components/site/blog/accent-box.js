@@ -8,7 +8,9 @@ const AccentBox = props => (
       borderColor: "accent",
       borderRadius: "5px",
       padding: "2em",
-      fontFamily: "body",
+      fontFamily: "heading",
+      fontWeight: "heading",
+      color: "#fff",
       margin: "0 auto",
       backgroundColor: "secondaryDarker"
     }}

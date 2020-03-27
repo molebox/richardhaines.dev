@@ -14,6 +14,7 @@ const Category = ({ category, handleCategoryQuery }) => {
         minWidth: ["3em", "5em", "6em"],
         color: "text",
         fontFamily: "heading",
+        fontWeight: "body",
         fontSize: ["0.8em", "1em", "1em"],
         display: "flex",
         justifyContent: "center",
@@ -22,7 +23,8 @@ const Category = ({ category, handleCategoryQuery }) => {
         cursor: "pointer",
         ":hover": {
           backgroundColor: "accent",
-          color: "background"
+          color: "background",
+          fontWeight: "heading"
         },
         ":active": {
           backgroundColor: "accent",

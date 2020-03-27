@@ -11,8 +11,8 @@ module.exports = {
             resolve: 'gatsby-plugin-google-fonts',
             options: {
               fonts: [
-                'Muli',
-                'Open Sans',
+                'Montserrat\:300,400,400i,700',
+                'Open Sans\:300,400,400i,700',
                 'source sans pro\:300,400,400i,700' 
               ]
             }
