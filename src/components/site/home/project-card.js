@@ -13,8 +13,9 @@ const ProjectCard = props => {
         backgroundColor: "secondaryDarker",
         color: "text",
         fontFamily: "body",
-        display: "flex",
-        flexDirection: "column",
+        display: "grid",
+        gridTemplateRows: "200px 100px 100px",
+        gap: "0.2em",
         justifyContent: "space-between",
         alignItems: "center",
         margin: "1em",
@@ -37,7 +38,8 @@ const ProjectCard = props => {
         sx={{
           color: "#ffffff",
           fontWeight: "body",
-          fontFamily: "heading"
+          fontFamily: "heading",
+          alignSelf: "flex-start"
         }}
       >
         {props.description}

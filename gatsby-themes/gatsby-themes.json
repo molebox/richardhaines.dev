@@ -50,7 +50,7 @@
     },
     {
         "name": "gatsby-theme-tattoo",
-        "description": "This is a minimalist gatsby theme for stores that operate in the tattoo beauty sector. Tattoo, Hair Salons and Beauty Care websites are the target users though the theme can be adapted to be used with other industries too. The theme is fully responsive and includes sections for home page, artists and the stores Instagram gallery.",
+        "description": "This is a minimalist gatsby theme for stores that operate in the tattoo beauty sector. The theme is fully responsive and includes sections for home page, artists and the stores Instagram gallery.",
         "github": "https://github.com/molebox/gatsby-theme-tattoo",
         "website": "",
         "npm": "https://www.npmjs.com/package/gatsby-theme-tattoo"

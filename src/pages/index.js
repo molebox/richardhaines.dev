@@ -13,7 +13,6 @@ import Form from "./../components/site/contact/form";
 import IconContainer from "../components/site/home/icon-container";
 import { GatsbyIcon, ReactIcon, JSIcon } from "../components/common/icons";
 import SEO from "gatsby-theme-seo/src/components/seo";
-import Twitter from "../components/site/home/twitter";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.

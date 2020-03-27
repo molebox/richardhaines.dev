@@ -67,8 +67,9 @@ const GatsbyThemes = ({ location }) => {
               backgroundColor: "secondaryDarker",
               color: "text",
               fontFamily: "heading",
-              display: "flex",
-              flexDirection: "column",
+              display: "grid",
+              gridTemplateRows: "70px 100px 150px",
+              gap: "0.2em",
               justifyContent: "space-between",
               alignItems: "center",
               margin: "1em",
@@ -92,7 +93,8 @@ const GatsbyThemes = ({ location }) => {
                 margin: "2em auto",
                 color: "#ffffff",
                 fontFamily: "heading",
-                fontWeight: "body"
+                fontWeight: "body",
+                alignSelf: "flex-start"
               }}
             >
               {node.description}
@@ -106,20 +108,22 @@ const GatsbyThemes = ({ location }) => {
                 margin: "2em auto"
               }}
             >
-              <a
-                sx={{
-                  fontSize: ["0.8em", "1em", "1em"],
-                  color: "#ffffff",
-                  fontFamily: "heading",
-                  fontWeight: "body",
-                  ":hover": {
-                    color: "accent"
-                  }
-                }}
-                href={node.website}
-              >
-                View Site
-              </a>
+              {node.website ? (
+                <a
+                  sx={{
+                    fontSize: ["0.8em", "1em", "1em"],
+                    color: "#ffffff",
+                    fontFamily: "heading",
+                    fontWeight: "body",
+                    ":hover": {
+                      color: "accent"
+                    }
+                  }}
+                  href={node.website}
+                >
+                  View Site
+                </a>
+              ) : null}
 
               <a
                 sx={{
