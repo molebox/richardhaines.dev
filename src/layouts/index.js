@@ -11,6 +11,7 @@ import {
 import Footer from "../components/site/layout/footer";
 import Nav from "./../components/site/layout/nav";
 import SidebarNav from "../components/site/layout/sidebar/sidebar-nav";
+import SocialSideBar from "./../components/site/layout/sidebar/social-sidebar";
 
 const Layout = ({ children }) => {
   return (
@@ -48,6 +49,7 @@ const Layout = ({ children }) => {
           padding: "0 1em"
         }}
       >
+        <SocialSideBar />
         <Header>
           <Nav />
           <SidebarNav />
