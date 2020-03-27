@@ -92,7 +92,13 @@ const LinkContainer = ({ toggle }) => {
           Blog
         </Link>
       </motion.li>
-      <motion.li>
+      <motion.li         
+        variants={liVariants}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        sx={{
+          margin: "2em auto"
+        }}>
       <Link
         sx={{
           textDecoration: "none",
