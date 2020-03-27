@@ -1,0 +1,74 @@
+---
+title: Everyday GIT commands
+date: 2020-03-27
+published: true
+category: GIT
+author: Richard Haines
+keywords: [git, version control]
+pin: false
+---
+
+This is a collection of notes for everyday git commands.
+
+### Add an existing project to git
+
+Create a new repository on github, then from the projects root:
+
+```bash
+git init
+git add .
+git commit -m "My first commit"
+git remote add origin <remote repository url>
+git remote -v
+git push origin master
+```
+
+- First we are initializing the local directory as a git repo
+- Then we are adding the new files in your local repo, this stages them for the first commit
+- Then we commit the files that we just staged
+- Copy the remote repo url from your github repo and add it to the remote repo where your local repo will be published
+- Set the new remote
+- Push the changes in your local repo to github
+
+### Amend a commit message
+
+```bash
+ git commit --amend
+```
+
+### Commit your work
+
+```bash
+git add .
+git commit -m "my commit message"
+git push
+```
+
+### Squash commits
+
+Check how many commits have been made:
+
+```bash
+git rev-list HEAD --count
+```
+
+Use that number to tell git how many commits to squash into one:
+
+```bash
+git rebase -i HEAD~<number-of-commits>
+```
+
+### Create a new branch
+
+To create a new branch checkout the branch you want to base your work on:
+
+```bash
+git checkout myOriginalBranch
+```
+
+Then its as simple as doing a pull to make sure you have the latest work and adding the -b tag with your new branches name:
+
+```bash
+git pull
+git checkout -b myNewBranch
+```

@@ -1,0 +1,46 @@
+---
+title: React context with TypeScript
+date: 2020-03-27
+published: true
+category: TypeScript
+author: Richard Haines
+keywords:
+  [react, react context, typescript]
+pin: false
+---
+
+When we create a context using TypeScript the compiler expects us to provide a default value, usually, but not always, this is set to null or undefined. This is fine in a JavaScript project but when using TypeScript it means that we have to check for null or undefined every time we want to use the context. This is a helper hook that does the heavy lifting for us. 
+
+```typescript
+function useCreateNoNullContext<T>(contextName: string) {
+    const context = React.createContext<T | undefined>(undefined);
+
+    function useNoNullContext() {
+        const noNullContext = React.useContext(context);
+        if (!noNullContext) {
+        throw new Error(`${contextName} must be used inside a provider with a value`);
+        }
+        return noNullContext;
+    }
+    return [useNoNullContext, context.Provider] as const;
+    }
+```
+
+Our new hook accepts our contexts name for use in a thrown error message if its used outside of its provider. This is optional but will help with debugging the issue if you come across it. It then create a new context for us, passing in our generic or undefined. It then creates a new internal hook which runs the check for null or undefined for us by creating an additional context which is passed the parent functions context (the one we created first) and checking its value before returning it back. The parent function then returns a tuple with the inner hook and the parents contexts provider. Its set to const with a const assertion which sets the literals as readonly. 
+
+We can then use our new hook like so:
+
+```typescript
+    interface ContextValues {
+        isValue: boolean;
+        setValue: React.Dispatch<React.SetStateAction<boolean>>;
+    }
+
+    const [useContextValue, ContextValueProvider] = useCreateNoNullContext<ContextValues>('useContextValue');
+```
+
+We have created an interface which will be passed to the context hook as its type, we are also passing in the name of our context as a string to be used in an error message if thrown. The naming of the context and the provider can be anything but the order of destructuring is important as they are returned as the context first, then the provider. Making sure to wrap whatever components are going to use our context somewhere in the component tree we can then use our new context hook like so:
+
+```typescript
+    const {isValue, setValue} = useContextValue();
+```
