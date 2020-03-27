@@ -20,13 +20,13 @@ const SocialSideBar = () => {
         backgroundColor: "transparent"
       }}
     >
-      <a href="https://twitter.com/studio_hungry" name="twitter link">
+      <a href="https://twitter.com/studio_hungry">
         <TwitterIcon />
       </a>
-      <a href="https://github.com/molebox" name="github link">
+      <a href="https://github.com/molebox">
         <GithubIcon />
       </a>
-      <a href="https://www.linkedin.com/in/richard-haines-578464176/" name="linkedin link">
+      <a href="https://www.linkedin.com/in/richard-haines-578464176/">
         <LinkedInIcon />
       </a>
       <Darkmode />
