@@ -29,7 +29,7 @@ const GatsbyThemes = ({ location }) => {
   return (
     <Main>
       <SEO
-        title="Blog"
+        title="Gatsby Themes"
         description={SEODescription}
         keywords={SEOKeywords}
         pathname={location.pathname}
