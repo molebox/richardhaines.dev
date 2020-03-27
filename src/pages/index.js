@@ -11,7 +11,12 @@ import ExternalLink from "./../components/common/external-link";
 import ContactLayout from "./../components/site/contact/contact-layout";
 import Form from "./../components/site/contact/form";
 import IconContainer from "../components/site/home/icon-container";
-import { GatsbyIcon, ReactIcon, JSIcon } from "../components/common/icons";
+import {
+  GatsbyIcon,
+  ReactIcon,
+  JSIcon,
+  TypeScriptIcon
+} from "../components/common/icons";
 import SEO from "gatsby-theme-seo/src/components/seo";
 
 const SEODescription = `
@@ -49,6 +54,7 @@ export default () => {
         <GatsbyIcon />
         <ReactIcon />
         <JSIcon />
+        <TypeScriptIcon />
       </IconContainer>
       <Divider />
       <ContactLayout>

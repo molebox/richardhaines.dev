@@ -7,6 +7,17 @@ import JS from "../../assets/javascript.svg";
 import Twitter from "../../assets/twitter.svg";
 import Github from "../../assets/github.svg";
 import LinkedIn from "../../assets/linkedin.svg";
+import TypeScript from "../../assets/typescript.svg";
+
+export const TypeScriptIcon = () => (
+  <TypeScript
+    sx={{
+      width: ["3em", "5em", "5em"],
+      height: ["3em", "5em", "5em"],
+      fill: "#007ACC"
+    }}
+  />
+);
 
 export const TwitterIcon = () => (
   <Twitter
