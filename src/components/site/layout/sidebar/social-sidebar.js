@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { TwitterIcon, GithubIcon, LinkedInIcon } from "../../../common/icons";
+import Darkmode from "./../../darkmode";
 
 const SocialSideBar = () => {
   return (
@@ -28,6 +29,7 @@ const SocialSideBar = () => {
       <a href="https://www.linkedin.com/in/richard-haines-578464176/">
         <LinkedInIcon />
       </a>
+      <Darkmode />
     </div>
   );
 };

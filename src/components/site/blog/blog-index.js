@@ -61,7 +61,7 @@ const BlogIndex = ({ posts }) => {
           >
             <p
               sx={{
-                color: "text",
+                color: "#ffffff",
                 fontFamily: "body",
                 fontSize: ["0.8em", "1.1em", "1em"],
                 letterSpacing: "text",
@@ -73,7 +73,7 @@ const BlogIndex = ({ posts }) => {
             </p>
             <p
               sx={{
-                color: "text",
+                color: "#ffffff",
                 fontFamily: "body",
                 fontSize: ["0.8em", "1.1em", "1em"],
                 letterSpacing: "text",
@@ -90,7 +90,7 @@ const BlogIndex = ({ posts }) => {
             >
               <p
                 sx={{
-                  color: "text",
+                  color: "#ffffff",
                   fontFamily: "body",
                   fontSize: ["0.5em", "0.6em", "0.8em"],
                   letterSpacing: "text",
@@ -103,7 +103,7 @@ const BlogIndex = ({ posts }) => {
               </p>
               <p
                 sx={{
-                  color: "text",
+                  color: "#ffffff",
                   fontFamily: "body",
                   fontSize: ["0.5em", "0.6em", "0.8em"],
                   letterSpacing: "text",

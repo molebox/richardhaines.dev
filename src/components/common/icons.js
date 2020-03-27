@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, useColorMode } from "theme-ui";
 import Gatsby from "../../assets/gatsby.svg";
 import ReactJs from "../../assets/react-icon.svg";
 import Sanity from "../../assets/sanity_logo_red.svg";
@@ -22,19 +22,22 @@ export const TwitterIcon = () => (
   />
 );
 
-export const GithubIcon = () => (
-  <Github
-    sx={{
-      width: "1.5em",
-      height: "1.5em",
-      fill: "accent",
-      marginBottom: "1em",
-      ":hover": {
-        fill: "#ffffff"
-      }
-    }}
-  />
-);
+export const GithubIcon = () => {
+  const [colorMode] = useColorMode();
+  return (
+    <Github
+      sx={{
+        width: "1.5em",
+        height: "1.5em",
+        fill: "accent",
+        marginBottom: "1em",
+        ":hover": {
+          fill: colorMode === "light" ? "#ffffff" : "#000000"
+        }
+      }}
+    />
+  );
+};
 
 export const LinkedInIcon = () => (
   <LinkedIn

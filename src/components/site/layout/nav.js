@@ -2,7 +2,7 @@
 import { jsx } from "theme-ui";
 import { Link } from "gatsby";
 import { useSiteMetadata } from "./../../useSiteMetadata";
-import Darkmode from "../darkmode";
+// import Darkmode from "../darkmode";
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
@@ -73,7 +73,7 @@ const Nav = () => {
       >
         Resume
       </a>
-      <Darkmode />
+      {/* <Darkmode /> */}
     </nav>
   );
 };

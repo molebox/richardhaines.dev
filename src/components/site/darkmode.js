@@ -18,11 +18,11 @@ const Darkmode = () => {
         border: "1px solid",
         borderColor: "accent",
         borderRadius: "25px",
-        position: "absolute",
+        position: "relative",
         right: "0",
         top: 3,
-        height: "20px",
-        width: "40px",
+        height: "40px",
+        width: "20px",
         ":active,:focus": {
           "&&": { outline: "none" }
         },
@@ -38,57 +38,14 @@ const Darkmode = () => {
           backgroundColor: "secondary"
         },
         "&.active::after": {
-          left: "22px"
+          top: "22px"
         }
       }}
     >
-      <span className="visually-hidden">
+      <span hidden className="visually-hidden">
         {colorMode === "light" ? "Dark" : "Light"}
       </span>
     </button>
-    // <div sx={{
-    //     cursor: 'pointer',
-    //     height: '1.8em',
-    //     width: '4em',
-    //     position: 'relative',
-    //     perspective: 600,
-    //     transform: colorMode === 'dark' ? 'transform: rotateY(180deg)' : null,
-    // }}
-    // onClick={toggelColor}
-    // >
-    //     <div sx={{
-    //         height: '100%',
-    //         position: 'absolute',
-    //         transformStyle: 'preserve-3d',
-    //         transition: 'transform 1s',
-    //         width: '100%',
-    //     }}
-    //     >
-    //     <div sx={{
-    //         backfaceVisibility: 'hidden',
-    //         height: '100%',
-    //         position: 'absolute',
-    //         overflow: 'hidden',
-    //         width: '100%',
-    //         fontFamily: 'heading',
-    //         backgroundColor: 'accent',
-    //         color: 'primary',
-    //         display: 'flex',
-    //         justifyContent: 'center',
-    //         alignItems: 'center'
-    //     }}>
-    //         DARK
-    //     </div>
-    //     <div sx={{
-    //         fontFamily: 'heading',
-    //         backgroundColor: 'accent',
-    //         color: 'primary',
-    //         transform: 'rotateY(180deg)'
-    //     }}>
-    //         LIGHT
-    //     </div>
-    //     </div>
-    // </div>
   );
 };
 
