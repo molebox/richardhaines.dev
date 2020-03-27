@@ -49,7 +49,7 @@ const Form = () => {
       <button
         sx={{
           fontFamily: "heading",
-          fontWeight: "heading",
+          fontWeight: "bold",
           border: "1px solid",
           borderRadius: "5px",
           padding: "0.35em 1.2em",
