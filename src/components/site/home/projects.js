@@ -78,14 +78,3 @@ export const query = graphql`
     }
   }
 `;
-
-// image {
-//   alt
-//   src {
-//     childImageSharp {
-//       fluid {
-//         ...GatsbyImageSharpFluid
-//       }
-//     }
-//   }
-// }

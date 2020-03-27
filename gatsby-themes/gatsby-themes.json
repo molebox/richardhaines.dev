@@ -1,0 +1,65 @@
+[
+    {
+        "name": "gatsby-theme-dev-resume",
+        "description": "A Gatsby theme to easily create a resume which can be hosted on the internet and also saved or printed to PDF",
+        "github": "https://github.com/molebox/gatsby-theme-dev-resume",
+        "website": "https://gatsby-theme-dev-resume.netlify.com/",
+        "npm": ""
+    },
+    {
+        "name": "gatsby-theme-pocket",
+        "description": "A Gatsby theme that adds your saved pocket app articles to your website. Includes filtering by tag. You control all your articles via the mobile app and they are displayed on your site via the theme",
+        "github": "https://github.com/molebox/gatsby-theme-pocket",
+        "website": "https://gatsby-theme-pocket-example.netlify.com/articleIndex/",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-pocket"
+    },
+    {
+        "name": "gatsby-theme-vulcan",
+        "description": "An ecommerce gatsby theme built with sanity.io for the backend and snipcart to handle payments. Currently work in progress.",
+        "github": "https://github.com/molebox/gatsby-theme-ecommerce-vulcan",
+        "website": "https://gatsby-theme-vulcan.netlify.com/",
+        "npm": ""
+    },
+    {
+        "name": "gatsby-theme-testimonials",
+        "description": "This is Gatsby theme to add customer testimonials to your website. The testimonial cards are exported as a section to just insert into your JSX. You add the data to be displayed via json files located in a testimonials folder at your projects root.",
+        "github": "https://github.com/molebox/gatsby-theme-testimonials",
+        "website": "https://gatsby-theme-testimonials.netlify.com/",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-testimonials"
+    },
+    {
+        "name": "gatsby-theme-hbs-mdx",
+        "description": "A theme that provides a basic mdx setup. All you have to do is bring your mdx files in a blog folder at the root of your project.",
+        "github": "https://github.com/molebox/gatsby-theme-hbs-mdx",
+        "website": "",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-hbs-mdx"
+    },
+    {
+        "name": "gatsby-theme-stripe-checkout-button",
+        "description": "A Gatsby theme that implements a stripe checkout, you bring the button, we submit it as a stripe checkout. Register an account at Stripe and follow the instruction for setting up a developer account to get started.",
+        "github": "https://github.com/molebox/gatsby-theme-stripe-checkout-button",
+        "website": "",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-stripe-checkout-button"
+    },
+    {
+        "name": "gatsby-theme-overreacted-toggle",
+        "description": "A Gatsby theme that implements Dan Abramovs dark mode toggle. Add to your Gatsby sites gatsby-config.js just like you would with a plugin.",
+        "github": "https://github.com/molebox/gatsby-theme-overreacted-toggle",
+        "website": "",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-overreacted-toggle"
+    },
+    {
+        "name": "gatsby-theme-tattoo",
+        "description": "This is a minimalist gatsby theme for stores that operate in the tattoo beauty sector. Tattoo, Hair Salons and Beauty Care websites are the target users though the theme can be adapted to be used with other industries too. The theme is fully responsive and includes sections for home page, artists and the stores Instagram gallery.",
+        "github": "https://github.com/molebox/gatsby-theme-tattoo",
+        "website": "",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-tattoo"
+    },
+    {
+        "name": "gatsby-theme-west-egg",
+        "description": "A Gatsby theme package built with emotion and typescript. Includes a style theme, blog theme, cart theme. ",
+        "github": "https://github.com/molebox/gatsby-theme-west-egg",
+        "website": "",
+        "npm": "https://www.npmjs.com/package/gatsby-theme-west-egg"
+    }
+]

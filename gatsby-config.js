@@ -36,6 +36,13 @@ module.exports = {
       {
         resolve: 'gatsby-source-filesystem',
         options: {
+          path: 'gatsby-themes',
+          name: 'gatsby-themes'
+        },
+    },
+      {
+        resolve: 'gatsby-source-filesystem',
+        options: {
           path: `${__dirname}/projects/images/`,
           name: 'images'
         },
