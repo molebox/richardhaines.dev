@@ -1,0 +1,79 @@
+---
+title: Text with linear gradient background
+date: 2020-04-07
+published: true
+category: CSS
+author: Richard Haines
+keywords:
+  [
+    css,
+    linear gradient,
+    linear gradient background,
+    Text with linear gradient background,
+  ]
+pin: false
+---
+
+import Text from "./posts-components/linear-gradient-text.js";
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
+## How to add a linear gradient background to text.
+
+I was looking to add the Harry Potter Hogwarts houses colours to each of the houses names on mouse hover. The solution was surprisingly simple, after a little googling.
+
+### Linear gradient text
+
+```css
+.gradientText {
+background-image: linear-gradient(
+    90deg,
+    rgba(127, 9, 9, 1) 0%,
+    rgba(255, 197, 0, 1) 12%,
+    rgba(238, 225, 23, 1) 24%
+    );
+background-size: 100%;
+background-repeat: repeat;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+```
+
+```jsx
+function GradientText() {
+  return <p className="styles.gradientText">Check out my beautiful colours!</p>;
+}
+```
+
+<Text>Check out my beautiful colours!</Text>
+<AccentBox>
+  Note that styled components cant handle/don't have access to
+  -webkit-text-fill-color. (please shoot me a message if im wrong about this).
+  We can of course use any styled library to do the same thing by creating a
+  styled component and using that instead of the p element.
+</AccentBox>
+
+```jsx
+const Text = styled.p`
+  background-image: linear-gradient(
+    90deg,
+    rgba(127, 9, 9, 1) 0%,
+    rgba(255, 197, 0, 1) 12%,
+    rgba(238, 225, 23, 1) 24%,
+    rgba(13, 98, 23, 1) 48%,
+    rgba(0, 10, 144, 1) 72%
+  );
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+```
+
+```jsx
+function GradientText() {
+  return <Text>Gaze at my beauty......</Text>;
+}
+```
+
+<Text>Gaze at my beauty......</Text>
+
+Thanks for reading!
