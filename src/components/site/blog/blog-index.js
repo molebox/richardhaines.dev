@@ -25,7 +25,7 @@ const BlogIndex = ({ posts }) => {
           to={fields.slug}
         >
           <motion.div
-            whileHover={{ rotate: -1 }}
+            whileHover={{ scale: 1.02 }}
             transition={{
               duration: 0.2,
               ease: "easeOut"
