@@ -1,10 +1,17 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import ProjectImage from "./project-image";
+import { motion } from "framer-motion";
+
+const item = {
+  hidden: { scale: 0 },
+  show: { scale: 1 }
+};
 
 const ProjectCard = props => {
   return (
-    <div
+    <motion.div
+      variants={item}
       sx={{
         border: "1px solid",
         borderColor: "accent",
@@ -97,7 +104,7 @@ const ProjectCard = props => {
           </a>
         ) : null}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 // const variants = {
 //   visible: { opacity: 1 },
@@ -9,11 +9,15 @@ import { jsx } from "theme-ui";
 
 const H3 = props => {
   return (
-    <h3
-      // initial="hidden"
-      // animate="visible"
-      // variants={variants}
-      // transition={{ ease: "easeIn", duration: 4 }}
+    <motion.h3
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 20,
+        delay: 0.5
+      }}
       sx={{
         color: "text",
         fontFamily: "heading",
@@ -25,7 +29,7 @@ const H3 = props => {
       }}
     >
       {props.children}
-    </h3>
+    </motion.h3>
   );
 };
 

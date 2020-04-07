@@ -4,6 +4,19 @@ import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import ProjectCard from "./project-card";
 import H3 from "../../common/h3";
+import { motion } from "framer-motion";
+
+const container = {
+  hidden: { scale: 0 },
+  show: {
+    scale: 1,
+    transition: {
+      delayChildren: 1,
+      // staggerChildren: 0.1,
+      staggerDirection: 1
+    }
+  }
+};
 
 const Projects = () => {
   const data = useStaticQuery(query);
@@ -35,16 +48,18 @@ const Projects = () => {
         }}
       >
         {projects.map(({ node: project, index }) => (
-          <ProjectCard
-            key={project.name + index}
-            name={project.name}
-            description={project.description}
-            fluid={project.image.src.childImageSharp.fluid}
-            alt={project.image.alt}
-            website={project.website}
-            github={project.github}
-            npm={project.npm}
-          />
+          <motion.div variants={container} initial="hidden" animate="show">
+            <ProjectCard
+              key={project.name + index}
+              name={project.name}
+              description={project.description}
+              fluid={project.image.src.childImageSharp.fluid}
+              alt={project.image.alt}
+              website={project.website}
+              github={project.github}
+              npm={project.npm}
+            />
+          </motion.div>
         ))}
       </div>
     </section>
