@@ -1,4 +1,16 @@
-[{
+[
+    {
+        "name": "serverless-graphql-potter",
+        "description": "This is a side project that i used to understand how serverless functions work. I decided to use the potter api as i love the world of harry potter. Built with Gatsby, Netlify functions, Apollo and FaunaDB. Data provided via the Potter API.",
+        "image": {
+            "src": "./images/serverless-graphql-potter.PNG",
+            "alt": "serverless-graphql-potter website screenshot"
+        },
+        "github": "https://github.com/molebox/serverless-graphql-potter",
+        "website": "https://serverless-graphql-potter.netlify.com/",
+        "npm": ""
+    },
+    {
         "name": "justask.dev",
         "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
         "image": {
@@ -19,16 +31,5 @@
         "github": "https://github.com/molebox/gatsby-theme-pocket",
         "website": "https://gatsby-theme-pocket-example.netlify.com/articleIndex/",
         "npm": "https://www.npmjs.com/package/gatsby-theme-pocket"
-    },
-    {
-        "name": "gatsby-theme-vulcan",
-        "description": "An ecommerce gatsby theme built with sanity.io for the backend and snipcart to handle payments. Currently work in progress.",
-        "image": {
-            "src": "./images/gatsby-theme-vulcan.PNG",
-            "alt": "gatsby-theme-vulcan website screenshot"
-        },
-        "github": "https://github.com/molebox/gatsby-theme-ecommerce-vulcan",
-        "website": "https://gatsby-theme-vulcan.netlify.com/",
-        "npm": ""
     }
 ]

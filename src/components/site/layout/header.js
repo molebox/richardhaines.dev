@@ -5,7 +5,6 @@ const Header = props => (
   <header
     sx={{
       gridArea: "nav",
-      padding: "1em",
       backgroundColor: "background",
       color: "text",
       height: "100%",

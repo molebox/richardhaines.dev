@@ -19,7 +19,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     excerpt,
     fields: { editLink }
   } = data.mdx;
-  const { title, date, category, author, keywords } = frontmatter;
+  const { title, date, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
 
   return (
