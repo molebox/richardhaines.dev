@@ -72,3 +72,15 @@ Then its as simple as doing a pull to make sure you have the latest work and add
 git pull
 git checkout -b myNewBranch
 ```
+
+### Clone repo and push to new repo
+
+Create a new repo on github then clone the repo you want to copy.
+
+```bash
+git clone <repo-url> // clone the repo
+git remote rename origin upstream // rename the repo upstream
+git remote add origin <new-repo-url> // add the new repos url to your remote
+git push origin master // push the changes to your remote repo
+git pull upstream master && git push origin master
+```
