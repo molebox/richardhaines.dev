@@ -7,12 +7,6 @@ module.exports = {
     siteUrl: 'https://richardhaines.dev',
   },
     plugins: [
-      {
-        resolve: 'gatsby-plugin-page-transitions',
-        options: {
-          transitionTime: 500
-        }
-      },
         {
             resolve: 'gatsby-plugin-google-fonts',
             options: {

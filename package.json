@@ -10,7 +10,8 @@
     "clean": "gatsby clean",
     "pretty-check": "prettier --check \"src/**/*.{js}\"",
     "pretty": "prettier --write \"src/**/*js\"",
-    "sitemap": "gatsby build && gatsby serve"
+    "sitemap": "gatsby build && gatsby serve",
+    "z": "gatsby clean && gatsby develop"
   },
   "dependencies": {
     "@emotion/core": "^10.0.27",
@@ -24,7 +25,6 @@
     "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-layout": "^1.1.22",
     "gatsby-plugin-mdx": "^1.0.73",
-    "gatsby-plugin-page-transitions": "^1.0.8",
     "gatsby-plugin-react-svg": "^3.0.0",
     "gatsby-plugin-robots-txt": "^1.5.0",
     "gatsby-plugin-sharp": "^2.4.5",
@@ -40,6 +40,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-icons": "^3.9.0",
+    "react-intersection-observer": "^8.26.1",
     "react-live": "^2.2.2",
     "theme-ui": "^0.3.1"
   },

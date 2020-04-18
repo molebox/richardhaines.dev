@@ -1,0 +1,361 @@
+---
+title: JAMstack and the power of serverless databases with FaunaDB
+date: 2020-04-18
+published: false
+category: Tutorial
+author: Richard Haines
+keywords: [gatsby, theme-ui, css-in-js, faunadb, serverless, tutorial]
+pin: false
+---
+
+In this article we will create a JAMstack website powered by Gatsby, Netlify Functions, Apollo and FaunaDB. The primary focus of the article will be our choice of using FaunaDB as our serverless database.
+
+There are a few prerequisites that the article will assume you have knowledge of:
+
+- Basic knowledge of Gatsby and React
+- Version control with GIT
+
+Before we dive into the code, lets go through some of the concepts of the stack we will be using.
+
+### JAMstack
+
+JAMstack is a term often used to describe sites that are served as static assets to a [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/),
+of course this is nothing new, anyone who has made a simple site with HTML and CSS and published it has served a static site. To walk away thinking that the only purpose of JAMstack sites are to serve static files would be doing it a great injustice and miss some of the awesome things this "new" way of building web apps provides.
+
+For more information and a great overview of what the JAMstack is and some of its benefits i recommend checking out [jamstack.org](https://jamstack.org/). We wont be diving deep into all of its benefits, but we will be looking at how we can take our static site and make it dynamic by way of taking a serverless approach to handling our data through AWS Lambda functions, which we will use via Netlify and FaunaDB.
+
+### Serverless
+
+Back in the old days, long long ago before we spread our stack with JAM, we had a website that was a combination of HTML markup, CSS styling and JavaScript. Our website gave our user data to access and manipulate and our data was stored in a database which was hosted on a server. If we hosted this database ourselves we were responsible for keeping it going and maintaining it and all of its stored data. Our database could hold only a certain amount of data which meant that if we were lucky enough to get a lot of traffic it would soon struggle to handle all of the requests coming its way and so our end users might experience some downtime or no data at all.
+
+If we paid for a hosted server then we were paying for the up time even when no requests were being sent.
+
+To counter these issues serverless computing was introduced. Now, lets cut through all the magic this might imply and simply state that serverless still involves servers, the big difference is that they are hosted in the cloud and execute some code for us.
+
+Providing the requested resources as a simple function they only run when that request is made. This means that we are only charged for the resources and time the code is running for. With this approach we have done away with the need to pay a server provider for constant up time, which is one of the big plus points of going serverless.
+
+Being able to scale up and down is also a major benefit of using serverless functions to interact with our data stores. In a nutshell this means that as multiple requests come in via our serverless functions, our cloud provider can create multiple instances of the same function to handle those requests and run them in parallel. One downside to this is the concept of cold starts where because our functions are spun up on demand they need a small amount of time to start up which can delay our response. Once up, if multiple requests are received our serverless functions will stay open to requests and handle them before closing down again.
+
+### FaunaDB
+
+FaunaDB is a global serverless database that has native graphql support, is multi tenancy which allows us to have nested databases and is low latency from any location. Its also one of the only serverless databases to follow the [ACID transactions](https://en.wikipedia.org/wiki/ACID) which guarantee consistent reads and writes to the database.
+
+Fauna also provides us with a High Availability solution with each server globally located containing a partition of our database, replicating our data asynchronously with each request with a copy of our database or the transaction made.
+
+Lets go over how such an approach might work when dealing with multiple partitions of our database.
+
+FaunaDB handles our data requests in an immutable way. When we make a request via our serverless function to change data in our FaunaDB it creates a timestamp for each request. With this is also stores just a diff against the original request. So when we make our original request Fauna will record this. Then the next time we make a request, maybe changing some data that was previously written, Fauna will create a diff against the first request and store that with a timestamp. This means that for each time we make multi document transactions we get the same timestamp for both requests.
+
+There are a few other alternatives that one could choose instead of using FaunaDb such as:
+
+- Firebase
+- Cassandra
+- MongoDB
+
+But these options don't give us the ACID guarantees that Fauna does, compromising scaling.
+
+### ACID
+
+- \***\*Atomic\*\*** - all transactions are a single unit of truth, either they all pass or none. If we have multiple transactions in the same request then either both are good or neither are, one cannot fail and the other succeed.
+- \***\*Consistent\*\*** - A transaction can only bring the database from one valid state to another, that is, any data written to the database must follow the rules set out by the database, this ensures that all transactions are legal.
+- \***\*Isolation\*\*** - When a transaction is made or created, concurrent transactions leave the state of the database the same as is they would be if each request was made sequentially.
+- \***\*Durability\*\*** - Any transaction that is made and committed to the database is persisted in the the database, regardless of down time of the system or failure.
+
+Now that we have a good overview of the stack we will be using lets get to the code!
+
+### Installing dependencies and setting up the project
+
+Navigate to your projects folder and create a new project folder and install the dependencies needed. We will add some more as we go but this will get us started.
+
+```
+mkdir harry-potter
+cd harry-potter
+yarn init- y
+yarn add gatsby react react-dom theme-ui gatsbyplugin-theme-ui
+```
+
+Open up your code editor of choice (i highly recommend VScode because its amazing).
+
+Create your folder structure:
+
+```
+touch src/pages/index.js
+touch src/components
+touch gatsby-config.js
+touch gatsby-browser.js
+touch gatsby-ssr.js
+```
+
+We'll also want to create some base components. We'll be using a gatsby layout plugin to make life easier for us. We'll also utilize some google fonts via a plugin. Stay with me...
+
+```
+touch src/layouts/index.js
+touch src/components/header.js
+touch src/components/main.js
+touch src/components/footer.js
+yarn add gatsby-plugin-layout
+yarn add gatsby-plugin-google-fonts
+```
+
+Now we need to add the theme-ui and layout plugins to our gatsby-config.js file:
+
+```
+module.exports = {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700'
+              ]
+            }
+        },
+        {
+            resolve: 'gatsby-plugin-layout',
+            options: {
+              component: require.resolve('./src/layouts/index.js'),
+            },
+        },
+          'gatsby-plugin-theme-ui'
+
+    ]
+}
+```
+
+Next lets create our layout. We'll keep it simple but this will be our first dive into theme-ui. This article wont cover the specifics of how to use theme-ui, for that i suggest going over another tutorial i have writen which covers the hows and whys [how-to-make-a-gatsby-ecommerce-theme-part-1/](https://richardhaines.dev/how-to-make-a-gatsby-ecommerce-theme-part-1/)
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { Global, css } from "@emotion/core";
+
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div
+        sx={{
+          display: "grid",
+          gridTemplateRows: "auto",
+          gridTemplateColumns: [
+            "repeat(4, 1fr)",
+            "repeat(6, 1fr)",
+            "repeat(8, 1fr)"
+          ],
+          gridTemplateAreas: [
+            PhoneTemplateAreas,
+            TabletTemplateAreas,
+            DesktopTemplateAreas
+          ],
+          padding: "0 1em"
+        }}
+      >
+        {children}
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+With our grid area layouts looking like this:
+
+```
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+```
+
+Now i want to stop i minute here and point out that this is the standard way i layout pages in my websites. That is, so long as the client or me (if its a site i have made alone) don't require any special or fancy layouts, this pattern will fix your basic site structure 99% of the time. Its a simple, responsive and will cover most use cases.
+
+If you checked out the linked article above you will notice that we are covering the same ground here. Lets create our header, main and footer components:
+
+#### Header
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Header = props => (
+  <header
+    sx={{
+      gridArea: "nav",
+      padding: "1em",
+      backgroundColor: "background",
+      color: "text",
+      height: "100%",
+      padding: [null, "2em", "2em"],
+      paddingTop: ["2em", null, null]
+    }}
+  >
+    {props.children}
+  </header>
+);
+
+export default Header;
+```
+
+#### Main
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Main = props => (
+  <main
+    sx={{
+      gridArea: "main",
+      backgroundColor: "background",
+      minHeight: "calc(100vh - 60px)",
+      paddingTop: ["2em", "60px", "60px"]
+    }}
+  >
+    {props.children}
+  </main>
+);
+
+export default Main;
+```
+
+#### Footer
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Footer = () => (
+  <footer
+    sx={{
+      gridArea: "footer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "background",
+      color: "text"
+    }}
+  >
+    <p
+      sx={{
+        color: "text",
+        fontFamily: "body",
+        fontSize: ["0.7em", "0.8em", "1em"],
+        letterSpacing: "text",
+        fontWeight: 400,
+        margin: "1em auto"
+      }}
+    >
+      This is my footer!
+    </p>
+  </footer>
+);
+
+export default Footer;
+```
+
+To provide a an easy way to style our whole site through changing just a few variables we can utilize the gatsby-plugin-theme-ui.
+
+```
+touch src/gatsby-plugin-theme-ui/index.js
+```
+
+In this file we will create our stites styles which we will be able to access via the [theme-ui sx prop](https://theme-ui.com/sx-prop/).
+
+```
+export default {
+  fonts: {
+    body: "Open Sans",
+    heading: "Muli"
+  },
+  fontWeights: {
+    body: 300,
+    heading: 400,
+    bold: 700
+  },
+  lineHeights: {
+    body: "110%",
+    heading: 1.125,
+    tagline: "100px"
+  },
+  letterSpacing: {
+    body: "2px",
+    text: "5px"
+  },
+  colors: {
+    text: "#FFFfff",
+    background: "#121212",
+    primary: "#000010",
+    secondary: "#E7E7E9",
+    secondaryDarker: "#545455",
+    accent: "#DE3C4B"
+  },
+  breakpoints: ['40em', '56em', '64em']
+};
+```
+
+Much of this is self explanatory, the breakpoints array is used to allow us to add responsive definitions to our inline styles via the sx prop. For example:
+
+```
+    <p
+      sx={{
+        fontSize: ["0.7em", "0.8em", "1em"],
+      }}
+    >
+      Some text here...
+    </p>
+```
+
+The font size array indexes corresponded to our breakpoints array set in our theme-ui index file.
+
+Now that we have our base site structure setup we can leave the frontend and begin the exciting process of writing our serverless functions!
