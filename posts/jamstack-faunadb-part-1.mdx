@@ -1,0 +1,85 @@
+---
+title: JAMstack and the power of serverless databases with FaunaDB. Part 1
+date: 2020-04-18
+published: false
+category: Tutorial
+author: Richard Haines
+keywords: [gatsby, theme-ui, css-in-js, faunadb, serverless, tutorial]
+pin: false
+---
+
+This is a two part series where we will create a JAMstack website powered by Gatsby, Netlify Functions, Apollo and FaunaDB. 
+
+Our site will use the [Harry Potter API](https://www.potterapi.com/) for its data that will be stored in a [FaunaDB](https://fauna.com/) database. The data will be accessed using serverless functions and [Apollo](https://www.apollographql.com/docs/). Finally we will display our data in a [Gatsby](https://www.gatsbyjs.org/) site styled using [Theme-ui](https://theme-ui.com/)
+
+In this first part we will focus on what these technologies are and why, as frontend developers, we should be leveraging them.
+
+### JAMstack
+
+JAMstack is a term often used to describe sites that are served as static assets to a [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/),
+of course this is nothing new, anyone who has made a simple site with HTML and CSS and published it has served a static site. To walk away thinking that the only purpose of JAMstack sites are to serve static files would be doing it a great injustice and miss some of the awesome things this "new" way of building web apps provides.
+
+#### A few of the benefits of going JAMstack
+
+- High security and more secure. Fewer points of attack due to static files and external APIs served over CDN
+- Cheaper hosting and easier scalability with serverless functions
+- Fast! Pre-built assets served from a CDN instead of a server
+
+A popular way of storing the data your site requires, apart from as markdown files, is the use of a headless CMS (Content Management System). These CMSs have adopted the term headless as they don't come with their own frontend that displays the data stored, like Wordpress for example. Instead they are headless, they have no frontend. 
+
+A headless CMS can be set up so that once a change to the data is made in the CMS a new build is triggered via a webhook (just one way of doing it, you could trigger rebuilds other ways) and the site will be deployed again with the new data. 
+
+As a quick example we could have some images stored in our CMS that are pulled into our site via a graphql query and shown on our site. If we wanted to change one of our images we could do so via our CMS which would then trigger a new build on publish and the new image would then be visible on our site.
+
+There are many great options to choose from when considering which CMS to use: 
+
+- Netlify CMS
+- Contenful
+- Sanity.io
+- Tina CMS
+- Butter CMS
+
+The potential list is so long i will point you in the direction of a great site that sites most of them [headlesscms.org](https://headlesscms.org/)!
+
+For more information and a great overview of what the JAMstack is and some more of its benefits i recommend checking out [jamstack.org](https://jamstack.org/). 
+
+Just because our site is served as static assets, that doesn't mean we cant work in a dynamic way and have the benefits of dynamic data! Taking a serverless approach to handling our data we will use AWS Lambda functions through Netlify as an abstracted API for fetching our data.
+
+We wont be diving deep into all of its benefits, but we will be looking at how we can take our static site and make it dynamic by way of taking a serverless approach to handling our data through AWS Lambda functions, which we will use via Netlify and FaunaDB.
+
+### Serverless
+
+Back in the old days, long long ago before we spread our stack with JAM, we had a website that was a combination of HTML markup, CSS styling and JavaScript. Our website gave our user data to access and manipulate and our data was stored in a database which was hosted on a server. If we hosted this database ourselves we were responsible for keeping it going and maintaining it and all of its stored data. Our database could hold only a certain amount of data which meant that if we were lucky enough to get a lot of traffic it would soon struggle to handle all of the requests coming its way and so our end users might experience some downtime or no data at all. 
+
+If we paid for a hosted server then we were paying for the up time even when no requests were being sent.
+
+To counter these issues serverless computing was introduced. Now, lets cut through all the magic this might imply and simply state that serverless still involves servers, the big difference is that they are hosted in the cloud and execute some code for us. 
+
+Providing the requested resources as a simple function they only run when that request is made. This means that we are only charged for the resources and time the code is running for. With this approach we have done away with the need to pay a server provider for constant up time, which is one of the big plus points of going serverless. 
+
+Being able to scale up and down is also a major benefit of using serverless functions to interact with our data stores. In a nutshell this means that as multiple requests come in via our serverless functions, our cloud provider can create multiple instances of the same function to handle those requests and run them in parallel. One downside to this is the concept of cold starts where because our functions are spun up on demand they need a small amount of time to start up which can delay our response. Once up, if multiple requests are received our serverless functions will stay open to requests and handle them before closing down again. 
+
+### FaunaDB
+
+FaunaDB is a global serverless database that has native graphql support, is multi tenancy which allows us to have nested databases and is low latency from any location. Its also one of the only serverless databases to follow the [ACID transactions](https://en.wikipedia.org/wiki/ACID) which guarantee consistent reads and writes to the database. 
+
+Fauna also provides us with a High Availability solution with each server globally located containing a partition of our database, replicating our data asynchronously with each request with a copy of our database or the transaction made. 
+
+Lets go over how such an approach might work when dealing with multiple partitions of our database. 
+
+FaunaDB handles our data requests in an immutable way. When we make a request via our serverless function to change data in our FaunaDB it creates a timestamp for each request. With this is also stores just a diff against the original request. So when we make our original request Fauna will record this. Then the next time we make a request, maybe changing some data that was previously written, Fauna will create a diff against the first request and store that with a timestamp. This means that for each time we make multi document transactions we get the same timestamp for both requests. 
+
+There are a few other alternatives that one could choose instead of using FaunaDb such as:
+
+- Firebase
+- Cassandra
+- MongoDB
+
+But these options don't give us the ACID guarantees that Fauna does, compromising scaling. 
+
+### ACID
+
+- ****Atomic**** - all transactions are a single unit of truth, either they all pass or none. If we have multiple transactions in the same request then either both are good or neither are, one cannot fail and the other succeed. 
+- ****Consistent**** -  A transaction can only bring the database from one valid state to another, that is, any data written to the database must follow the rules set out by the database, this ensures that all transactions are legal.
+- ****Isolation**** - When a transaction is made or created, concurrent transactions leave the state of the database the same as is they would be if each request was made sequentially.
+- ****Durability**** - Any transaction that is made and committed to the database is persisted in the the database, regardless of down time of the system or failure.

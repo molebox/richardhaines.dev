@@ -1,0 +1,334 @@
+---
+title: JAMstack and the power of serverless databases with FaunaDB. Part 2
+date: 2020-04-18
+published: false
+category: Tutorial
+author: Richard Haines
+keywords: [gatsby, theme-ui, css-in-js, faunadb, serverless, tutorial]
+pin: false
+---
+
+This is a two part series where we will create a JAMstack website powered by Gatsby, Netlify Functions, Apollo and FaunaDB. 
+
+Our site will use the [Harry Potter API](https://www.potterapi.com/) for its data that will be stored in a [FaunaDB](https://fauna.com/) database. The data will be accessed using serverless functions and [Apollo](https://www.apollographql.com/docs/). Finally we will display our data in a [Gatsby](https://www.gatsbyjs.org/) site styled using [Theme-ui](https://theme-ui.com/)
+
+In this second part we will be creating our site, creating a database with FaunaDB and using serverless functions and Apollo to pull in our data and display it to the end user.
+
+Now that we have a good overview of the stack we will be using lets get to the code!
+
+### Installing dependencies and setting up the project
+
+Navigate to your projects folder and create a new project folder and install the dependencies needed. We will add some more as we go but this will get us started.
+
+```
+mkdir harry-potter
+cd harry-potter
+yarn init- y
+yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui
+```
+
+Open up your code editor of choice (i highly recommend VScode because its amazing).
+
+Create your folder structure:
+
+```
+mkdir -p src/pages/index.js
+mkdir src/components
+touch gatsby-config.js
+touch gatsby-browser.js
+touch gatsby-ssr.js
+```
+
+We'll also want to create some base components. We'll be using a gatsby layout plugin to make life easier for us. We'll also utilize some google fonts via a plugin. Stay with me...
+
+```
+mkdir -p src/layouts/index.js
+cd src/components && touch header.js
+cd src/components && touch main.js
+cd src/components && touch footer.js
+yarn add gatsby-plugin-layout
+yarn add gatsby-plugin-google-fonts
+```
+
+Now we need to add the theme-ui, layout and google fonts plugins to our gatsby-config.js file:
+
+```
+module.exports = {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700' 
+              ]
+            }
+        },
+        {
+            resolve: 'gatsby-plugin-layout',
+            options: {
+              component:             require.resolve('./src/layouts/index.js'),
+            },
+        },
+          'gatsby-plugin-theme-ui'
+
+    ]
+}
+```
+
+Next lets create our layout. We'll keep it simple but this will be our first dive into theme-ui. This article wont cover the specifics of how to use theme-ui, for that i suggest going over another tutorial i have written which covers the hows and whys [how-to-make-a-gatsby-ecommerce-theme-part-1/](https://richardhaines.dev/how-to-make-a-gatsby-ecommerce-theme-part-1/)
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { Global, css } from "@emotion/core";
+
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div
+        sx={{
+          display: "grid",
+          gridTemplateRows: "auto",
+          gridTemplateColumns: [
+            "repeat(4, 1fr)",
+            "repeat(6, 1fr)",
+            "repeat(8, 1fr)"
+          ],
+          gridTemplateAreas: [
+            PhoneTemplateAreas,
+            TabletTemplateAreas,
+            DesktopTemplateAreas
+          ],
+          padding: "0 1em"
+        }}
+      >
+        {children}
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+With our grid area layouts looking like this:
+
+```
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+```
+
+Now i want to stop i minute here and point out that this is the standard way i layout pages in my websites. That is, so long as the client or me (if its a site i have made alone) don't require any special or fancy layouts, this pattern will fix your basic site structure 99% of the time. Its a simple, responsive and will cover most use cases.
+
+If you checked out the linked article above you will notice that we are covering the same ground here. Lets create our header, main and footer components: 
+
+#### Header
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Header = props => (
+  <header
+    sx={{
+      gridArea: "nav",
+      padding: "1em",
+      backgroundColor: "background",
+      color: "text",
+      height: "100%",
+      padding: [null, "2em", "2em"],
+      paddingTop: ["2em", null, null]
+    }}
+  >
+    {props.children}
+  </header>
+);
+
+export default Header;
+```
+
+#### Main
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Main = props => (
+  <main
+    sx={{
+      gridArea: "main",
+      backgroundColor: "background",
+      minHeight: "calc(100vh - 60px)",
+      paddingTop: ["2em", "60px", "60px"]
+    }}
+  >
+    {props.children}
+  </main>
+);
+
+export default Main;
+```
+
+#### Footer
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Footer = () => (
+  <footer
+    sx={{
+      gridArea: "footer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "background",
+      color: "text"
+    }}
+  >
+    <p
+      sx={{
+        color: "text",
+        fontFamily: "body",
+        fontSize: ["0.7em", "0.8em", "1em"],
+        letterSpacing: "text",
+        fontWeight: 400,
+        margin: "1em auto"
+      }}
+    >
+      This is my footer!
+    </p>
+  </footer>
+);
+
+export default Footer;
+```
+
+To provide an easy way to style our whole site through changing just a few variables we can utilize the gatsby-plugin-theme-ui. 
+
+```
+cd src && mkdir -p gatsby-plugin-theme-ui/index.js
+```
+
+In this file we will create our sites styles which we will be able to access via the [theme-ui sx prop](https://theme-ui.com/sx-prop/).
+
+```
+export default {
+  fonts: {
+    body: "Open Sans",
+    heading: "Muli"
+  },
+  fontWeights: {
+    body: 300,
+    heading: 400,
+    bold: 700
+  },
+  lineHeights: {
+    body: "110%",
+    heading: 1.125,
+    tagline: "100px"
+  },
+  letterSpacing: {
+    body: "2px",
+    text: "5px"
+  },
+  colors: {
+    text: "#FFFfff",
+    background: "#121212",
+    primary: "#000010",
+    secondary: "#E7E7E9",
+    secondaryDarker: "#545455",
+    accent: "#DE3C4B"
+  },
+  breakpoints: ['40em', '56em', '64em']
+};
+```
+
+Much of this is self explanatory, the breakpoints array is used to allow us to add responsive definitions to our inline styles via the sx prop. For example:
+
+```
+    <p
+      sx={{
+        fontSize: ["0.7em", "0.8em", "1em"],
+      }}
+    >
+      Some text here...
+    </p>
+```
+
+The font size array indexes corresponded to our breakpoints array set in our theme-ui index file.
+
+Now that we have our base site structure setup we can leave the frontend and begin the exciting process of writing our serverless functions!
+
+### Serverless functions setup
+
+We'll need to create a functions folder at our projects root which will be where we will store our serverless functions, database schema, resolvers and fauna client creation. This is where
+
+```
+mkdir functions/graphql
+cd functions/graphql && touch db.js graphql.js resolvers.js schema.js
+```
+
+Lets begin by setting up our fauna client. First we will need to grab our API key from our fauna dashboard. Create a new account at [fauna.com](https://fauna.com/) and then create a new database, call it Potter or whatever you like. Now we want to create a collection, which is a document that is made up of fields and their values, like a JSON object. Their docs have a deep explanation about what and how this all [works](https://docs.fauna.com/fauna/current/api/fql/documents).
+
+Name our first collection Characters. This will hold al of the characters from the potterverse. Next up we will create our first index. An index in fauna is a way of retrieving documents by attributes. See their [documentation ](https://docs.fauna.com/fauna/current/api/fql/indexes)for more information. 
+
+Name our new index as allCharacters, leave all the default settings as they are, with serialized selected. While we are at it we can create two more collections and indexes. 
+
+- One for House, with a corresponding allHouse index 
+- One for Spells with a corresponding allSpells index
+
+We will be creating some more indexes for fetching our characters, houses or spells by their id or name later on.
