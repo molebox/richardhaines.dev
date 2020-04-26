@@ -47,5 +47,10 @@
   },
   "devDependencies": {
     "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "printWidth": 80,
+    "proseWrap": "always"
   }
 }
