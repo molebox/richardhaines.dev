@@ -21,7 +21,7 @@ export default {
     </h2>
   ),
   h3: props => (
-    <h2
+    <h3
       sx={{
         fontFamily: "heading",
         fontWeight: "body",
@@ -30,7 +30,19 @@ export default {
       {...props}
     >
       {props.children}
-    </h2>
+    </h3>
+  ),
+  h4: props => (
+    <h4
+      sx={{
+        fontFamily: "heading",
+        fontWeight: "body",
+        margin: "1em auto"
+      }}
+      {...props}
+    >
+      {props.children}
+    </h4>
   ),
   p: props => (
     <p

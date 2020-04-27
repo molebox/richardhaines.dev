@@ -1,25 +1,25 @@
 ---
-title: JAMstack and the power of serverless databases with FaunaDB. Part 1
-date: 2020-04-18
+title: Jamstack and the power of serverless databases with FaunaDB
+date: 2020-04-27
 published: false
 category: Tutorial
 author: Richard Haines
-keywords: [gatsby, theme-ui, css-in-js, faunadb, serverless, tutorial]
+keywords: [gatsby, theme-ui, netlify functions, faunadb, serverless, tutorial]
 pin: false
 ---
 
-This is a two part series where we will create a JAMstack website powered by Gatsby, Netlify Functions, Apollo and FaunaDB. 
+In this article we will create a Jamstack website powered by Gatsby, Netlify Functions, Apollo and FaunaDB. 
 
 Our site will use the [Harry Potter API](https://www.potterapi.com/) for its data that will be stored in a [FaunaDB](https://fauna.com/) database. The data will be accessed using serverless functions and [Apollo](https://www.apollographql.com/docs/). Finally we will display our data in a [Gatsby](https://www.gatsbyjs.org/) site styled using [Theme-ui](https://theme-ui.com/)
 
 In this first part we will focus on what these technologies are and why, as frontend developers, we should be leveraging them.
 
-### JAMstack
+### The Jamstack
 
-JAMstack is a term often used to describe sites that are served as static assets to a [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/),
-of course this is nothing new, anyone who has made a simple site with HTML and CSS and published it has served a static site. To walk away thinking that the only purpose of JAMstack sites are to serve static files would be doing it a great injustice and miss some of the awesome things this "new" way of building web apps provides.
+Jamstack is a term often used to describe sites that are served as static assets to a [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/),
+of course this is nothing new, anyone who has made a simple site with HTML and CSS and published it has served a static site. To walk away thinking that the only purpose of Jamstack sites are to serve static files would be doing it a great injustice and miss some of the awesome things this "new" way of building web apps provides.
 
-#### A few of the benefits of going JAMstack
+#### A few of the benefits of going Jamstack
 
 - High security and more secure. Fewer points of attack due to static files and external APIs served over CDN
 - Cheaper hosting and easier scalability with serverless functions
@@ -29,7 +29,7 @@ A popular way of storing the data your site requires, apart from as markdown fil
 
 A headless CMS can be set up so that once a change to the data is made in the CMS a new build is triggered via a webhook (just one way of doing it, you could trigger rebuilds other ways) and the site will be deployed again with the new data. 
 
-As a quick example we could have some images stored in our CMS that are pulled into our site via a graphql query and shown on our site. If we wanted to change one of our images we could do so via our CMS which would then trigger a new build on publish and the new image would then be visible on our site.
+As an example we could have some images stored in our CMS that are pulled into our site via a graphql query and shown on our site. If we wanted to change one of our images we could do so via our CMS which would then trigger a new build on publish and the new image would then be visible on our site.
 
 There are many great options to choose from when considering which CMS to use: 
 
@@ -39,17 +39,15 @@ There are many great options to choose from when considering which CMS to use:
 - Tina CMS
 - Butter CMS
 
-The potential list is so long i will point you in the direction of a great site that sites most of them [headlesscms.org](https://headlesscms.org/)!
+The potential list is so long i will point you in the direction of a great site that lists most of them [headlesscms.org](https://headlesscms.org/)!
 
-For more information and a great overview of what the JAMstack is and some more of its benefits i recommend checking out [jamstack.org](https://jamstack.org/). 
+For more information and a great overview of what the Jamstack is and some more of its benefits i recommend checking out [jamstack.org](https://jamstack.org/). 
 
-Just because our site is served as static assets, that doesn't mean we cant work in a dynamic way and have the benefits of dynamic data! Taking a serverless approach to handling our data we will use AWS Lambda functions through Netlify as an abstracted API for fetching our data.
-
-We wont be diving deep into all of its benefits, but we will be looking at how we can take our static site and make it dynamic by way of taking a serverless approach to handling our data through AWS Lambda functions, which we will use via Netlify and FaunaDB.
+Just because our site is served as static assets, that doesn't mean we cant work in a dynamic way and have the benefits of dynamic data! We wont be diving deep into all of its benefits, but we will be looking at how we can take our static site and make it dynamic by way of taking a serverless approach to handling our data through AWS Lambda functions, which we will use via Netlify and FaunaDB.
 
 ### Serverless
 
-Back in the old days, long long ago before we spread our stack with JAM, we had a website that was a combination of HTML markup, CSS styling and JavaScript. Our website gave our user data to access and manipulate and our data was stored in a database which was hosted on a server. If we hosted this database ourselves we were responsible for keeping it going and maintaining it and all of its stored data. Our database could hold only a certain amount of data which meant that if we were lucky enough to get a lot of traffic it would soon struggle to handle all of the requests coming its way and so our end users might experience some downtime or no data at all. 
+Back in the old days, long long ago before we spread our stack with jam, we had a website that was a combination of HTML markup, CSS styling and JavaScript. Our website gave our user data to access and manipulate and our data was stored in a database which was hosted on a server. If we hosted this database ourselves we were responsible for keeping it going and maintaining it and all of its stored data. Our database could hold only a certain amount of data which meant that if we were lucky enough to get a lot of traffic it would soon struggle to handle all of the requests coming its way and so our end users might experience some downtime or no data at all. 
 
 If we paid for a hosted server then we were paying for the up time even when no requests were being sent.
 
@@ -57,7 +55,7 @@ To counter these issues serverless computing was introduced. Now, lets cut throu
 
 Providing the requested resources as a simple function they only run when that request is made. This means that we are only charged for the resources and time the code is running for. With this approach we have done away with the need to pay a server provider for constant up time, which is one of the big plus points of going serverless. 
 
-Being able to scale up and down is also a major benefit of using serverless functions to interact with our data stores. In a nutshell this means that as multiple requests come in via our serverless functions, our cloud provider can create multiple instances of the same function to handle those requests and run them in parallel. One downside to this is the concept of cold starts where because our functions are spun up on demand they need a small amount of time to start up which can delay our response. Once up, if multiple requests are received our serverless functions will stay open to requests and handle them before closing down again. 
+Being able to scale up and down is also a major benefit of using serverless functions to interact with our data stores. In a nutshell this means that as multiple requests come in via our serverless functions, our cloud provider can create multiple instances of the same function to handle those requests and run them in parallel. One downside to this is the concept of cold starts where because our functions are spun up on demand they need a small amount of time to start up which can delay our response. However, once up if multiple requests are received our serverless functions will stay open to requests and handle them before closing down again. 
 
 ### FaunaDB
 
@@ -67,9 +65,9 @@ Fauna also provides us with a High Availability solution with each server global
 
 Lets go over how such an approach might work when dealing with multiple partitions of our database. 
 
-FaunaDB handles our data requests in an immutable way. When we make a request via our serverless function to change data in our FaunaDB it creates a timestamp for each request. With this is also stores just a diff against the original request. So when we make our original request Fauna will record this. Then the next time we make a request, maybe changing some data that was previously written, Fauna will create a diff against the first request and store that with a timestamp. This means that for each time we make multi document transactions we get the same timestamp for both requests. 
+Fauna handles our data requests in an immutable way. When we make a request via our serverless function to change data in our database it creates a timestamp for each request. With this it also stores a diff against the original request. So when we make our original request Fauna will record this. Then the next time we make a request, maybe changing some data that was previously written, Fauna will create a diff against the first request and store that with a timestamp. This means that for each time we make multi document transactions we get the same timestamp for both requests. 
 
-There are a few other alternatives that one could choose instead of using FaunaDb such as:
+There are a few other alternatives that one could choose instead of using Fauna such as:
 
 - Firebase
 - Cassandra
@@ -77,9 +75,631 @@ There are a few other alternatives that one could choose instead of using FaunaD
 
 But these options don't give us the ACID guarantees that Fauna does, compromising scaling. 
 
-### ACID
+#### ACID
 
-- ****Atomic**** - all transactions are a single unit of truth, either they all pass or none. If we have multiple transactions in the same request then either both are good or neither are, one cannot fail and the other succeed. 
-- ****Consistent**** -  A transaction can only bring the database from one valid state to another, that is, any data written to the database must follow the rules set out by the database, this ensures that all transactions are legal.
-- ****Isolation**** - When a transaction is made or created, concurrent transactions leave the state of the database the same as is they would be if each request was made sequentially.
-- ****Durability**** - Any transaction that is made and committed to the database is persisted in the the database, regardless of down time of the system or failure.
+- **Atomic** - all transactions are a single unit of truth, either they all pass or none. If we have multiple transactions in the same request then either both are good or neither are, one cannot fail and the other succeed. 
+- **Consistent** -  A transaction can only bring the database from one valid state to another, that is, any data written to the database must follow the rules set out by the database, this ensures that all transactions are legal.
+- **Isolation** - When a transaction is made or created, concurrent transactions leave the state of the database the same as is they would be if each request was made sequentially.
+- **Durability** - Any transaction that is made and committed to the database is persisted in the the database, regardless of down time of the system or failure.
+
+Now that we have a good overview of the stack we will be using lets get to the code!
+
+## The project
+
+In this second part we will be creating our site, creating a database with Fauna, using its import schema functionality to auto generate our collections and indexes (more on this later) and using serverless functions and Apollo to pull in our data and display it to the end user.
+
+### Installing dependencies and setting up the project
+
+Navigate to where you keep you projects and create a new folder and install the dependencies needed. We will add some more as we go but this will get us started.
+
+```
+mkdir harry-potter
+cd harry-potter
+yarn init- y
+yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui
+```
+
+Open up your code editor of choice (i highly recommend VScode because its amazing).
+
+Create your folder structure:
+
+```
+mkdir -p src/pages/index.js
+mkdir src/components
+touch gatsby-config.js
+touch gatsby-browser.js
+touch gatsby-ssr.js
+touch .gitignore
+```
+
+Add the following to your newly created .gitignore file:
+
+```
+.netlify
+node_modules
+.cache
+public
+```
+
+We'll also want to create some base components. We'll be using a Gatsby layout plugin to make life easier for us. We'll also utilize some google fonts via a plugin. Stay with me...
+
+```
+mkdir -p src/layouts/index.js
+cd src/components && touch header.js
+cd src/components && touch main.js
+cd src/components && touch footer.js
+yarn add gatsby-plugin-layout
+yarn add gatsby-plugin-google-fonts
+```
+
+Now we need to add the theme-ui, layout and google fonts plugins to our gatsby-config.js file:
+
+```
+module.exports = {
+    plugins: [
+        {
+            resolve: 'gatsby-plugin-google-fonts',
+            options: {
+              fonts: [
+                'Muli',
+                'Open Sans',
+                'source sans pro\:300,400,400i,700' 
+              ]
+            }
+        },
+        {
+            resolve: 'gatsby-plugin-layout',
+            options: {
+              component:                         
+              require.resolve('./src/layouts/index.js'),
+            },
+        },
+          'gatsby-plugin-theme-ui'
+
+    ]
+}
+```
+
+Next lets create our layout. We'll keep it simple but this will be our first dive into theme-ui. This article wont cover the specifics of how to use theme-ui, for that i suggest going over another tutorial i have written which covers the hows and whys [how-to-make-a-gatsby-ecommerce-theme-part-1/](https://richardhaines.dev/how-to-make-a-gatsby-ecommerce-theme-part-1/)
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { Global, css } from "@emotion/core";
+
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Global
+        styles={css`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+          }
+        `}
+      />
+      <div
+        sx={{
+          display: "grid",
+          gridTemplateRows: "auto",
+          gridTemplateColumns: [
+            "repeat(4, 1fr)",
+            "repeat(6, 1fr)",
+            "repeat(8, 1fr)"
+          ],
+          gridTemplateAreas: [
+            PhoneTemplateAreas,
+            TabletTemplateAreas,
+            DesktopTemplateAreas
+          ],
+          padding: "0 1em"
+        }}
+      >
+        {children}
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+With our grid area layouts looking like this:
+
+```
+const PhoneTemplateAreas = `
+  'nav      nav     nav     nav'
+  'main     main    main    main'
+  'footer   footer  footer  footer'
+`;
+
+const TabletTemplateAreas = `
+  'nav      nav     nav     nav     nav     nav'
+  'main     main    main    main    main    main'
+  'footer   footer  footer  footer  footer  footer'
+`;
+
+const DesktopTemplateAreas = `
+  '.    nav      nav     nav     nav     nav     nav    .'
+  '.    main     main    main    main    main    main   .'
+  '.    footer   footer  footer  footer  footer  footer .'
+`;
+```
+
+Now i want to stop i minute here and point out that this is the standard way i layout pages in my websites. That is, so long as the client or me (if its a site i have made alone) don't require any special or fancy layouts, this pattern will fix your basic site structure 99% of the time. Its a simple, responsive and will cover most use cases.
+
+If you checked out the linked article above you will notice that we are covering the same ground here. Lets create our header, main and footer components: 
+
+#### Header
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Header = props => (
+  <header
+    sx={{
+      gridArea: "nav",
+      padding: "1em",
+      backgroundColor: "background",
+      color: "text",
+      height: "100%",
+      padding: [null, "2em", "2em"],
+      paddingTop: ["2em", null, null]
+    }}
+  >
+    {props.children}
+  </header>
+);
+
+export default Header;
+```
+
+#### Main
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Main = props => (
+  <main
+    sx={{
+      gridArea: "main",
+      backgroundColor: "background",
+      minHeight: "calc(100vh - 60px)",
+      paddingTop: ["2em", "60px", "60px"]
+    }}
+  >
+    {props.children}
+  </main>
+);
+
+export default Main;
+```
+
+#### Footer
+
+```
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const Footer = () => (
+  <footer
+    sx={{
+      gridArea: "footer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "background",
+      color: "text"
+    }}
+  >
+    <p
+      sx={{
+        color: "text",
+        fontFamily: "body",
+        fontSize: ["0.7em", "0.8em", "1em"],
+        letterSpacing: "text",
+        fontWeight: 400,
+        margin: "1em auto"
+      }}
+    >
+      This is my footer!
+    </p>
+  </footer>
+);
+
+export default Footer;
+```
+
+To provide an easy way to style our whole site through changing just a few variables we can utilize gatsby-plugin-theme-ui. 
+
+```
+cd src && mkdir -p gatsby-plugin-theme-ui/index.js
+```
+
+In this file we will create our sites styles which we will be able to access via the [theme-ui sx prop](https://theme-ui.com/sx-prop/).
+
+```
+export default {
+  fonts: {
+    body: "Open Sans",
+    heading: "Muli"
+  },
+  fontWeights: {
+    body: 300,
+    heading: 400,
+    bold: 700
+  },
+  lineHeights: {
+    body: "110%",
+    heading: 1.125,
+    tagline: "100px"
+  },
+  letterSpacing: {
+    body: "2px",
+    text: "5px"
+  },
+  colors: {
+    text: "#FFFfff",
+    background: "#121212",
+    primary: "#000010",
+    secondary: "#E7E7E9",
+    secondaryDarker: "#545455",
+    accent: "#DE3C4B"
+  },
+  breakpoints: ['40em', '56em', '64em']
+};
+```
+
+Much of this is self explanatory, the breakpoints array is used to allow us to add responsive definitions to our inline styles via the sx prop. For example:
+
+```
+    <p
+      sx={{
+        fontSize: ["0.7em", "0.8em", "1em"],
+      }}
+    >
+      Some text here...
+    </p>
+```
+
+The font size array indexes corresponded to our breakpoints array set in our theme-ui index file.
+
+Now that we have our base site structure setup we can leave the frontend and begin the exciting process of writing our serverless functions!
+
+### Serverless functions setup
+
+At the projects root create a functions folder with a nested graphql folder. In that folder we will create three files, our graphql schema which we will import into Fauna, our serverless function which will live in graphql.js and create the link to and use the schema from Fauna and our database connection to Fauna. 
+
+```
+mkdir functions/graphql
+cd functions/graphql && touch schema.gql graphql.js db-connection.js
+```
+
+Lets begin with our schema. We are going to take advantage of an awesome feature of Fauna. By creating our schema and importing it into Fauna we are letting it take care of a lot of code for us by auto creating all the classes, indexes and possible resolvers.
+
+#### schema.gql
+
+```
+type Query {
+    allCharacters: [Character]!
+    allSpells: [Spell]!
+}
+
+type Character {
+    name: String!
+    house: String
+    patronus: String
+    bloodStatus: String
+    role: String
+    school: String
+    deathEater: Boolean
+    dumbledoresArmy: Boolean
+    orderOfThePheonix: Boolean
+    ministryOfMagic: Boolean
+    alias: String
+    wand: String
+    boggart: String
+    animagus: String
+}
+
+type Spell {
+    effect: String
+    spell: String
+    type: String
+}
+```
+ 
+Our schema is defining the shape of the data that we will soon be seeding into the data from the Potter API. Our top level query will return two things, an array of Characters and an array of Spells. 
+
+We have then defined our Character and Spell types. We don't need to specify an id here as when we seed the data from the Potter API we will attach it then.
+
+Now that we have our schema we can import it into Fauna. Head to your fauna console and navigate to the graphql tab on the left, click import schema and find the file we just created, click import and prepare to be amazed! 
+
+Once the import is complete we will be presented with a graphql playground where we can run queries against our newly created database using its schema. Alas, we have yet to add any data, but you can check the collections and indexes tabs on the left of the console and see that fauna has created two new collections for us, Character and Spell.
+
+A collection is a grouping of our data with each piece of data being a document. Or a table with rows if you are coming from an SQL background. Click the indexes tab to see our two new query indexes that we specified in our schema, allCharacters and allSpells.
+
+#### db-connection.js
+
+Inside db-connection.js we will create the Fauna client connection, we will use this connection to seed data into our database.
+
+```
+require('dotenv').config();
+const faunadb = require('faunadb');
+const query = faunadb.query;
+
+function createClient() {
+  if (!process.env.FAUNA_ADMIN) {
+    throw new Error(
+      `No FAUNA_ADMIN key in found, please check your fauna dashboard or create a new key.`
+    );
+  }
+  const client = new faunadb.Client({
+    secret: process.env.FAUNA_ADMIN
+  });
+  return client;
+}
+exports.client = createClient();
+exports.query = query;
+```
+
+Here we are creating a function which will check to see if we have an admin key from our Fauna database, if none is found we are returning a helpful error message to the console. If the key is found we are creating a connection to our Fauna database and exporting that connection from file. We are also exporting the query variable from Fauna as that will allow us to use some [FQL](https://docs.fauna.com/fauna/current/api/fql/) (Fauna Query Language) when seeding our data.
+
+Head over to your Fauna console and click the security tab, click new key and select admin from the role dropdown. The admin role will allow us to manage the database, in our case, seed data into it. Choose the name FAUNA_ADMIN and hit save. We will need to create another key for use in using our stored schema from Fauna. Select server for the role of this key and name it CLIENT_KEY. Don't forget to make a note of the keys before you close the windows as you wont be able to view them again!
+
+Now that we have our keys its time to grab one more, from the [Potter API](https://www.potterapi.com/), it's as simple as hitting the get key button in the top right hand corner of the page, make a note of it and head back to your code editor.
+
+We don't want our keys getting into the wrong wizards hands so lets store them as environment variables. Create a .env file at the projects root and add add them. Also add the .env path to the .gitignore file.
+
+#### .gitignore
+
+```
+// ...other stuff
+.env.*
+```
+
+#### .env
+
+```
+FAUNA_ADMIN=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+CLIENT_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+POTTER_KEY=xxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+Now we can install the Fauna JavaScript driver into our project as well as fetch, which we will need when seeding the database. We'll also add dotenv so that we can access our environment variable in different files throughout our application.
+
+```
+yarn add faunadb node-fetch dotenv
+```
+
+Our database isn't much good if it doesn't have any data in it, lets change that! Create a file at the projects root and name it seed.js
+
+```
+const fetch = require('node-fetch');
+const { client, query } = require('./functions/graphql/db');
+const q = query;
+const potterEndPoint = `https://www.potterapi.com/v1/characters/?key=${process.env.POTTER_KEY}`;
+
+fetch(potterEndPoint)
+    .then(res => res.json())
+    .then(res => {
+        console.log({res});
+        const characterArray = res.map((char, index) => ({
+            _id: char._id,
+            name: char.name,
+            house: char.house,
+            patronus: char.patronus,
+            bloodStatus: char.blood,
+            role: char.role,
+            school: char.school,
+            deathEater: char.deathEater,
+            dumbledoresArmy: char.dumbledoresArmy,
+            orderOfThePheonix: char.orderOfThePheonix,
+            ministryOfMagic: char.ministryOfMagic,
+            alias: char.alias,
+            wand: char.wand,
+            boggart: char.boggart,
+            animagus: char.animagus
+        }));
+
+        client
+            .query(
+                q.Map(
+                    characterArray,
+                    q.Lambda(
+                        'character',
+                        q.Create(q.Collection('Character'), {data: q.Var('character')})
+                    )
+                )
+            )
+            .then(console.log('Wrote potter characters to FaunaDB'))
+            .catch(err => console.log('Failed to add characters to FaunaDB', err));
+    })
+```
+
+There is quite a lot going on here so lets break it down.
+
+- We are importing fetch to do a post against the potter endpoint
+- We import our Fauna client connection and the query variable which holds the functions need to create the documents in our collection.
+- We call the potter endpoint and map over the result, adding all the data we require (which also corresponds to the schema we create earlier).
+- Using our Fauna client we use FQL to first map over the new array of characters, we then call a lambda function (an anonymous function) and choose a variable name for each row instance and create a new document in our Character collection.
+- If all was successful we return a message to the console, if unsuccessful we return the error.
+
+From the projects root run our new script.
+
+```
+node seed.js
+```
+
+If you now take a look inside the collections tab in the Fauna console you will see that the database has populated with all the characters from the potterverse! Click on one of the rows (documents) and you can see the data.
+
+We will create another seed script to get our spells data into our database. Run the script and check out the Spell collections tab to view all the spells.
+
+```
+const fetch = require('node-fetch');
+const { client, query } = require('./functions/graphql/db');
+const q = query;
+const potterEndPoint = `https://www.potterapi.com/v1/spells/?key=${process.env.POTTER_KEY}`;
+
+fetch(potterEndPoint)
+    .then(res => res.json())
+    .then(res => {
+        console.log({res});
+        const spellsArray = res.map((char, index) => ({
+            _id: char._id,
+            effect: char.effect,
+            spell: char.spell,
+            type: char.type
+        }));
+
+        client
+            .query(
+                q.Map(
+                    spellsArray,
+                    q.Lambda(
+                        'spell',
+                        q.Create(q.Collection('Spell'), {data: q.Var('spell')})
+                    )
+                )
+            )
+            .then(console.log('Wrote potter spells to FaunaDB'))
+            .catch(err => console.log('Failed to add spells to FaunaDB', err));
+    })
+```
+
+```
+node seed-spells.js
+```
+
+Now that we have data in our database its time to create our serverless function which will pull in our schema from Fauna.
+
+#### graphql.js
+
+```
+require('dotenv').config();
+const {createHttpLink } = require('apollo-link-http');
+const { ApolloServer, makeRemoteExecutableSchema, introspectSchema } = require('apollo-server-micro');
+
+const link = createHttpLink({
+    uri: 'https://graphql.fauna.com/graphql',
+    fetch,
+    headers: {
+      Authorization: `Bearer ${process.env.CLIENT_KEY}`,
+    },
+  })
+
+  const schema = makeRemoteExecutableSchema({
+    schema: introspectSchema(link),
+    link,
+  })
+
+const server = new ApolloServer({
+    schema,
+    introspection: true
+});
+
+exports.handler = server.createHandler({
+    cors: {
+        origin: "*",
+        credentials: true
+    }
+});
+```
+
+Lets go through what we just did.
+
+- We created a link to Fauna using the createHttpLink function which takes our Fauna graphql endpoint and attaches our server key to the header. This will fetch the graphql results from the endpoint over an http connection.
+- We then grab our schema from Fauna using the makeRemoteExecutableSchema function by passing the link to the introspectSchema function, we also provide the link.
+- A new ApolloServer instance is then created and our schema passed in. 
+- Finally we export our handler as Netlify requires us to do when writing serverless functions.
+- Note that we might, and most probably will, run into [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues when trying to fetch our data so we pass our createHandler function the cors option, setting its origin to anything and credentials as true.
+
+### Using our data!
+
+Before we can think about displaying our data we must first do some tinkering. We will be using some handy hooks from Apollo for querying our (namely [useQuery](https://www.apollographql.com/docs/react/data/queries/)) and for that to work we must first set up our provider, which is similar to Reacts context provider. We will wrap our sites root with this provider and pass in our client, thus making it available throughout our site.
+
+To wrap the root element in a Gatsby site we must use the gatsby-browser.js and gatsby-ssr.js files. The implementation will be identical in both.
+
+#### gatsby-browser.js && gatsby-ssr.js
+
+We will have to add a few more packages at this point: 
+
+```
+yarn add @apollo/client apollo-link-context 
+```
+
+```
+const React = require('react');
+require('dotenv').config();
+const {
+    ApolloProvider,
+    ApolloClient,
+    InMemoryCache
+} = require('@apollo/client');
+const { setContext } = require('apollo-link-context');
+const {createHttpLink } = require('apollo-link-http');
+
+const httpLink = createHttpLink({
+    uri: 'https://graphql.fauna.com/graphql',
+  });
+  
+  const authLink = setContext((_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${process.env.CLIENT_KEY}`,
+      }
+    }
+  });
+  
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+  });
+
+export const wrapRootElement = ({element}) => (
+<ApolloProvider client={client}>{element}</ApolloProvider>
+)
+```
+
+There are other ways of setting this up, i had originally just created an ApolloClient instance and passed in the Netlify functions url as a http link then passed that down to the provider but i was encountering authorization issues, with a helpful message stating that the request lacked authorization headers. The solution was to send the authorization along with a header on every http request.
+
+Lets take a look at what we have here:
+
+- Created a new http link much the same as we did before when creating our server instance.
+- Create an auth link which returns the headers to the context so the http link can read them. Here we pass in our Fauna key with server rights.
+- Then we create the client to be passed to the provider with the link now set as the auth link.
+
+Now that we have the nuts and bolts all setup we can move onto some frontend code!
+
+### Make it work then make it pretty!
