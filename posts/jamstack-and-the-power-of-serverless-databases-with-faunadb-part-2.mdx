@@ -1,0 +1,871 @@
+---
+title: Jamstack and the power of serverless databases with FaunaDB. Part 2
+date: 2020-04-30
+published: false
+category: Tutorial
+author: Richard Haines
+keywords: [gatsby, theme-ui, netlify functions, faunadb, serverless, tutorial]
+pin: false
+---
+
+In [Jamstack and the power of serverless databases with FaunaDB. Part 1](/jamstack-and-the-power-of-serverless-databases-with-faunadb-part-1) we looked at what the Jamstack is and covered serverless computing. We then began our project and set up our schema. In this part we will continue to create our project, connect our database with our frontend and begin fleshing out our project structure.
+
+Now that we have our keys its time to grab one more, from the [Potter API](https://www.potterapi.com/), it's as simple as hitting the get key button in the top right hand corner of the page, make a note of it and head back to your code editor.
+
+We don't want our keys getting into the wrong wizards hands so lets store them as environment variables. Create a .env file at the projects root and add add them. Also add the .env path to the .gitignore file.
+
+#### .gitignore
+
+```bash
+    // ...other stuff
+    .env.*
+```
+
+#### .env
+
+```bash
+    FAUNA_ADMIN=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+    SERVER_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+    POTTER_KEY=xxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+Our database isn't much good if it doesn't have any data in it, lets change that! Create a file at the projects root and name it seed.js
+
+```js
+    const fetch = require('isomorphic-fetch');
+    const { client, query } = require('./functions/graphql/db');
+    const q = query;
+    const potterEndPoint = `https://www.potterapi.com/v1/characters/?key=${process.env.POTTER_KEY}`;
+    
+    fetch(potterEndPoint)
+        .then(res => res.json())
+        .then(res => {
+            console.log({res});
+            const characterArray = res.map((char, index) => ({
+                _id: char._id,
+                name: char.name,
+                house: char.house,
+                patronus: char.patronus,
+                bloodStatus: char.blood,
+                role: char.role,
+                school: char.school,
+                deathEater: char.deathEater,
+                dumbledoresArmy: char.dumbledoresArmy,
+                orderOfThePheonix: char.orderOfThePheonix,
+                ministryOfMagic: char.ministryOfMagic,
+                alias: char.alias,
+                wand: char.wand,
+                boggart: char.boggart,
+                animagus: char.animagus
+            }));
+    
+            client
+                .query(
+                    q.Map(
+                        characterArray,
+                        q.Lambda(
+                            'character',
+                            q.Create(q.Collection('Character'), {data: q.Var('character')})
+                        )
+                    )
+                )
+                .then(console.log('Wrote potter characters to FaunaDB'))
+                .catch(err => console.log('Failed to add characters to FaunaDB', err));
+        })
+```
+
+There is quite a lot going on here so lets break it down.
+
+- We are importing fetch to do a post against the potter endpoint
+- We import our Fauna client connection and the query variable which holds the functions need to create the documents in our collection.
+- We call the potter endpoint and map over the result, adding all the data we require (which also corresponds to the schema we create earlier).
+- Using our Fauna client we use FQL to first map over the new array of characters, we then call a lambda function (an anonymous function) and choose a variable name for each row instance and create a new document in our Character collection.
+- If all was successful we return a message to the console, if unsuccessful we return the error.
+
+From the projects root run our new script.
+
+```bash
+    node seed.js
+```
+
+If you now take a look inside the collections tab in the Fauna console you will see that the database has populated with all the characters from the potterverse! Click on one of the rows (documents) and you can see the data.
+
+We will create another seed script to get our spells data into our database. Run the script and check out the Spell collections tab to view all the spells.
+
+```js
+    const fetch = require('isomorphic-fetch');
+    const { client, query } = require('./functions/graphql/db');
+    const q = query;
+    const potterEndPoint = `https://www.potterapi.com/v1/spells/?key=${process.env.POTTER_KEY}`;
+    
+    fetch(potterEndPoint)
+        .then(res => res.json())
+        .then(res => {
+            console.log({res});
+            const spellsArray = res.map((char, index) => ({
+                _id: char._id,
+                effect: char.effect,
+                spell: char.spell,
+                type: char.type
+            }));
+    
+            client
+                .query(
+                    q.Map(
+                        spellsArray,
+                        q.Lambda(
+                            'spell',
+                            q.Create(q.Collection('Spell'), {data: q.Var('spell')})
+                        )
+                    )
+                )
+                .then(console.log('Wrote potter spells to FaunaDB'))
+                .catch(err => console.log('Failed to add spells to FaunaDB', err));
+        })
+```
+
+```bash
+    node seed-spells.js
+```
+
+Now that we have data in our database its time to create our serverless function which will pull in our schema from Fauna.
+
+#### graphql.js
+
+```js
+    require('dotenv').config();
+    const {createHttpLink } = require('apollo-link-http');
+    const { ApolloServer, makeRemoteExecutableSchema, introspectSchema } = require('apollo-server-micro');
+    const fetch = require('isomorphic-fetch');
+    
+    const link = createHttpLink({
+        uri: 'https://graphql.fauna.com/graphql',
+        fetch,
+        headers: {
+          Authorization: `Bearer ${process.env.SERVER_KEY}`,
+        },
+      })
+    
+      const schema = makeRemoteExecutableSchema({
+        schema: introspectSchema(link),
+        link,
+      })
+    
+    const server = new ApolloServer({
+        schema,
+        introspection: true
+    });
+    
+    exports.handler = server.createHandler({
+        cors: {
+            origin: "*",
+            credentials: true
+        }
+    });
+```
+
+Lets go through what we just did.
+
+
+- We created a link to Fauna using the createHttpLink function which takes our Fauna graphql endpoint and attaches our server key to the header. This will fetch the graphql results from the endpoint over an http connection.
+- We then grab our schema from Fauna using the makeRemoteExecutableSchema function by passing the link to the introspectSchema function, we also provide the link.
+- A new ApolloServer instance is then created and our schema passed in.
+- Finally we export our handler as Netlify requires us to do when writing serverless functions.
+- Note that we might, and most probably will, run into [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues when trying to fetch our data so we pass our createHandler function the cors option, setting its origin to anything and credentials as true.
+
+### Using our data!
+
+Before we can think about displaying our data we must first do some tinkering. We will be using some handy hooks from Apollo for querying our (namely [useQuery](https://www.apollographql.com/docs/react/data/queries/)) and for that to work we must first set up our provider, which is similar to Reacts context provider. We will wrap our sites root with this provider and pass in our client, thus making it available throughout our site.
+To wrap the root element in a Gatsby site we must use the gatsby-browser.js and gatsby-ssr.js files. The implementation will be identical in both.
+
+#### gatsby-browser.js && gatsby-ssr.js
+
+We will have to add a few more packages at this point:
+
+```bash
+    yarn add @apollo/client apollo-link-context 
+```
+
+```jsx
+    const React = require('react');
+    const {
+        ApolloProvider,
+        ApolloClient,
+        InMemoryCache
+    } = require('@apollo/client');
+    const { setContext } = require('apollo-link-context');
+    const {createHttpLink } = require('apollo-link-http');
+    const fetch = require('isomorphic-fetch');
+    
+    const httpLink = createHttpLink({
+        uri: 'https://graphql.fauna.com/graphql',
+        fetch
+      });
+    
+      const authLink = setContext((_, { headers }) => {
+        return {
+          headers: {
+            ...headers,
+            authorization: `Bearer ${process.env.SERVER_KEY}`,
+          }
+        }
+      });
+    
+      const client = new ApolloClient({
+        link: authLink.concat(httpLink),
+        cache: new InMemoryCache()
+      });
+    
+    export const wrapRootElement = ({element}) => (
+    <ApolloProvider client={client}>{element}</ApolloProvider>
+    )
+```
+
+There are other ways of setting this up, i had originally just created an ApolloClient instance and passed in the Netlify functions url as a http link then passed that down to the provider but i was encountering authorization issues, with a helpful message stating that the request lacked authorization headers. The solution was to send the authorization along with a header on every http request.
+
+Lets take a look at what we have here:
+
+
+- Created a new http link much the same as we did before when creating our server instance.
+- Create an auth link which returns the headers to the context so the http link can read them. Here we pass in our Fauna key with server rights.
+- Then we create the client to be passed to the provider with the link now set as the auth link.
+
+Now that we have the nuts and bolts all setup we can move onto some frontend code!
+
+### Make it work then make it pretty!
+
+We'll also want to create some base components. We'll be using a Gatsby layout plugin to make life easier for us. We'll also utilize some google fonts via a plugin. Stay with me...
+
+```bash
+    mkdir -p src/layouts/index.js
+    cd src/components && touch header.js
+    cd src/components && touch main.js
+    cd src/components && touch footer.js
+    yarn add gatsby-plugin-layout
+    yarn add gatsby-plugin-google-fonts
+```
+
+Now we need to add the theme-ui, layout and google fonts plugins to our gatsby-config.js file:
+
+```js
+    module.exports = {
+        plugins: [
+            {
+                resolve: 'gatsby-plugin-google-fonts',
+                options: {
+                  fonts: [
+                    'Muli',
+                    'Open Sans',
+                    'source sans pro\:300,400,400i,700' 
+                  ]
+                }
+            },
+            {
+                resolve: 'gatsby-plugin-layout',
+                options: {
+                  component:                         
+                  require.resolve('./src/layouts/index.js'),
+                },
+            },
+              'gatsby-plugin-theme-ui'
+    
+        ]
+    }
+```
+
+We'll begin with our global layout. This will include a css reset and render our header component and any children, which in our case is the rest of the applications pages/components.
+
+```jsx
+    /** @jsx jsx */
+    import { jsx } from "theme-ui";
+    import React from "react";
+    import { Global, css } from "@emotion/core";
+    import Header from "./../components/site/header";
+    
+    const Layout = ({ children, location }) => {
+      return (
+        <>
+          <Global
+            styles={css`
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                scroll-behavior: smooth;
+    
+                /* width */
+                ::-webkit-scrollbar {
+                  width: 10px;
+                }
+    
+                /* Track */
+                ::-webkit-scrollbar-track {
+                  background: #fff;
+                  border-radius: 20px;
+                }
+    
+                /* Handle */
+                ::-webkit-scrollbar-thumb {
+                  background: #000;
+                  border-radius: 20px;
+                }
+    
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                  background: #000;
+                }
+              }
+              body {
+                scroll-behavior: smooth;
+                overflow-y: scroll;
+                -webkit-overflow-scrolling: touch;
+                width: 100%;
+                overflow-x: hidden;
+                height: 100%;
+              }
+            `}
+          />
+          <Header location={location} />
+          {children}
+        </>
+      );
+    };
+    
+    export default Layout;
+```
+
+Because we are using gatsby-plugin-layout our layout component will be wrapped around all of our pages so that we can skip importing it ourselves. For our site its a trivial step as we could just as easily import it but for more complex layout solutions this can come in real handy.
+
+To provide an easy way to style our whole site through changing just a few variables we can utilize gatsby-plugin-theme-ui.
+
+This article wont cover the specifics of how to use theme-ui, for that i suggest going over another tutorial i have written which covers the hows and whys [how-to-make-a-gatsby-ecommerce-theme-part-1/](https://richardhaines.dev/how-to-make-a-gatsby-ecommerce-theme-part-1/)
+
+```bash
+    cd src && mkdir gatsby-plugin-theme-ui && touch index.js
+```
+
+In this file we will create our sites styles which we will be able to access via the [theme-ui sx prop](https://theme-ui.com/sx-prop/).
+
+```js
+    export default {
+      fonts: {
+        body: "Open Sans",
+        heading: "Muli"
+      },
+      fontWeights: {
+        body: 300,
+        heading: 400,
+        bold: 700
+      },
+      lineHeights: {
+        body: "110%",
+        heading: 1.125,
+        tagline: "100px"
+      },
+      letterSpacing: {
+        body: "2px",
+        text: "5px"
+      },
+      colors: {
+        text: "#FFFfff",
+        background: "#121212",
+        primary: "#000010",
+        secondary: "#E7E7E9",
+        secondaryDarker: "#545455",
+        accent: "#DE3C4B"
+      },
+      breakpoints: ['40em', '56em', '64em']
+    };
+```
+
+Much of this is self explanatory, the breakpoints array is used to allow us to add responsive definitions to our inline styles via the sx prop. For example:
+
+```jsx
+        <p
+          sx={{
+            fontSize: ["0.7em", "0.8em", "1em"],
+          }}
+        >
+          Some text here...
+        </p>
+```
+
+The font size array indexes corresponded to our breakpoints array set in our theme-ui index file.
+Next we'll create our header component. But before we do we must install another package, i'll explain why once you see the component.
+
+```bash
+    yarn add @emotion/styled
+    cd src/components
+    mkdir site && touch header.js
+```
+
+#### header.js
+
+```jsx
+    /** @jsx jsx */
+    import { jsx } from "theme-ui";
+    import HarryPotterLogo from "../../assets/svg-silhouette-harry-potter-4-transparent.svg.svg";
+    import { Link } from "gatsby";
+    import styled from "@emotion/styled";
+    
+    const PageLink = styled(Link)`
+      color: #fff;
+    
+      &:hover {
+        background-image: linear-gradient(
+          90deg,
+          rgba(127, 9, 9, 1) 0%,
+          rgba(255, 197, 0, 1) 12%,
+          rgba(238, 225, 23, 1) 24%
+        );
+        background-size: 100%;
+        background-repeat: repeat;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+      }
+    `;
+    
+    const Header = ({ location }) => {
+      return (
+        <section
+          sx={{
+            gridArea: "header",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+            display: location.pathname === "/" ? "none" : "flex",
+          }}
+        >
+          <Link to="/">
+            <HarryPotterLogo
+              sx={{
+                height: "100px",
+                width: "100px",
+                padding: "1em",
+              }}
+            />
+          </Link>
+    
+          <PageLink
+            sx={{
+              fontFamily: "heading",
+              fontSize: "2em",
+              color: "white",
+              marginRight: "2em",
+            }}
+            to="/houses"
+          >
+            houses
+          </PageLink>
+          <PageLink
+            sx={{
+              fontFamily: "heading",
+              fontSize: "2em",
+              color: "white",
+            }}
+            to="/spells"
+          >
+            Spells
+          </PageLink>
+        </section>
+      );
+    };
+    
+    export default Header;
+```
+
+Lets understand our imports first.
+
+
+- We have imported and used the jsx pragma from theme-ui to allow to to style our elements and components inline with the object syntax
+- The HarryPotterLogo is a logo i found via google which was placed in a folder named assets inside of our src folder. Its an svg which we alter the height and width of using the sx prop.
+- Gatsby link is needed for us to navigate between pages in our site.
+
+You may be wondering why we have installed emotion/styled when we could just use the sx prop, like we have done else where... Well the answer lies in the affect we are using on the page links. 
+
+The sx prop doesn’t seem to have access to, or i should say perhaps that its doesn't have in its definitions, the -webkit-background-clip property which we are using to add a cool linear-gradient affect on hover. For this reason we have pulled the logic our into a new component called PageLink which is a styled Gatsby Link. With styled components we can use regular css syntax and as such have access to the -webkit-background-clip property.
+
+The header component is taking the location prop provided by @reach/router which Gatsby uses under the hood for its routing. This is used to determine which page we are on. Due to the fact that we have a different layout for our main home page and the rest of the site we simply use the location object to check if we are on the home page, if we are we set a display none to hide the header component.
+
+The last thing we need to do is set our grid areas which we will be using in later pages. This is just my preferred way of doing it, but i like the separation. Create a new folder inside of src called window and add an index.js file.
+
+```js
+    export const HousesSpellsPhoneTemplateAreas = `
+    'header'
+    'main'
+    'main'
+    `;
+    
+    export const HousesSpellsTabletTemplateAreas = `
+    'header    header        header   header'
+    'main    main        main   main'
+    `;
+    
+    export const HousesSpellsDesktopTemplateAreas = `
+    'header    header        header   header'
+    'main    main        main   main'
+    `;
+    
+    export const HomePhoneTemplateAreas = `
+    'logo'
+    'logo'
+    'logo'
+    'author'
+    'author'
+    'author'
+    'author'
+    `;
+    
+    export const HomeTabletTemplateAreas = `
+    'logo       .           .     '
+    'logo       author      author'
+    'logo       author      author'
+    '.          .           .     '
+    `;
+    
+    export const HomeDesktopTemplateAreas = `
+    'logo       .           .     '
+    'logo       author      author'
+    'logo       author      author'
+    '.          .           .     '
+    `;
+```
+
+Cool, now we have our global layout complete, lets move onto our home page. Open up the index.js file inside of src/pages and add the following:
+
+```jsx
+    /** @jsx jsx */
+    import { jsx } from "theme-ui";
+    import React from "react";
+    import {
+      HomePhoneTemplateAreas,
+      HomeTabletTemplateAreas,
+      HomeDesktopTemplateAreas,
+    } from "./../window/index";
+    import LogoSection from "./../components/site/logo-section";
+    import AuthorSection from "../components/site/author-section";
+    
+    export default () => {
+      return (
+        <div
+          sx={{
+            width: "100%",
+            height: "100%",
+            maxWidth: "1200px",
+            margin: "1em",
+          }}
+        >
+          <div
+            sx={{
+              display: "grid",
+              gridTemplateColumns: ["1fr", "500px 1fr", "500px 1fr"],
+              gridAutoRows: "100px 1fr",
+              gridTemplateAreas: [
+                HomePhoneTemplateAreas,
+                HomeTabletTemplateAreas,
+                HomeDesktopTemplateAreas,
+              ],
+              width: "100%",
+              height: "100vh",
+              background: "#1E2224",         
+              maxWidth: "1200px",
+            }}
+          >
+            <LogoSection />
+            <AuthorSection />
+          </div>
+        </div>
+      );
+    };
+```
+
+This is the first page our visitors will see. We are using a grid to compose our layout of the page and utilizing the responsive array syntax in our grid-template-columns and areas properties. To recap how this works we can take a closer look at the gridTemplateAreas property and see that the first index is for phone (or mobile if you will) with the second being tablet and the third desktop. We could add more if we so wished but these will suffice for our needs.
+
+Lets move on to creating our logo section. In src/components/site create two new files called logo.js and logo-section.js
+
+#### logo.js
+
+```jsx
+    /** @jsx jsx */
+    import { jsx } from "theme-ui";
+    import HarryPotterLogo from "../assets/svg-silhouette-harry-potter-4-transparent.svg.svg";
+    export const Logo = () => (
+      <HarryPotterLogo
+        sx={{
+          height: ["200px", "300px", "500px"],
+          width: ["200px", "300px", "500px"],
+          padding: "1em",
+          position: "relative",
+        }}
+      />
+    );
+```
+
+Our logo is the Harry Potter svg mentioned earlier. You can of course choose whatever you like as your sites logo. This one is merely “HR” in a fancy font.
+
+#### logo-section.js
+
+```jsx
+    /** @jsx jsx */
+    import { jsx } from "theme-ui";
+    import { Logo } from "../logo";
+    const LogoSection = () => {
+      return (
+        <section
+          sx={{
+            gridArea: "logo",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: ["start", "center", "center"],
+            position: "relative",
+            width: "100%",
+          }}
+        >
+          <Logo />
+        </section>
+      );
+    };
+    export default LogoSection;
+```
+
+Next up is our author section which will site next to our logo section Create a new file inside of src/components/site called author-section.js
+
+#### author-section.js
+
+```jsx
+    /** @jsx jsx */
+    import { jsx } from "theme-ui";
+    import { Link } from "gatsby";
+    import { houseEmoji, spellsEmoji } from "./../../helpers/helpers";
+    import styled from "@emotion/styled";
+    import { wizardEmoji } from "./../../helpers/helpers";
+    
+    const InternalLink = styled(Link)`
+      color: #fff;
+      &:hover {
+        background-image: linear-gradient(
+          90deg,
+          rgba(127, 9, 9, 1) 0%,
+          rgba(255, 197, 0, 1) 12%,
+          rgba(238, 225, 23, 1) 24%
+        );
+        background-size: 100%;
+        background-repeat: repeat;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+      }
+    `;
+    
+    const ExternalLink = styled.a`
+      color: #fff;
+      &:hover {
+        background-image: linear-gradient(
+          90deg,
+          rgba(127, 9, 9, 1) 0%,
+          rgba(255, 197, 0, 1) 12%,
+          rgba(238, 225, 23, 1) 24%,
+          rgba(0, 0, 0, 1) 36%,
+          rgba(13, 98, 23, 1) 48%,
+          rgba(170, 170, 170, 1) 60%,
+          rgba(0, 10, 144, 1) 72%,
+          rgba(148, 119, 45, 1) 84%
+        );
+        background-size: 100%;
+        background-repeat: repeat;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+      }
+    `;
+    
+    const AuthorSection = () => {
+      return (
+        <section
+          sx={{
+            gridArea: "author",
+            position: "relative",
+            margin: "0 auto",
+          }}
+        >
+          <h1
+            sx={{
+              fontFamily: "heading",
+              color: "white",
+              letterSpacing: "text",
+              fontSize: ["3em", "3em", "5em"],
+            }}
+          >
+            Serverless Potter
+          </h1>
+          <div
+            sx={{
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "flex-start",
+              width: "300px",
+              marginTop: "3em",
+            }}
+          >
+            <InternalLink
+              sx={{
+                fontFamily: "heading",
+                fontSize: "2.5em",
+                // color: 'white',
+                marginRight: "2em",
+              }}
+              to="/houses"
+            >
+              Houses
+            </InternalLink>
+            <InternalLink
+              sx={{
+                fontFamily: "heading",
+                fontSize: "2.5em",
+                color: "white",
+              }}
+              to="/spells"
+            >
+              Spells
+            </InternalLink>
+          </div>
+          <p
+            sx={{
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "2em",
+              color: "white",
+              marginTop: "2em",
+              width: ["300px", "500px", "900px"],
+            }}
+          >
+            This is a site that goes with the tutorial on creating a jamstack site with serverless functions and FaunaDB I decided to use the potter api as i love the world of
+            harry potter {wizardEmoji}
+          </p>
+          <p
+            sx={{
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "2em",
+              color: "white",
+              marginTop: "1em",
+              width: ["300px", "500px", "900px"],
+            }}
+          >
+            Built with Gatsby, Netlify functions, Apollo and FaunaDB. Data provided
+            via the Potter API.
+          </p>
+          <p
+            sx={{
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "2em",
+              color: "white",
+              marginTop: "1em",
+              width: ["300px", "500px", "900px"],
+            }}
+          >
+            Select <strong>Houses</strong> or <strong>Spells</strong> to begin
+            exploring potter stats!
+          </p>
+          <div
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <ExternalLink
+              sx={{
+                fontFamily: "heading",
+                letterSpacing: "body",
+                fontSize: "2em",
+                color: "white",
+                marginTop: "1em",
+                width: ["300px", "500px", "900px"],
+              }}
+              href="your-personal-website"
+            >
+              author: your name here!
+            </ExternalLink>
+            <ExternalLink
+              sx={{
+                fontFamily: "heading",
+                letterSpacing: "body",
+                fontSize: "2em",
+                color: "white",
+                marginTop: "1em",
+                width: "900px",
+              }}
+              href="your-github-repo-for-this-project"
+            >
+              github: the name you gave this project
+            </ExternalLink>
+          </div>
+        </section>
+      );
+    };
+    export default AuthorSection;
+```
+
+This component outlines what the project is, displays links to the other pages and the projects repository. You can change the text I’ve added, this was just for demo purposes. As you can see, we are again using emotion/styled as we are making use of the  -webkit-background-clip property on our cool linear-gradient links. We have two here, one for external links, which uses the a tag, and another for internal link which uses Gatsby Link. Note that you should always use the traditional HTML a tag for external links and the Gatsby Link to configure your internal routing.
+
+You may also notice that there is an import from a helper file what exports some emojis. Lets take a look at that. Create a new folder inside of src.
+
+```bash
+    cd src
+    mkdir helpers && touch helpers.js
+```
+
+#### helpers.js
+
+```js
+    export const gryffindorColors =
+      "linear-gradient(90deg, rgba(127,9,9,1) 27%, rgba(255,197,0,1) 61%)";
+    export const hufflepuffColors =
+      "linear-gradient(90deg, rgba(238,225,23,1) 35%, rgba(0,0,0,1) 93%)";
+    export const slytherinColors =
+      "linear-gradient(90deg, rgba(13,98,23,1) 32%, rgba(170,170,170,1) 69%)";
+    export const ravenclawColors =
+      "linear-gradient(90deg, rgba(0,10,144,1) 32%, rgba(148,107,45,1) 69%)";
+    
+    export const houseEmoji = `🏡`;
+    export const spellsEmoji = `💫`;
+    export const wandEmoji = `💫`;
+    export const patronusEmoji = `✨`;
+    export const deathEaterEmoji = `🐍`;
+    export const dumbledoresArmyEmoji = `⚔️`;
+    export const roleEmoji = `📖`;
+    export const bloodStatusEmoji = `🧙🏾‍♀️ 🤵🏾`;
+    export const orderOfThePheonixEmoji = `🦄`;
+    export const ministryOfMagicEmoji = `📜`;
+    export const boggartEmoji = `🕯`;
+    export const aliasEmoji = `👨🏼‍🎤`;
+    export const wizardEmoji = `🧙🏼‍♂️`;
+    export const gryffindorEmoji = `🦁`;
+    export const hufflepuffEmoji = `🦡`;
+    export const slytherinEmoji = `🐍`;
+    export const ravenclawEmoji = `🦅`;
+    
+    export function checkNull(value) {
+      return value !== null ? value : "unknown";
+    }
+    export function checkDeathEater(value) {
+      if (value === false) {
+        return "no";
+      }
+      return "undoubtedly";
+    }
+    export function checkDumbledoresArmy(value) {
+      if (value === false) {
+        return "no";
+      }
+      return `undoubtedly ${wizardEmoji}`;
+    }
+```
+
+The emojis were taken from a really cool site called [Emoji Clipboard](https://beautifuldingbats.com/emoji-clipboard/), it lets you search and literally copy paste the emojis! We’ll be using these emojis in our cards to display the characters from Harry Potter. As well as the emojis we have some utility functions that will also be used in the cards. Each house in Harry Potter has a set of colors that sets them apart form the other houses. These we have exported as linear-gradients for later use.
+
+Nice! We are nearly there but we haven’t quite finished yet! In the next part we will use our data and display it to the user of our site!
+

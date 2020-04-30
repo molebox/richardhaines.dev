@@ -1,0 +1,773 @@
+---
+title: Jamstack and the power of serverless databases with FaunaDB. Part 3
+date: 2020-04-30
+published: false
+category: Tutorial
+author: Richard Haines
+keywords: [gatsby, theme-ui, netlify functions, faunadb, serverless, tutorial]
+pin: false
+---
+
+In
+[Jamstack and the power of serverless databases with FaunaDB. Part 1](/jamstack-and-the-power-of-serverless-databases-with-faunadb-part-1)
+we looked over our stack, what the Jamstack and serverless means and began
+writing our schema. In
+[Jamstack and the power of serverless databases with FaunaDB. Part 2.](/jamstack-and-the-power-of-serverless-databases-with-faunadb-part-2)
+we connected our database with our frontend and started creating and styling our
+components ready to use our data. In this final part we will use Apollo to
+display our data to the end user and deploy our new website on Netlify.
+
+We have done quite a bit of setup but haven’t yet had a chance to use our data
+that we have saved in our Fauna database. Now’s the time to bring in Apollo and
+put together a page that shows all the characters data for each house. We are
+also going to implement a simple searchbar to allow the user to search the
+characters of each house!
+
+Inside src/pages create a new file called houses.js and add the following:
+
+#### houses.js
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import { gql, useQuery } from "@apollo/client";
+import MainSection from "./../components/site/main-section";
+import {
+  HousesPhoneTemplateAreas,
+  HousesTabletTemplateAreas,
+  HousesDesktopTemplateAreas
+} from "../window";
+
+const GET_CHARACTERS = gql`
+  query GetCharacters {
+    allCharacters {
+      data {
+        _id
+        name
+        house
+        patronus
+        bloodStatus
+        role
+        school
+        deathEater
+        dumbledoresArmy
+        orderOfThePheonix
+        ministryOfMagic
+        alias
+        wand
+        boggart
+        animagus
+      }
+    }
+  }
+`;
+
+const Houses = () => {
+  const {
+    loading: characterLoading,
+    error: characterError,
+    data: characterData
+  } = useQuery(GET_CHARACTERS);
+  const [selectedHouse, setSelectedHouse] = React.useState([]);
+
+  React.useEffect(() => {
+    const gryffindor =
+      !characterLoading &&
+      !characterError &&
+      characterData.allCharacters.data.filter(
+        char => char.house === "Gryffindor"
+      );
+    setSelectedHouse(gryffindor);
+  }, [characterLoading, characterData]);
+
+  const getHouse = house => {
+    switch (house) {
+      case "gryffindor":
+        setSelectedHouse(
+          !characterLoading &&
+            !characterError &&
+            characterData.allCharacters.data.filter(
+              char => char.house === "Gryffindor"
+            )
+        );
+        break;
+      case "hufflepuff":
+        setSelectedHouse(
+          !characterLoading &&
+            !characterError &&
+            characterData.allCharacters.data.filter(
+              char => char.house === "Hufflepuff"
+            )
+        );
+        break;
+      case "slytherin":
+        setSelectedHouse(
+          !characterLoading &&
+            !characterError &&
+            characterData.allCharacters.data.filter(
+              char => char.house === "Slytherin"
+            )
+        );
+        break;
+      case "ravenclaw":
+        setSelectedHouse(
+          !characterLoading &&
+            !characterError &&
+            characterData.allCharacters.data.filter(
+              char => char.house === "Ravenclaw"
+            )
+        );
+        break;
+      default:
+        setSelectedHouse(
+          !characterLoading &&
+            !characterError &&
+            characterData.allCharacters.data.filter(
+              char => char.house === "Gryffindor"
+            )
+        );
+        break;
+    }
+  };
+  return (
+    <div
+      sx={{
+        gridArea: "main",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, auto))",
+        gridAutoRows: "auto",
+        gridTemplateAreas: [
+          HousesSpellsPhoneTemplateAreas,
+          HousesSpellsTabletTemplateAreas,
+          HousesSpellsDesktopTemplateAreas
+        ],
+        width: "100%",
+        height: "100%",
+        position: "relative"
+      }}
+    >
+      <MainSection house={selectedHouse} getHouse={getHouse} />
+    </div>
+  );
+};
+export default Houses;
+```
+
+We are using @apollo/client from which we import gql to construct our graphql
+query and the useQuery hook which will take care of handling the state of the
+returned data for us. This handy hook returns three states:
+
+- loading - Is the data currently loading?
+- error - If there was an error we will get it here
+- data - The requested data
+
+Our page will be handling the currently selected house so we use the React
+useState hook and initialize it with an empty array on first render. There after
+we use the useEffect hook to set the initial house as Gryffindor (because
+Gryffindor is best. Fight me!) The dependency array takes in the loading and
+data states.
+
+We then have a function which returns a switch statement (I know not everyone
+likes these but i do and i find that they are simple to read and understand).
+This function checks the currently selected house and if there are no errors in
+the query it loads the data from that house into the selected house state array.
+This function is passed down to another component which uses that data to
+display the house characters in a grid of cards.
+
+Lets create that component now. Inside src/components/site create a new file
+called main-section.js
+
+#### main-section.js
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import React from "react";
+import Card from "../cards/card";
+import SearchBar from "./searchbar";
+import { useSearchBar } from "./useSearchbar";
+import Loading from "./loading";
+import HouseSection from "./house-section";
+
+const MainSection = React.memo(({ house, getHouse }) => {
+  const { members, handleSearchQuery } = useSearchBar(house);
+
+  return house.length ? (
+    <div
+      sx={{
+        gridArea: "main",
+        height: "100%",
+        position: "relative"
+      }}
+    >
+      <div
+        sx={{
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          fontFamily: "heading",
+          letterSpacing: "body",
+          fontSize: "2em",
+          position: "relative"
+        }}
+      >
+        <h4>
+          {house[0].house} Members - {house.length}
+        </h4>
+        <SearchBar handleSearchQuery={handleSearchQuery} />
+        <HouseSection getHouse={getHouse} />
+      </div>
+      <section
+        sx={{
+          margin: "0 auto",
+          width: "100%",
+          display: "grid",
+          gridAutoRows: "auto",
+          gridTemplateColumns: "repeat(auto-fill, minmax(auto, 500px))",
+          gap: "1.5em",
+          justifyContent: "space-evenly",
+          marginTop: "1em",
+          position: "relative",
+          height: "100vh"
+        }}
+      >
+        {members.map((char, index) => (
+          <Card key={char._id} index={index} {...char} />
+        ))}
+      </section>
+    </div>
+  ) : (
+    <Loading />
+  );
+});
+export default MainSection;
+```
+
+Our main section is wrapped in memo, which means that React will render the
+component and memorize the result. If the next time the props are passed in and
+they are the same, React will use the memorized result and skip re-rendering the
+component again. This is helpful as our component will be re-rendering a lot as
+the user changes houses or uses the searchbar, which will will soon create.
+
+In fact, lets do do that now. We will be creating a search bar component and a
+custom hook to handle the search logic. Inside src/components/site create two
+new files. searchbar.js and useSearchbar.js
+
+#### searchbar.js
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+
+const SearchBar = ({ handleSearchQuery }) => {
+  return (
+    <div
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "2em"
+      }}
+    >
+      <input
+        sx={{
+          color: "greyBlack",
+          fontFamily: "heading",
+          fontSize: "0.8em",
+          fontWeight: "bold",
+          letterSpacing: "body",
+          border: "1px solid",
+          borderColor: "accent",
+          width: "300px",
+          height: "50px",
+          padding: "0.4em"
+        }}
+        type="text"
+        id="members-searchbar"
+        placeholder="Search members.."
+        onChange={handleSearchQuery}
+      />
+    </div>
+  );
+};
+export default SearchBar;
+```
+
+Our searchbar takes in a search query function which is called when the input is
+used. The rest is just styling.
+
+#### useSearchbar.js
+
+```jsx
+import React from "react";
+export const useSearchBar = data => {
+  const emptyQuery = "";
+  const [searchQuery, setSearchQuery] = React.useState({
+    filteredData: [],
+    query: emptyQuery
+  });
+
+  const handleSearchQuery = e => {
+    const query = e.target.value;
+    const members = data || [];
+
+    const filteredData = members.filter(member => {
+      return member.name.toLowerCase().includes(query.toLowerCase());
+    });
+
+    setSearchQuery({ filteredData, query });
+  };
+
+  const { filteredData, query } = searchQuery;
+  const hasSearchResult = filteredData && query !== emptyQuery;
+  const members = hasSearchResult ? filteredData : data;
+
+  return { members, handleSearchQuery };
+};
+```
+
+Our custom hook takes the selected house data as a prop. It has an internal
+state which holds an emptyQuery variable which we set to empty string and a
+filteredData array, set to empty. The function that runs in our searchbar is the
+following function declared in the hook. It takes the query as an event from the
+input, checks if the data provided to the hook has data or sets it to an empty
+array as a new variable called members. It then filters over the members array
+and checks if the query matches one of the characters names. Finally it sets the
+state with the returned filtered data and query.
+
+We structure the state and create a new variable which checks if the state had
+any data or not. Finally returning the data, be that empty or not and the search
+function.
+
+Phew! That was a lot to go over. Going back to our main section we can see that
+we are importing our new hook and passing in the selected house data, then
+destructing the members and search query function. The component checks if the
+house array has any length, if it does it returns the page. The page displays
+the current house, how many members the house has, the searchbar (which takes
+the search query function as a prop), a new house section which we will build
+and maps over the members returned from our custom hook.
+
+In the house section we will make use of a super amazing library called
+[Framer Motion](https://www.framer.com/motion/). Lets first see how our new
+component looks and what it does.
+
+In src/components/site create a new file called house-section.js
+
+#### house-section.js
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import {
+  gryffindorColors,
+  hufflepuffColors,
+  slytherinColors,
+  ravenclawColors
+} from "./../../helpers/helpers";
+import styled from "@emotion/styled";
+import { motion } from "framer-motion";
+
+const House = styled.a`
+  color: #fff;
+  &:hover {
+    background-image: ${props => props.house};
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+`;
+
+const HouseSection = ({ getHouse }) => {
+  return (
+    <section
+      sx={{
+        width: "100%",
+        position: "relative"
+      }}
+    >
+      <ul
+        sx={{
+          listStyle: "none",
+          cursor: "crosshair",
+          fontFamily: "heading",
+          fontSize: "1em",
+          display: "flex",
+          flexDirection: ["column", "row", "row"],
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          position: "relative"
+        }}
+      >
+        <motion.li
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+            delay: 0.2
+          }}
+        >
+          <House
+            onClick={() => getHouse("gryffindor")}
+            house={gryffindorColors}
+          >
+            Gryffindor
+          </House>
+        </motion.li>
+        <motion.li
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+            delay: 0.4
+          }}
+        >
+          <House
+            onClick={() => getHouse("hufflepuff")}
+            house={hufflepuffColors}
+          >
+            Hufflepuff
+          </House>
+        </motion.li>
+        <motion.li
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+            delay: 0.6
+          }}
+        >
+          <House onClick={() => getHouse("slytherin")} house={slytherinColors}>
+            Slytherin
+          </House>
+        </motion.li>
+        <motion.li
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+            delay: 0.8
+          }}
+        >
+          <House onClick={() => getHouse("ravenclaw")} house={ravenclawColors}>
+            Ravenclaw
+          </House>
+        </motion.li>
+      </ul>
+    </section>
+  );
+};
+export default HouseSection;
+```
+
+The purpose of this component is to show the user the four houses of Hogwarts,
+let them select a house and pass that selection back up to the main-section
+state. The component takes the getHouse function from main-section as a prop. We
+have created an internal link styled component , which takes each houses colours
+from our helper file, and returns the selected house on click.
+
+Using framer motion we prepend each li with the motion tag. This allows us to
+add a simple scale animation by setting the initial value 0 (so it’s not
+visible), using the animate prop we say that it should animate in to it’s set
+size. The transition is specifying how the animation will work.
+
+Back to the main-section component, we map over each member in the house and
+display their data in a Card component by spreading all the character data. Lets
+create that now.
+
+Inside src/components/site create a new file called card.js
+
+#### card.js
+
+```jsx
+/** @jsx jsx */
+import { jsx } from "theme-ui";
+import {
+  checkNull,
+  checkDeathEater,
+  checkDumbledoresArmy,
+  hufflepuffColors,
+  ravenclawColors,
+  gryffindorColors,
+  slytherinColors,
+  houseEmoji,
+  wandEmoji,
+  patronusEmoji,
+  bloodStatusEmoji,
+  ministryOfMagicEmoji,
+  boggartEmoji,
+  roleEmoji,
+  orderOfThePheonixEmoji,
+  deathEaterEmoji,
+  dumbledoresArmyEmoji,
+  aliasEmoji
+} from "./../../helpers/helpers";
+import { motion } from "framer-motion";
+
+const container = {
+  hidden: { scale: 0 },
+  show: {
+    scale: 1,
+    transition: {
+      delayChildren: 1
+    }
+  }
+};
+
+const item = {
+  hidden: { scale: 0 },
+  show: { scale: 1 }
+};
+
+const Card = ({
+  _id,
+  name,
+  house,
+  patronus,
+  bloodStatus,
+  role,
+  deathEater,
+  dumbledoresArmy,
+  orderOfThePheonix,
+  ministryOfMagic,
+  alias,
+  wand,
+  boggart,
+  animagus,
+  index
+}) => {
+  return (
+    <motion.div variants={container} initial="hidden" animate="show">
+      <motion.div
+        variants={item}
+        sx={{
+          border: "solid 2px",
+          borderImageSource:
+            house === "Gryffindor"
+              ? gryffindorColors
+              : house === "Hufflepuff"
+              ? hufflepuffColors
+              : house === "Slytherin"
+              ? slytherinColors
+              : house === "Ravenclaw"
+              ? ravenclawColors
+              : null,
+          borderImageSlice: 1,
+          display: "flex",
+          flexDirection: "column",
+          padding: "1em",
+          margin: "1em",
+          minWidth: ["250px", "400px", "500px"]
+        }}
+      >
+        <h2
+          sx={{
+            color: "white",
+            fontFamily: "heading",
+            letterSpacing: "body",
+            fontSize: "2.5em",
+            borderBottom: "solid 2px",
+            borderColor: "white"
+          }}
+        >
+          {name}
+        </h2>
+        <div
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "auto",
+            gap: "2em",
+            marginTop: "2em"
+          }}
+        >
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>house:</strong> {house} {houseEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>wand:</strong> {checkNull(wand)} {wandEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>patronus:</strong> {checkNull(patronus)} {patronusEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>boggart:</strong> {checkNull(boggart)} {boggartEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>blood:</strong> {checkNull(bloodStatus)} {bloodStatusEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>role:</strong> {checkNull(role)} {roleEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>order of the pheonix:</strong>{" "}
+            {checkNull(orderOfThePheonix)} {orderOfThePheonixEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>ministry of magic:</strong>{" "}
+            {checkDeathEater(ministryOfMagic)} {ministryOfMagicEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>death eater:</strong> {checkDeathEater(deathEater)}{" "}
+            {deathEaterEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>dumbledores army:</strong>{" "}
+            {checkDumbledoresArmy(dumbledoresArmy)} {dumbledoresArmyEmoji}
+          </p>
+          <p
+            sx={{
+              color: "white",
+              fontFamily: "heading",
+              letterSpacing: "body",
+              fontSize: "1.5em"
+            }}
+          >
+            <strong>alias:</strong> {checkNull(alias)} {aliasEmoji}
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+export default Card;
+```
+
+We are importing all of those cool emojis we added earlier in our helper file.
+The container and item objects are for use in our animations from framer motion.
+We descructure our props, of which there are many, and return a div which has
+the framer motion object prepended to it and the item object passed to the
+variants prop. This is a simpler way of passing the object and all of it’s
+values through. For certain properties we run a null check against them to
+determinate what we should show.
+
+The only thing left to do is implement the Spells page and its associated
+components then the implementation of this site is done! Given all we have
+covered I’m sure you can handle the last part!
+
+Your final result should resemble something like this:
+[serverless-graphql-potter](https://serverless-graphql-potter.netlify.app/).
+
+Did you notice the cool particles? That’s a nice touch you could add to your
+site!
+
+#### Deploy the beast!
+
+That’s a lot of code and we haven’t even checked that it works!! (of course
+during development you should check how things look and work and make changes
+accordingly, I didn’t cover running the site as that’s common practice while
+developing). Lets deploy our site to Netlify and check it out!
+
+At the projects root create a new file called netlify.toml
+
+#### netlify.toml
+
+```bash
+    [build]
+      command = "yarn build"
+      functions = "functions"
+      publish = "public"
+```
+
+If you don’t already have an account, create a new one at
+[netlify.com](https://www.netlify.com/). To publish your site:
+
+- Click create new site, identify yourself and choose your repository
+- set your build command as yarn build and publish directory as public
+- Click site settings and change site name and…. change the name!
+- On the left tab menu find build and deploy and click that and scroll down to
+  the environment section and add your environment variables: SERVER_KEY and
+  FAUNA_ADMIN
+- You can add the functions path under the functions tab but Netlify will also
+  pick this up from the netlify.toml file you created
+
+When you first created this new site Netlify tried to deploy it. It wouldn’t
+have worked as we hadn’t set the environment variables yet. Go to the deploys
+tab at the top of the page and hit the trigger deploy dropdown and deploy site.
+If you encounter any issues then please drop me an email at
+hello@richardhaines.dev and we can try and work through it together.
+
+And that’s it! I hope you enjoyed it and learnt something along the way. Thank
+you for coming to my TED talk.
