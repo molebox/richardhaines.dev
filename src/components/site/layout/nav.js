@@ -92,7 +92,6 @@ const Nav = () => {
       >
         Resume
       </a>
-      {/* <Darkmode /> */}
     </nav>
   );
 };

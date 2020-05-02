@@ -21,7 +21,7 @@ const ProjectCard = props => {
         color: "text",
         fontFamily: "body",
         display: "grid",
-        gridTemplateRows: "200px 100px 100px",
+        gridTemplateRows: "200px auto auto",
         gap: "0.2em",
         justifyContent: "space-between",
         alignItems: "center",

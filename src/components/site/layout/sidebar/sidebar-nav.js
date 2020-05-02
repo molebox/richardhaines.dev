@@ -7,7 +7,7 @@ import LinkContainer from "./link-container";
 import { useDimensions } from "./use-dimensions";
 
 const sidebar = {
-  open: (height = 1000) => ({
+  open: (height = 500) => ({
     clipPath: `circle(${height * 2 + 200}px at 25px 25px)`,
     transition: {
       type: "spring",
@@ -44,7 +44,7 @@ const SidebarNav = () => {
         bottom: 0,
         width: "200px",
         visibility: ["visible", "hidden", "hidden"],
-        zIndex: "100"
+        zIndex: "1000"
       }}
     >
       <motion.div
