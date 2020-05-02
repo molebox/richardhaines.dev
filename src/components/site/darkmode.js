@@ -8,6 +8,7 @@ const Darkmode = () => {
   return (
     <button
       role="switch"
+      aria-label="color mode toggle"
       name="dark mode theme toggle"
       id="theme-toggle"
       aria-checked={colorMode === "light" ? "false" : "true"}
