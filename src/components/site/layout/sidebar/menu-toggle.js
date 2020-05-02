@@ -16,6 +16,8 @@ const Path = props => (
 const MenuToggle = ({ toggle }) => {
   return (
     <button
+    role="button"
+    aria-label="Menu Toggle"
       sx={{
         outline: "none",
         border: "none",
