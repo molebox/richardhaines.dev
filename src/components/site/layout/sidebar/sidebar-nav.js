@@ -42,7 +42,7 @@ const SidebarNav = () => {
         top: 0,
         left: 0,
         bottom: 0,
-        width: "200px",
+        width: "100px",
         visibility: ["visible", "hidden", "hidden"],
         zIndex: "1000"
       }}

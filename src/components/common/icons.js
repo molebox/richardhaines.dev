@@ -56,6 +56,7 @@ export const LinkedInIcon = () => (
       width: "1.5em",
       height: "1.5em",
       fill: "accent",
+      marginBottom: ["1em"],
       ":hover": {
         fill: "#0077B5"
       }

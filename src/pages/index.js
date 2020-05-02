@@ -17,6 +17,7 @@ import {
   TypeScriptIcon
 } from "../components/common/icons";
 import SEO from "gatsby-theme-seo/src/components/seo";
+import Social from "./../components/site/layout/social";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -77,6 +78,7 @@ export default () => {
             </ExternalLink>
           </P>
         </div>
+        <Social />
         <Form />
       </ContactLayout>
     </Main>

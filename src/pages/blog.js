@@ -18,7 +18,6 @@ const emoji = "\u{1F57A}";
 const Blog = ({ data, location }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
   const { categories, handleCategoryQuery } = useCategory(posts);
-  console.log({ categories });
   const categoriesList = [
     ...new Set(posts.map(post => post.frontmatter.category))
   ];
@@ -59,13 +58,12 @@ const Blog = ({ data, location }) => {
       >
         <P>
           This is my blog, there are many like it, but this one is mine. I write
-          about stuff i code, problems i encounter and projects im working on.
-          Use the search bar below to filter posts by any keyword, or the
-          category buttons to choose a post category {emoji}
+          about stuff i code, problems i encounter and projects im working on{" "}
+          {emoji}
         </P>
       </div>
       <Divider />
-      <SearchBar handleSearchQuery={handleSearchQuery} />
+      {/* <SearchBar handleSearchQuery={handleSearchQuery} /> */}
       <section
         sx={{
           display: "grid",
@@ -73,7 +71,8 @@ const Blog = ({ data, location }) => {
           gridTemplateColumns: "repeat(auto-fit, minmax(auto, 100px))",
           gap: "1.5em",
           width: "100%",
-          placeContent: "center"
+          placeContent: "center",
+          paddingTop: "2em"
         }}
       >
         <AllCategory handleCategoryQuery={handleCategoryQuery} />
