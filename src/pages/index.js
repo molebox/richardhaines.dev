@@ -18,6 +18,7 @@ import {
 } from "../components/common/icons";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Social from "./../components/site/layout/social";
+import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -47,6 +48,8 @@ export default () => {
       />
       <Divider />
       <About description={description} intro={intro} />
+      <Divider />
+      <RecentPosts />
       <Divider />
       <Projects />
       <IconContainer>

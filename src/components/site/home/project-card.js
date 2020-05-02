@@ -27,6 +27,7 @@ const ProjectCard = props => {
         alignItems: "center",
         margin: "1em",
         height: "auto",
+        minHeight: "600px",
         position: "relative"
       }}
     >
@@ -36,7 +37,8 @@ const ProjectCard = props => {
           margin: "2em auto",
           color: "#ffffff",
           fontFamily: "heading",
-          fontWeight: "body"
+          fontWeight: "body",
+          fontSize: "1.3em"
         }}
       >
         {props.name}

@@ -55,7 +55,7 @@ const PostLayout = ({ data, pageContext, location }) => {
             margin: "2em auto"
           }}
         >
-          <EditPost editLink={editLink}>Edit this post on GitHub.</EditPost>
+          <EditPost editLink={editLink}>Edit on GitHub.</EditPost>
           {previous === false ? null : (
             <>
               {previous && (
