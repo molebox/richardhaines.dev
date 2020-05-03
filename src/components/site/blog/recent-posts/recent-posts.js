@@ -29,7 +29,7 @@ const RecentPosts = () => {
           marginTop: ["3em", "3em", "5em"]
         }}
       >
-        <H3>Recent Posts</H3>
+        <H3>On my mind recently</H3>
       </div>
 
       <section

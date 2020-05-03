@@ -13,8 +13,6 @@ import Category from "../components/site/blog/category";
 import { useCategory } from "./../components/site/blog/useCategory";
 import AllCategory from "../components/site/blog/all-categories";
 
-const emoji = "\u{1F57A}";
-
 const Blog = ({ data, location }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
   const { categories, handleCategoryQuery } = useCategory(posts);
@@ -24,10 +22,10 @@ const Blog = ({ data, location }) => {
   const pinned = posts.filter(post => post.frontmatter.pin === true);
   const allPosts = [pinned[0], ...posts.filter(post => !post.frontmatter.pin)];
 
-  const blog = Array.from("Blog");
+  const blog = Array.from("Digital Garden");
   const SEODescription = `
-	I'm a software developer who specializes in JAMstack development. This is my blog where I write
-  about stuff i code, problems i encounter and projects im working on.
+	I'm a software developer who specializes in JAMstack development. This is my Digital Garden where I write
+  about stuff i code, problems i encounter, projects im working on and ideas that come to my mind.
 `;
 
   const SEOKeywords = [
@@ -43,7 +41,7 @@ const Blog = ({ data, location }) => {
   return (
     <Main>
       <SEO
-        title="Blog"
+        title="Digital Garden"
         description={SEODescription}
         keywords={SEOKeywords}
         pathname={location.pathname}
@@ -57,13 +55,11 @@ const Blog = ({ data, location }) => {
         }}
       >
         <P>
-          This is my blog, there are many like it, but this one is mine. I write
-          about stuff i code, problems i encounter and projects im working on{" "}
-          {emoji}
+          This is my garden, there are many like it, but this one is mine. Its a
+          place for me to sow my ideas, some i will grow, some i wont. 🌼
         </P>
       </div>
       <Divider />
-      {/* <SearchBar handleSearchQuery={handleSearchQuery} /> */}
       <section
         sx={{
           display: "grid",

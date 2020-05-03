@@ -50,7 +50,7 @@ const Nav = () => {
         }}
         to="/blog"
       >
-        Blog
+        Garden
       </Link>
       <Link
         sx={{

@@ -92,6 +92,7 @@ module.exports = {
             trackingId: process.env.GOOGLE_TRACKING_ID || 'none'
           }
       },
+          '@pauliescanlon/gatsby-mdx-embed',
           'gatsby-transformer-sharp',
           'gatsby-plugin-sharp',
           'gatsby-plugin-emotion',
