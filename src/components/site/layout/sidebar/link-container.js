@@ -90,7 +90,7 @@ const LinkContainer = ({ toggle }) => {
           to="/blog"
           onClick={toggle}
         >
-          Blog
+          Garden
         </Link>
       </motion.li>
       <motion.li
