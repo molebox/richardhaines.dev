@@ -67,7 +67,7 @@ export default () => {
         >
           <P>
             If you would like to get in touch about a project, or if you have
-            any questions for me, dont hesitate to send me a message by filling
+            any questions for me, don't hesitate to send me a message by filling
             out the form. I will aim to get back to you within a couple of days
           </P>
           <P>

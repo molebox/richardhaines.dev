@@ -31,14 +31,13 @@ const PostLayout = ({ data, pageContext, location }) => {
         pathname={location.pathname}
         twitter="studio_hungry"
       />
-      <section sx={{}}>
+      <section>
         <H1>{title}</H1>
         <div
           sx={{
             display: "flex",
             flexDirection: ["column", "row", "row"],
             justifyContent: ["space-between", "space-between", "space-evenly"],
-            // alignItems: 'center',
             margin: "2em auto"
           }}
         >

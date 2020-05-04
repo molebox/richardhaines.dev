@@ -10,7 +10,6 @@ module.exports = {
     siteName: 'richardhaines.dev',
     intro: 'A software developer who specializes in JAMstack development.',
     description: 'I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create websites and themes with Gatsby and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
-    techStack: 'Im proficient in JavaScript, React, C# and ASP.NET Core. I also have good knowledge of working with headless CMSs such as Sanity.io and Contentful.',
     siteUrl: 'https://richardhaines.dev',
   },
     plugins: [
@@ -78,8 +77,7 @@ module.exports = {
           resolve: 'gatsby-theme-seo', 
           options: {
               title: 'richardhaines.dev',
-              description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer for a network security company in the north of Sweden. In my spare time i love creating websites and themes with Gatsby and exploring new technologies.',
-              author: 'Rich Haines',
+              description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create websites and themes with Gatsby and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
               siteUrl: 'https://richardhaines.dev',
               social: {
                   twitter: 'studio_hungry'

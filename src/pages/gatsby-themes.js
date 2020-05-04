@@ -25,7 +25,7 @@ const GatsbyThemes = ({ location }) => {
     "Gatsby",
     "Gatsby Themes"
   ];
-  console.log({ themes });
+
   return (
     <Main>
       <SEO
