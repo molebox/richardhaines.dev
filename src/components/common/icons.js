@@ -102,6 +102,10 @@ export const SanityIcon = () => (
   />
 );
 
-export const Brain = () => <p sx={{ fontSize: ["6em", "9em"] }}>🧠</p>;
+export const Brain = () => (
+  <span role="img" sx={{ fontSize: ["6em", "9em"] }}>
+    🧠
+  </span>
+);
 
 export default { SanityIcon, ReactIcon, GatsbyIcon, JSIcon, Brain };

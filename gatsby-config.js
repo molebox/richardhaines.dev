@@ -77,6 +77,7 @@ module.exports = {
           resolve: 'gatsby-theme-seo', 
           options: {
               title: 'richardhaines.dev',
+              author: "Richard Haines",
               description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create websites and themes with Gatsby and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
               siteUrl: 'https://richardhaines.dev',
               social: {
