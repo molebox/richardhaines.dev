@@ -22,6 +22,8 @@ const PostLayout = ({ data, pageContext, location }) => {
   const { title, date, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
 
+  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`
+
   return (
     <Main>
       <SEO
@@ -30,6 +32,7 @@ const PostLayout = ({ data, pageContext, location }) => {
         keywords={keywords}
         pathname={location.pathname}
         twitter="studio_hungry"
+        ogImage={ogImage}
       />
       <section>
         <H1>{title}</H1>
