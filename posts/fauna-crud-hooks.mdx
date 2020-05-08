@@ -149,12 +149,9 @@ export const useFaunaUpdate = (collectionIndex, data, id) => {
       try {
         client
           .query(
-            q.Update(
-              q.Select(["ref"], q.Get(q.Match(q.Index(collectionIndex), id))),
-              {
-                data
-              }
-            )
+            q.Update(q.Ref(q.Collection(collectionIndex), id), {
+              data
+            })
           )
           .then(result => {
             setResponse(result.data);
@@ -166,6 +163,42 @@ export const useFaunaUpdate = (collectionIndex, data, id) => {
       setIsLoading(false);
     };
     update();
+  }, [id]);
+
+  return { response, error, isLoading };
+};
+```
+
+#### useFaunaReplace
+
+```jsx
+export const useFaunaReplace = (collectionIndex, data, id) => {
+  const fauna = React.useContext(FaunaContext);
+  const { client, q } = fauna;
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const replace = async () => {
+      setIsLoading(true);
+      try {
+        client
+          .query(
+            q.Replace(q.Ref(q.Collection(collectionIndex), id), {
+              data
+            })
+          )
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    replace();
   }, [id]);
 
   return { response, error, isLoading };
