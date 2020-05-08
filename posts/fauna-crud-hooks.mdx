@@ -1,0 +1,209 @@
+---
+title: FaunaDB CRUD hooks
+date: 2020-05-08
+published: true
+category: FaunaDB
+author: Richard Haines
+keywords: [react hooks, faunadb]
+pin: false
+---
+
+While still a work in progress, learning in public is fun! With that in mind id
+like to share v1 of my [FaunaDB](https://fauna.com/) CRUD hooks. Ive tested them
+locally and they work. They provide simple abstractions.
+[Fauna Query Language (FQL)](https://docs.fauna.com/fauna/current/api/fql/)
+enables so much more and the hooks will need refactoring but for a first version
+im relatively pleased! 😃
+
+#### useFaunaGetAll
+
+```js
+export const useFaunaGetAll = (collectionIndex, limit) => {
+  const fauna = React.useContext(FaunaContext);
+  const { client, q } = fauna;
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const getAll = async () => {
+      setIsLoading(true);
+      try {
+        client
+          .query(
+            q.Map(
+              q.Paginate(q.Match(q.Index(collectionIndex)), {
+                size: limit
+              }),
+              q.Lambda("ref", q.Select(["data"], q.Get(q.Var("ref"))))
+            )
+          )
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    getAll();
+  }, [collectionIndex]);
+
+  return { response, error, isLoading };
+};
+```
+
+#### useFaunaGetSingle
+
+```js
+export const useFaunaGetSingle = (collectionIndex, id) => {
+  const fauna = React.useContext(FaunaContext);
+  const { client, q } = fauna;
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const getSingle = async () => {
+      setIsLoading(true);
+      try {
+        client
+          .query(q.Get(q.Match(q.Index(collectionIndex), id)))
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    getSingle();
+  }, [id]);
+
+  return { response, error, isLoading };
+};
+```
+
+#### useFaunaCreate
+
+```jsx
+export const useFaunaCreate = (collectionIndex, data, customId) => {
+  const fauna = React.useContext(FaunaContext);
+  const { client, q } = fauna;
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const create = async () => {
+      setIsLoading(true);
+      try {
+        customId
+          ? client
+              .query(
+                q.Create(q.Ref(q.Collection(collectionIndex), customId), {
+                  data
+                })
+              )
+              .then(result => {
+                setResponse(result.data);
+                setIsLoading(false);
+              })
+          : client
+              .query(
+                q.Create(q.Collection(collectionIndex), {
+                  data
+                })
+              )
+              .then(result => {
+                setResponse(result.data);
+                setIsLoading(false);
+              });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    create();
+  }, []);
+
+  return { response, error, isLoading };
+};
+```
+
+#### useFaunaUpdate
+
+```jsx
+export const useFaunaUpdate = (collectionIndex, data, id) => {
+  const fauna = React.useContext(FaunaContext);
+  const { client, q } = fauna;
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const update = async () => {
+      setIsLoading(true);
+      try {
+        client
+          .query(
+            q.Update(
+              q.Select(["ref"], q.Get(q.Match(q.Index(collectionIndex), id))),
+              {
+                data
+              }
+            )
+          )
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    update();
+  }, [id]);
+
+  return { response, error, isLoading };
+};
+```
+
+#### useFaunaDelete
+
+```jsx
+export const useFaunaDelete = (collectionIndex, id) => {
+  const fauna = React.useContext(FaunaContext);
+  const { client, q } = fauna;
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const deleteIndex = async () => {
+      setIsLoading(true);
+      try {
+        client
+          .query(
+            q.Delete(
+              q.Select(["ref"], q.Get(q.Match(q.Index(collectionIndex), id)))
+            )
+          )
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    deleteIndex();
+  }, [id]);
+
+  return { response, error, isLoading };
+};
+```
