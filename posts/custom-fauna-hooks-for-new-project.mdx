@@ -1,0 +1,208 @@
+---
+title: Custom FaunaDB hooks for new project
+date: 2020-05-08
+published: true
+category: FaunaDB
+author: Richard Haines
+keywords: [react hooks, faunadb]
+pin: false
+---
+
+I've got a new project on my mind. It's going to be a mobile app created with
+[Expo](https://expo.io/) and [FaunaDB](https://fauna.com/). I know that Fauna
+can handle user authentication, im currently unsure if I will use that or not as
+I might want to implement social logins such as Facebook, Google and Twitter.
+I've used Firebase for this purpose before so am thinking I could match up the
+two with Fauna handling all the data requirements of the app and Firebase
+handling the user logins. That being said, the users data will be stored in
+Fauna so I might have to store it twice. This part will need some more
+consideration.
+
+I have 3 children and those that have children know that as soon as you buy some
+piece of clothing for them they seem to instantly grow out of it, thus you are
+left with basically new or totally destroyed clothing. The same can be said of
+many toys. In fact, basically anything my children own, they seem to have for a
+short period of time giving to outgrowing, un-interest or destruction. 😆
+
+Where I live there are a few Facebook groups that parents can post unused or
+secondhand items for sale, and this is great! But there are certain things that
+you can't do in a Facebook group that sells stuff, its quite ridged. Making an
+app for the same purpose, I could add all the missing features. Also, all the
+users information would 100% not be shared with anyone, unlike what some big
+social media companies have been known to do. 😜
+
+This is still very early doors but like every good programmer, I started coding
+before I started planning. I decided to play around with fetching data from
+Fauna by making some simple React hooks. Right now I only have two and im sure
+they could be improved upon. This gist is this:
+
+- I have a React context provider which I pass the Fauna secret to and wrap my
+  apps root with
+- Inside the provider I take secret, establish a connection with Fauna and pass
+  the client and query objects to the exported provider
+- The two hooks follow a common pattern for fetching data with 3 states,
+  response, error and loading which they return.
+- The hook to get all the data takes the collection index and limit as props
+  then inside useEffect I create a paginated query for the index with the limit
+  secret
+- The hook to get a single item is much the same except it takes the collection
+  index and the id of the item to be fetched. The Fauna query uses the Get
+  function to find a match for the id from the collections index
+
+The [Fauna Query Language (FQL)](https://docs.fauna.com/fauna/current/api/fql/)
+seems so expansive, im really looking forward to diving into it deeper into it
+and creating the mutation hooks. Its nice practice not only of creating custom
+hooks, but also learning FQL. Not only that, I like the abstraction, all that
+logic in one place then just import the hooks and get the data!
+
+It wouldn't be any fun if I didn't share how it was going would it? 😄
+
+#### Fauna Context provider
+
+```jsx
+import * as React from "react";
+const faunadb = require("faunadb");
+const q = faunadb.query;
+
+export const FaunaContext = React.createContext();
+
+export const FaunaProvider = ({ children, faunaSecret }) => {
+  const [fauna, setFauna] = React.useState({});
+  React.useMemo(() => {
+    if (!faunaSecret) {
+      throw new Error(`No faunaSecret found, skipping client creation`);
+    }
+    const client = new faunadb.Client({
+      secret: faunaSecret
+    });
+    setFauna({ client, q });
+  }, [faunaSecret]);
+
+  return (
+    <FaunaContext.Provider value={fauna}>{children}</FaunaContext.Provider>
+  );
+};
+```
+
+Then to wrap the root element of any app:
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom";
+import { FaunaProvider } from "hooks";
+
+import App from "./App";
+
+ReactDOM.render(
+  <FaunaProvider faunaSecret={process.env.FAUNA_SECRET}>
+    <App />
+  </FaunaProvider>,
+  document.getElementById("root")
+);
+```
+
+#### useFaunaGetAll
+
+```js
+export const useFaunaGetAll = (collectionIndex, limit) => {
+  const fauna = React.useContext(FaunaContext);
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const getAll = async () => {
+      setIsLoading(true);
+      try {
+        fauna.client
+          .query(
+            fauna.q.Map(
+              fauna.q.Paginate(fauna.q.Match(fauna.q.Index(collectionIndex)), {
+                size: limit
+              }),
+              fauna.q.Lambda(
+                "ref",
+                fauna.q.Select(["data"], fauna.q.Get(fauna.q.Var("ref")))
+              )
+            )
+          )
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    getAll();
+  }, [collectionIndex]);
+
+  return { response, error, isLoading };
+};
+```
+
+#### useFaunaGetSingle
+
+```js
+export const useFaunaGetSingle = (collectionIndex, id) => {
+  const fauna = React.useContext(FaunaContext);
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const getSingle = async () => {
+      setIsLoading(true);
+      try {
+        fauna.client
+          .query(fauna.q.Get(fauna.q.Match(fauna.q.Index(collectionIndex), id)))
+          .then(result => {
+            setResponse(result.data);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+      }
+      setIsLoading(false);
+    };
+    getSingle();
+  }, [id]);
+
+  return { response, error, isLoading };
+};
+```
+
+#### Usage
+
+```jsx
+import React from "react";
+import { useFaunaGetAll, useFaunaGetSingle } from "hooks";
+
+const App = () => {
+  const single = useFaunaGetSingle("characterById", "5a109e543dc2080021cd8790");
+  const data = useFaunaGetAll("allCharacters", 10);
+  return (
+    <div>
+      dum de dum dum
+      {single.isLoading || single.response === null ? (
+        <h1>Loading.....</h1>
+      ) : (
+        <h1>{single.response.name}</h1>
+      )}
+      {data.isLoading || data.response === null ? (
+        <h1>Loading Data.....</h1>
+      ) : (
+        <ul>
+          {data.response.map(item => (
+            <li key={item._id}>{item.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+export default App;
+```
+
+Obviously there is work to be done but its a start! Now, back to planning! 💃🕺
