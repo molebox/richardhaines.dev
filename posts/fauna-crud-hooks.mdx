@@ -10,10 +10,10 @@ pin: false
 
 While still a work in progress, learning in public is fun! With that in mind id
 like to share v1 of my [FaunaDB](https://fauna.com/) CRUD hooks. Ive tested them
-locally and they work. They provide simple abstractions.
+locally and they work. They provide simple abstractions though
 [Fauna Query Language (FQL)](https://docs.fauna.com/fauna/current/api/fql/)
-enables so much more and the hooks will need refactoring but for a first version
-im relatively pleased! 😃
+enables so much more and the hooks will need refactoring, but for a first
+version im relatively pleased! 😃
 
 #### useFaunaGetAll
 
@@ -187,11 +187,7 @@ export const useFaunaDelete = (collectionIndex, id) => {
       setIsLoading(true);
       try {
         client
-          .query(
-            q.Delete(
-              q.Select(["ref"], q.Get(q.Match(q.Index(collectionIndex), id)))
-            )
-          )
+          .query(q.Delete(q.Ref(q.Collection(collectionIndex), id)))
           .then(result => {
             setResponse(result.data);
             setIsLoading(false);
