@@ -67,19 +67,19 @@ const q = faunadb.query;
 export const FaunaContext = React.createContext();
 
 export const FaunaProvider = ({ children, faunaSecret }) => {
-  React.useMemo(() => {
-    if (!faunaSecret) {
-      throw new Error(`No faunaSecret found, skipping client creation`);
-    }
-    const client = new faunadb.Client({
-      secret: faunaSecret
-    });
-  }, [faunaSecret]);
-
-  return (
-    <FaunaContext.Provider value={client}>{children}</FaunaContext.Provider>
-  );
-};
+    const fauna = React.useMemo(() => {
+      if (!faunaSecret) {
+        throw new Error(`No faunaSecret found, skipping client creation`);
+      }
+      const client = new faunadb.Client({
+        secret: faunaSecret
+      });
+      return { client, q };
+    }, [faunaSecret]);
+    return (
+      <FaunaContext.Provider value={fauna}>{children}</FaunaContext.Provider>
+    );
+  };
 ```
 
 Then to wrap the root element of any app:
