@@ -67,7 +67,6 @@ const q = faunadb.query;
 export const FaunaContext = React.createContext();
 
 export const FaunaProvider = ({ children, faunaSecret }) => {
-  const [fauna, setFauna] = React.useState({});
   React.useMemo(() => {
     if (!faunaSecret) {
       throw new Error(`No faunaSecret found, skipping client creation`);
@@ -75,11 +74,10 @@ export const FaunaProvider = ({ children, faunaSecret }) => {
     const client = new faunadb.Client({
       secret: faunaSecret
     });
-    setFauna({ client, q });
   }, [faunaSecret]);
 
   return (
-    <FaunaContext.Provider value={fauna}>{children}</FaunaContext.Provider>
+    <FaunaContext.Provider value={client}>{children}</FaunaContext.Provider>
   );
 };
 ```
