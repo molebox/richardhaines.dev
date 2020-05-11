@@ -1,0 +1,300 @@
+---
+title: Setup Expo with FaunaDB via Vercel
+date: 2020-05-11
+published: true
+category: Serverless
+author: Richard Haines
+keywords: [expo, react-native, faunadb, vercel]
+pin: false
+---
+
+Im currently working on a project which will be a mobile app for parents to swap
+unused items. To do this im using [Expo](https://expo.io/) with a
+[FaunaDB](https://fauna.com/) database. I had already setup a project with Fauna
+and Gatsby so thought the knowledge transfer would be quite simple. And it was,
+until it wasn't.
+
+The problem with trying to access the Fauna database from a React Native (RN)
+app is that RN doesn't come with or support the Node Standard Library, which
+Fauna uses. The solution, or the one I found, is to create a separate API to
+handle the Fauna side of things and access that API form the app. Let's go
+through a simple setup to see how this is done.
+
+Make sure you have installed the expo-cli and now-cli.
+
+```bash
+yarn global add expo-cli
+yarn global add vercel
+```
+
+Create a new expo project, follow the instructions (you can choose a blank or
+tabs template) and open your code editor
+
+```bash
+expo init myProject
+cd myProject
+code .
+```
+
+Ok, leave the app for a minute and login to your Fauna account, create a new
+database and name it whatever you like. Perhaps MySuperDB? Create a new key with
+a server role. Name it FAUNA_SERVER. Make a note of it as it wont be shown
+again.
+
+Back to our app we now need to add some packages. Its a long list so just do it
+all in one.
+
+```bash
+yarn add @apollo/client apollo-link-context apollo-link-http graphql graphql-tag isomorphic-fetch
+
+yarn add react-native-dotenv -D
+```
+
+First we want to setup our Apollo Provider which will wrap our root component,
+App.js. Create a new file in the constants folder and name it apollo.js
+
+```jsx
+const React = require("react");
+import { FAUNA_SERVER } from "react-native-dotenv";
+const {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache
+} = require("@apollo/client");
+const { setContext } = require("apollo-link-context");
+const { createHttpLink } = require("apollo-link-http");
+const fetch = require("isomorphic-fetch");
+
+const httpLink = createHttpLink({
+  uri: "https://graphql.fauna.com/graphql",
+  fetch
+});
+
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${FAUNA_SERVER}`
+    }
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
+
+const Apollo = ({ children }) => (
+  <ApolloProvider client={client}>{children}</ApolloProvider>
+);
+
+export default Apollo;
+```
+
+The above code can be boiled down to:
+
+- Created a new http link
+- Create an auth link which returns the headers to the context so the http link
+  can read them. Here we pass in our Fauna key with server rights.
+- Then we create the client to be passed to the provider with the link now set
+  as the auth link.
+
+Create a new .env file at the projects root and add your fauna server key, using
+the name we gave it in our fauna dashboard.
+
+```bash
+FAUNA_SERVER=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+Next head over to App.js and import and wrap the App with our new Apollo
+component. (I had used the tab template so yours will look a bit different if
+you chose the blank templete)
+
+```jsx
+import Apollo from "./constants/apollo";
+//.....lots of code
+
+return (
+  <Apollo>
+    <View style={styles.container}>
+      {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
+      <NavigationContainer linking={LinkingConfiguration}>
+        <Stack.Navigator>
+          <Stack.Screen name="Root" component={BottomTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
+  </Apollo>
+);
+```
+
+Now we can add a schema, which we will import into our Fauna database via their
+dashboard. Inside the constants folder create a new file named schema.gql.
+
+```gql
+type Query {
+  allUsers: [User]
+}
+
+type User {
+  name: String!
+  email: String!
+}
+```
+
+Back on the Fauna dashboard click the graphql tab on the left and import the
+schema. Once done you will be presented with a graphql playground. Add some
+users to our database.
+
+```bash
+mutation {
+    createUser(
+      data: {
+        name: "Richard Haines"
+        email: "hello@richardhaines.dev"
+      }
+    ) {
+      _id
+      name
+      email
+    }
+  }
+```
+
+Ok cool, now we can setup our serverless function. Create a new project and
+initialize it.
+
+```bash
+mkdir mySuperAPI
+cd mySuperAPI
+yarn init -y
+```
+
+Vercel expects us to have an api folder so create that. We will also want to
+install some packages here.
+
+```bash
+yarn add @now/node apollo-link-http apollo-server-micro dotenv graphql graphql-tag isomorphic-fetch
+```
+
+Inside the api folder create a new folder that begins with an underscore, this
+is so that vercel knows not to build it's content as a functions. Inside that
+folder create a new file named config.js.
+
+```bash
+cd api
+mkdir _utils
+cd _utils && touch config.js
+```
+
+Create a .env file at the root and add the Fauna server key. Then in the new
+config.js file add the following. This is basically a short cut for us having to
+type out process.env.MY_KEY. Right now we only have one key but we might want to
+add more later. I find this a handy little file to use.
+
+```js
+const dotenv = require("dotenv");
+dotenv.config();
+module.exports = {
+  faunaServerKey: process.env.FAUNA_SERVER
+};
+```
+
+Back to the api folder create a new file called graphql.js and add the
+following.
+
+```js
+const { faunaServer } = require("./config");
+const { createHttpLink } = require("apollo-link-http");
+const {
+  ApolloServer,
+  makeRemoteExecutableSchema,
+  introspectSchema
+} = require("apollo-server-micro");
+const fetch = require("isomorphic-fetch");
+
+const link = createHttpLink({
+  uri: "https://graphql.fauna.com/graphql",
+  fetch,
+  headers: {
+    Authorization: `Bearer ${faunaServer}`
+  }
+});
+
+const schema = makeRemoteExecutableSchema({
+  schema: introspectSchema(link),
+  link
+});
+
+const server = new ApolloServer({
+  schema,
+  playground: true,
+  introspection: true
+});
+
+module.exports = (req, res, ...args) => {
+  if (req.method === "OPTIONS") return res.status(200).send();
+
+  const handler = server.createHandler();
+
+  return handler(req, res, ...args);
+};
+```
+
+Run now from the mySuperAPI root and deploy the API. Head back over to the app
+and open the HomeScreen.js file located in the screens folder. Import gql and
+the useQuery hook from Apollo. Add a query to get all the users you just created
+and use the useQuery hook to display the returned data.
+
+```jsx
+import { gql, useQuery } from "@apollo/client";
+
+const GET_USERS = gql`
+  query GetUsers {
+    allUsers {
+      data {
+        name
+        location
+        _id
+      }
+    }
+  }
+`;
+
+export default function HomeScreen() {
+
+  const {
+    loading,
+    error,
+    data
+  } = useQuery(GET_USERS);
+
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <View style={styles.getStartedContainer}>
+
+            {!loading && !error && data.allUsers.data.map((user) => (
+              <Text key={user._id}>{user.name}</Text>
+            ))}
+      </ScrollView>
+    </View>
+  );
+}
+
+```
+
+Now its time to run the app and bask in your glory!
+
+```bash
+yarn start
+```
+
+You have multiple options to view your app, the easiest is to just scan the QR
+code on the metro bundler browser screen.
+
+You now have a working mobile app which is pulling data with Apollo from FaunaDB
+via a serverless API hosted on Vercel. Yay for technology! 🤩
