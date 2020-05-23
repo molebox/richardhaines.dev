@@ -86,6 +86,18 @@ module.exports = {
           }
       },
       {
+        resolve: `gatsby-source-spotify`,
+        options: {
+          clientId: '5e5bc54d2e2641ffaca1770a2fc2c976',
+          clientSecret: '98498f92d0b74bf0b9241b2905d30a1b',
+          refreshToken: 'AQBmzW5xlA7cGn6GSzx0TGkglpYwGEknsF6wYFRP4c0MrD9ywtqIM72RWBuo1mHQKCqkXGeW2QnxwKfTG9XyWCEAWq_GK3_yfvMQpKPpSrvC4vg5kwFGIemXX1WXTG3Q9ek',
+      
+          fetchPlaylists: true, // optional. Set to false to disable fetching of your playlists
+          fetchRecent: false, // optional. Set to false to disable fetching of your recently played tracks
+          timeRanges: ['short_term', 'medium_term', 'long_term'], // optional. Set time ranges to be fetched
+        },
+      },
+      {
           resolve: 'gatsby-plugin-google-analytics',
           options: {
             trackingId: process.env.GOOGLE_TRACKING_ID || 'none'

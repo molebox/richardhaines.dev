@@ -108,4 +108,10 @@ export const Brain = () => (
   </span>
 );
 
-export default { SanityIcon, ReactIcon, GatsbyIcon, JSIcon, Brain };
+export const Music = () => (
+  <span role="img" sx={{ fontSize: ["6em", "9em"] }}>
+    🎧
+  </span>
+);
+
+export default { SanityIcon, ReactIcon, GatsbyIcon, JSIcon, Brain, Music };

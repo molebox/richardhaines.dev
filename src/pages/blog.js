@@ -20,7 +20,9 @@ const Blog = ({ data, location }) => {
     ...new Set(posts.map(post => post.frontmatter.category))
   ];
   const pinned = posts.filter(post => post.frontmatter.pin === true);
-  const allPosts = pinned.length ? [pinned[0], ...posts.filter(post => !post.frontmatter.pin)] : posts;
+  const allPosts = pinned.length
+    ? [pinned[0], ...posts.filter(post => !post.frontmatter.pin)]
+    : posts;
 
   const blog = Array.from("Digital Garden");
   const SEODescription = `
