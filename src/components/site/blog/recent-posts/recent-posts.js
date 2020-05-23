@@ -20,6 +20,7 @@ const container = {
 const RecentPosts = () => {
   const data = useStaticQuery(query);
   const posts = data.allMdx.edges;
+
   return (
     <>
       <div

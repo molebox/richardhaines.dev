@@ -6,19 +6,29 @@ import ProjectCard from "./project-card";
 import H3 from "../../common/h3";
 import { motion } from "framer-motion";
 
-const container = {
+const variants = {
   hidden: { scale: 0 },
   show: {
     scale: 1,
     transition: {
-      delayChildren: 1,
+      delayChildren: 0.5,
       // staggerChildren: 0.1,
-      staggerDirection: 1
+      staggerDirection: 0.6
     }
   }
 };
 
-const Projects = () => {
+const title = {
+  hidden: { scale: 0 },
+  show: {
+    scale: 1,
+    transition: {
+      delay: 0.1
+    }
+  }
+};
+
+const Projects = ({ projectsRef, isInView }) => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
   return (
@@ -26,6 +36,7 @@ const Projects = () => {
       sx={{
         marginTop: ["3em", "3em", "5em"]
       }}
+      ref={projectsRef}
     >
       <div
         sx={{
@@ -34,7 +45,13 @@ const Projects = () => {
           alignItems: "center"
         }}
       >
-        <H3>Selected Work</H3>
+        <motion.span
+          variants={title}
+          initial="hidden"
+          animate={isInView ? "show" : "hidden"}
+        >
+          <H3>Selected Work</H3>
+        </motion.span>
       </div>
       <div
         sx={{
@@ -48,7 +65,11 @@ const Projects = () => {
         }}
       >
         {projects.map(({ node: project, index }) => (
-          <motion.div variants={container} initial="hidden" animate="show">
+          <motion.div
+            variants={variants}
+            initial="hidden"
+            animate={isInView ? "show" : "hidden"}
+          >
             <ProjectCard
               key={project.name + index}
               name={project.name}

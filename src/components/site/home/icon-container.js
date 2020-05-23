@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-const IconContainer = props => {
+const IconContainer = ({ children }) => {
   return (
     <div
       sx={{
@@ -11,7 +11,7 @@ const IconContainer = props => {
         margin: "5em auto"
       }}
     >
-      {props.children}
+      {children}
     </div>
   );
 };

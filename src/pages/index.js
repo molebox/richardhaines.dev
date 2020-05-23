@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import Main from "../components/site/layout/main";
 import About from "./../components/site/home/about";
 import Projects from "./../components/site/home/projects";
@@ -19,6 +20,7 @@ import {
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Social from "./../components/site/layout/social";
 import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
+import { useInView } from "react-intersection-observer";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -37,6 +39,13 @@ const SEOKeywords = [
 
 export default () => {
   const { description, intro } = useSiteMetadata();
+  const [ref, inView, entry] = useInView({
+    rootMargin: "-100px 0px"
+  });
+
+  React.useEffect(() => {
+    console.log("is in view: ", inView);
+  }, [inView]);
 
   return (
     <Main>
@@ -51,7 +60,7 @@ export default () => {
       <Divider />
       <RecentPosts />
       <Divider />
-      <Projects />
+      <Projects projectsRef={ref} isInView={inView} />
       <IconContainer>
         <GatsbyIcon />
         <ReactIcon />
