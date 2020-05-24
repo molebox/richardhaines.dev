@@ -38,7 +38,7 @@ const AnimatedH1 = ({ string }) => (
     background={""}
     sx={{
       color: "text",
-      fontFamily: "heading",
+      fontFamily: "Jost",
       fontSize: ["1.7em", "2.5em", "3.8em"],
       fontWeight: "body",
       marginTop: "1em",

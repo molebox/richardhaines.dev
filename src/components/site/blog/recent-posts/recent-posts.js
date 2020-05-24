@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
 import { Link } from "gatsby";
 import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
@@ -22,7 +21,7 @@ const RecentPosts = () => {
   const posts = data.allMdx.edges;
 
   return (
-    <>
+    <section>
       <div
         sx={{
           display: "flex",
@@ -49,7 +48,7 @@ const RecentPosts = () => {
           initial="hidden"
           animate="show"
           sx={{
-            justifySelf: ["center", "end"]
+            justifySelf: ["center", "center"]
           }}
         >
           <Brain />
@@ -90,7 +89,7 @@ const RecentPosts = () => {
           ))}
         </ul>
       </section>
-    </>
+    </section>
   );
 };
 

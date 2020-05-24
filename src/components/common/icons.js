@@ -109,7 +109,7 @@ export const Brain = () => (
 );
 
 export const Music = () => (
-  <span role="img" sx={{ fontSize: ["6em", "9em"] }}>
+  <span role="img" sx={{ fontSize: ["6em", "8em"] }}>
     🎧
   </span>
 );

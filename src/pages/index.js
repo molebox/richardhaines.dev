@@ -20,7 +20,7 @@ import SEO from "gatsby-theme-seo/src/components/seo";
 import Social from "./../components/site/layout/social";
 import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
 import { useInView } from "react-intersection-observer";
-// import Spotify from "../components/site/spotify/spotify";
+import Spotify from "../components/site/spotify/spotify";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -54,8 +54,20 @@ export default () => {
       <Divider />
       <About description={description} intro={intro} />
       <Divider />
-      <RecentPosts />
-      {/* <Spotify/> */}
+      <section
+        sx={{
+          margin: "1em auto",
+          display: "grid",
+          gridAutoRows: "auto",
+          gridTemplateColumns: ["1fr", "1fr 1fr"],
+          gap: "1em",
+          justifyContent: "space-evenly",
+          width: "100%"
+        }}
+      >
+        <RecentPosts />
+        <Spotify />
+      </section>
       <Divider />
       <Projects projectsRef={ref} isInView={inView} />
       <IconContainer>

@@ -2,8 +2,8 @@ export default {
   initialColorMode: "dark",
   useCustomProperties: false,
   fonts: {
-    body: "Open Sans",
-    heading: "Montserrat"
+    body: "Jost",
+    heading: "Jost"
   },
   fontWeights: {
     body: 300,
