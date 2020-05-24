@@ -36,7 +36,6 @@ const RecentPosts = () => {
         sx={{
           display: "grid",
           gridTemplateColumns: ["1fr", "1fr 1fr"],
-          gap: ["0.3em", "5em"],
           justifyContent: "center",
           alignItems: "center",
           justifyItems: "center",

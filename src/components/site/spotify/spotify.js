@@ -4,6 +4,7 @@ import { graphql, useStaticQuery } from "gatsby";
 import { Music } from "../../common/icons";
 import H3 from "./../../common/h3";
 import { motion } from "framer-motion";
+import MusicalNotes from "./../../common/musical-notes";
 
 const container = {
   hidden: { scale: 0 },
@@ -25,7 +26,6 @@ const Spotify = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
           marginTop: ["3em", "3em", "5em"]
         }}
       >
@@ -36,7 +36,6 @@ const Spotify = () => {
         sx={{
           display: "grid",
           gridTemplateColumns: ["1fr", "1fr 1fr"],
-          gap: ["0.3em", "5em"],
           justifyContent: "center",
           alignItems: "center",
           justifyItems: "center",
@@ -51,7 +50,9 @@ const Spotify = () => {
             justifySelf: ["center", "center"]
           }}
         >
-          <Music />
+          <MusicalNotes>
+            <Music />
+          </MusicalNotes>
         </motion.div>
 
         <ul

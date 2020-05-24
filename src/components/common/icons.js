@@ -8,6 +8,7 @@ import Twitter from "../../assets/twitter.svg";
 import Github from "../../assets/github.svg";
 import LinkedIn from "../../assets/linkedin.svg";
 import TypeScript from "../../assets/typescript.svg";
+import { keyframes } from "@emotion/core";
 
 export const TypeScriptIcon = () => (
   <TypeScript
@@ -103,13 +104,13 @@ export const SanityIcon = () => (
 );
 
 export const Brain = () => (
-  <span role="img" sx={{ fontSize: ["6em", "9em"] }}>
+  <span alt="brain emoji" role="img" sx={{ fontSize: ["6em", "8em"] }}>
     🧠
   </span>
 );
 
 export const Music = () => (
-  <span role="img" sx={{ fontSize: ["6em", "8em"] }}>
+  <span alt="headphone emoji" role="img" sx={{ fontSize: ["6em", "7em"] }}>
     🎧
   </span>
 );
