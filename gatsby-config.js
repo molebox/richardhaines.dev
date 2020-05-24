@@ -14,6 +14,14 @@ module.exports = {
   },
     plugins: [
         {
+          resolve: 'gatsby-plugin-mdx',
+          options: {
+            remarkPlugins: [
+              require('remark-slug')
+            ]
+          }
+        },
+        {
             resolve: 'gatsby-plugin-google-fonts',
             options: {
               fonts: [
@@ -68,6 +76,13 @@ module.exports = {
           },
         },
         {
+          resolve: 'gatsby-source-filesystem',
+          options: {
+            path: `${__dirname}/src/components/site/copy-paste`,
+            name: 'copy-paste',
+          },
+        },
+        {
             resolve: 'gatsby-plugin-layout',
             options: {
               component: require.resolve('./src/layouts/index.js'),
@@ -107,7 +122,6 @@ module.exports = {
           'gatsby-transformer-sharp',
           'gatsby-plugin-sharp',
           'gatsby-plugin-emotion',
-          'gatsby-plugin-mdx',
           'gatsby-plugin-twitter',
           'gatsby-plugin-theme-ui'
 

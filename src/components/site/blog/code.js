@@ -12,6 +12,7 @@ const Pre = styled.pre`
   overflow-x: auto;
   border-radius: 3px;
   border: 1px solid;
+  border-color: #de3c4b;
   margin-bottom: 3em;
 
   & .token-lline {

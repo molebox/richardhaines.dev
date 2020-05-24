@@ -11,16 +11,33 @@ import PostAuthor from "./../components/site/blog/post-author";
 import PostDate from "./../components/site/blog/post-date";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Twitter from "../components/site/home/twitter";
+import styled from "@emotion/styled";
+
+const Toc = styled.ul`
+  position: fixed;
+  left: calc(50% + 400px);
+  top: 110px;
+  max-height: 70vh;
+  width: 310px;
+  display: flex;
+`;
+const InnerScroll = styled.div`
+  overflow: hidden;
+  overflow-y: scroll;
+`;
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
     frontmatter,
     body,
     excerpt,
+    tableOfContents,
     fields: { editLink }
   } = data.mdx;
   const { title, date, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
+
+  console.log({ tableOfContents });
 
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
@@ -48,6 +65,20 @@ const PostLayout = ({ data, pageContext, location }) => {
           <PostDate> Posted: {date}</PostDate>
           <Twitter />
         </div>
+        {typeof tableOfContents.items === "undefined" ? null : (
+          <Toc>
+            <InnerScroll>
+              <h2>Table of contents</h2>
+              {tableOfContents.items.map(i => (
+                <li key={i.url}>
+                  <a href={i.url} key={i.url}>
+                    {i.title}
+                  </a>
+                </li>
+              ))}
+            </InnerScroll>
+          </Toc>
+        )}
         <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
         <div
           sx={{
@@ -96,6 +127,11 @@ export const query = graphql`
       }
       body
       excerpt
+      headings {
+        depth
+        value
+      }
+      tableOfContents
       fields {
         slug
         editLink

@@ -1,5 +1,10 @@
+---
+title: Copy/Paste
+---
+
 import AccentBox from "../../site/blog/accent-box.js";
 import Text from "../../../../posts/posts-components/linear-gradient-text.js";
+import TableOfContents from "./toc.js";
 
 ## Responsive css grid
 
@@ -153,7 +158,7 @@ const Nav = () => {
 
 ## Theme-ui preset
 
-``` js
+```js
 export default {
   initialColorMode: "dark",
   useCustomProperties: false,
@@ -199,7 +204,7 @@ export default {
 
 ## Breakpoints areas for grid
 
-``` js
+```js
 export const PhoneTemplateAreas = `
   'nav      nav     nav     nav'
   'main     main    main    main'
@@ -221,30 +226,27 @@ export const DesktopTemplateAreas = `
 
 ## Set up Apollo with Gatsby and Netlify Functions
 
-``` jsx
-
+```jsx
 // gatsby-browser.js && gatsby-ssr.js
 
-const React = require('react');
-const fetch =require('isomorphic-fetch');
+const React = require("react");
+const fetch = require("isomorphic-fetch");
 const {
-    ApolloProvider,
-    ApolloClient,
-    HttpLink,
-    InMemoryCache
-} = require('@apollo/client');
-
+  ApolloProvider,
+  ApolloClient,
+  HttpLink,
+  InMemoryCache
+} = require("@apollo/client");
 
 const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: new HttpLink({
-        uri: 'https://my-app.netlify.app/.netlify/functions/graphql',
-    }),
-    fetch
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: "https://my-app.netlify.app/.netlify/functions/graphql"
+  }),
+  fetch
 });
 
-export const wrapRootElement = ({element}) => (
-<ApolloProvider client={client}>{element}</ApolloProvider>
-)
-
+export const wrapRootElement = ({ element }) => (
+  <ApolloProvider client={client}>{element}</ApolloProvider>
+);
 ```
