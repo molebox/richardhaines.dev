@@ -84,7 +84,7 @@ const Spotify = () => {
                 }}
                 href={list.node.external_urls.spotify}
               >
-                <p>{list.node.name}</p>
+                <span>{list.node.name}</span>
               </a>
             </motion.li>
           ))}

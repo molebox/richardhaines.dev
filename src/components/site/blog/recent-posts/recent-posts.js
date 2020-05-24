@@ -82,7 +82,7 @@ const RecentPosts = () => {
                 }}
                 to={post.node.fields.slug}
               >
-                <p>{post.node.frontmatter.title}</p>
+                <span>{post.node.frontmatter.title}</span>
               </Link>
             </motion.li>
           ))}

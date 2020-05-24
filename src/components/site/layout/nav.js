@@ -67,6 +67,25 @@ const Nav = () => {
             color: "accent"
           }
         }}
+        to="/copy-paste"
+      >
+        Copy/Paste
+      </Link>
+      <Link
+        sx={{
+          textDecoration: "none",
+          fontFamily: "heading",
+          fontSize: ["0.8em", "0.9em", "0.9em"],
+          color: "text",
+          paddingTop: ["1em", null, null],
+          letterSpacing: "text",
+          textTransform: "uppercase",
+          display: ["none", "block", "block"],
+          // marginRight: [0, "10vw", "5vw"],
+          ":hover": {
+            color: "accent"
+          }
+        }}
         to="/gatsby-themes"
       >
         Gatsby Themes

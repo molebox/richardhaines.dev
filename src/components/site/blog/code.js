@@ -12,6 +12,7 @@ const Pre = styled.pre`
   overflow-x: auto;
   border-radius: 3px;
   border: 1px solid;
+  margin-bottom: 3em;
 
   & .token-lline {
     line-height: 1.3em;
