@@ -14,22 +14,22 @@ const CopyPaste = ({ location }) => {
     `;
 
   const SEOKeywords = [
-    "Web Developer",
-    "JAMstack",
-    "JAMstack Development",
-    "Headless CMS",
+    "Jamstack",
     "React",
     "Gatsby"
   ];
 
+  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${copyPaste}&tags=${SEOKeywords}&author=@studio_hungry`;
+
   return (
     <Main>
       <SEO
-        title="Digital Garden"
+        title="Copy/Paste"
         description={SEODescription}
         keywords={SEOKeywords}
         pathname={location.pathname}
         twitter="studio_hungry"
+        ogImage={ogImage}
       />
       <Divider />
       <AnimatedH1 string={copyPaste} />
