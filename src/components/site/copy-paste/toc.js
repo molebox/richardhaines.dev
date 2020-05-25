@@ -18,7 +18,7 @@ export default ({ headings }) => (
       fontWeight: "heading",
       color: "#fff",
       margin: "2em",
-      width: ["none", "max-content"],
+      // width: ["none", "max-content"],
       backgroundColor: "secondaryDarker"
     }}
   >
@@ -27,7 +27,7 @@ export default ({ headings }) => (
       {headings
         .filter(heading => heading.depth !== 1)
         .map(heading => (
-          <li sx={{}} key={heading.value}>
+          <li key={heading.value}>
             <AnchorLink
               sx={{
                 textDecoration: "none",
@@ -38,8 +38,8 @@ export default ({ headings }) => (
                 }
               }}
               to={`/copy-paste/#${slugger.slug(heading.value)}`}
-              stripHash
               title={heading.value}
+              stripHash
             >
               {heading.value}
             </AnchorLink>

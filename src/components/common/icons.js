@@ -13,8 +13,8 @@ import Rocket from "../../assets/rocket.svg";
 export const RocketIcon = () => (
   <Rocket
     sx={{
-      width: "4em",
-      height: "4em",
+      width: "3em",
+      height: "3em",
       fill: "#DE3C4B"
     }}
   />
