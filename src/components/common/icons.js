@@ -8,7 +8,17 @@ import Twitter from "../../assets/twitter.svg";
 import Github from "../../assets/github.svg";
 import LinkedIn from "../../assets/linkedin.svg";
 import TypeScript from "../../assets/typescript.svg";
-import { keyframes } from "@emotion/core";
+import Rocket from "../../assets/rocket.svg";
+
+export const RocketIcon = () => (
+  <Rocket
+    sx={{
+      width: "4em",
+      height: "4em",
+      fill: "#DE3C4B"
+    }}
+  />
+);
 
 export const TypeScriptIcon = () => (
   <TypeScript
@@ -115,4 +125,12 @@ export const Music = () => (
   </span>
 );
 
-export default { SanityIcon, ReactIcon, GatsbyIcon, JSIcon, Brain, Music };
+export default {
+  SanityIcon,
+  ReactIcon,
+  GatsbyIcon,
+  JSIcon,
+  Brain,
+  Music,
+  RocketIcon
+};

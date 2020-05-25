@@ -10,12 +10,12 @@ const Pre = styled.pre`
   margin: 1em;
   padding: 1.5em;
   overflow-x: auto;
-  border-radius: 3px;
+  border-radius: 5px;
   border: 1px solid;
   border-color: #de3c4b;
   margin-bottom: 3em;
 
-  & .token-lline {
+  & .token-line {
     line-height: 1.3em;
     height: 1.3em;
   }
@@ -40,7 +40,7 @@ const CopyCode = styled.button`
   margin: 0.25em;
   opacity: 0.3;
   cursor: pointer;
-  font-family: monospace;
+  font-family: Jost;
   &:hover {
     opacity: 1;
   }
