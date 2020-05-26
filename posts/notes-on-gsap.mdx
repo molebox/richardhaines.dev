@@ -1,0 +1,207 @@
+---
+title: Notes on GSAP
+date: 2020-05-26
+published: true
+category: Animation
+author: Richard Haines
+keywords: [greensock, gsap, beginner, animation]
+pin: true
+---
+
+I'm trying to up my css and animation game, this is record of my notes taken while looking into [GSAP](https://greensock.com/gsap/)
+
+--------------------------
+
+The gsap object has three helpful methods for creating tweens and optionally adding them to timelines. A timeline is a container for multiple tweens. Each tweens is called a child of the timeline.
+
+- gsap.to()
+- gsap.from()
+- gsap.fromTo()
+
+For best performance animate CSS transforms and opacities.
+- x and y
+- rotation, rotationX, rotationY
+- scaleX, scaleY, scale
+- skewX, skewY
+
+Though gsap can animate any numeric property. So not display for example.
+- width, height
+- top, left (position must be set to relative, fixed or absolute)
+- borderRadius
+- colors
+- viewport values
+
+## gsap.to()
+
+``` js
+// The fist param is the target to animate. This could be a className, which would specifically target any element with that className applied.
+gsap.to(".target");
+
+// Or an actual HTML tag which would select all of them on the page. I guess a ref could be used in React
+gsap.to("img");
+
+// This will move the target element 500 pixels along the x axis for a duration of 3 seconds (the default duration is 500ms, if not set)
+// The fist param is the target to animate
+// The second is the vars object that contains the properties to animate
+gsap.to(".target", {x: 500, duration: 3});
+
+// A tween can change multiple properties over a period of time
+// The target will move across the x axis for a duration of 3 seconds while scaling up 3 times its size, rotating a full 360 degrees and changing its colour to tomato
+gsap.to(".target", {x: 500, scale: 3, rotation: 360, fill:"tomato", duration: 3});
+
+// A tween can change multiple properties of multiple elements too. If multiple elements have the className .target then all three would move the same as declared above
+// If the stagger property is added, as below, then each of the elements animations would fire off with a 1 second delay between them
+gsap.to(".target", {stagger: 1, x: 500, scale: 3, rotation: 360, fill:"tomato", duration: 3});
+
+```
+
+## gsap.from() and gsap.fromTo()
+
+``` js
+
+// The from tween will do the reverse of the to tween, so the target will start at x: 500 and have a scale of 3 but will spin 360 and shrink while returning to the original position on the page taking a duration of 3 seconds
+gsap.from(".target", {x: 500, scale: 3, rotation: 360, duration: 3});
+
+// The fromTo tween lets you set the start and end values
+// The first vars object is the from values and the second is the to values
+// The properties in the var objects from and to don't have to match up
+gsap.fromTo(".target", {x: 100, y: 250}, {x: 200, y: 300, scale: 3, duration: 2})
+
+// If you set the opacity to 0 on the from and don't set it to 1 in the to then it wont appear as it doesn't know that you want to animate it to opacity 1
+gsap.fromTo(".target", {x: 100, y: 250, opacity: 0}, {x: 200, y: 300, scale: 3, duration: 2})
+
+```
+
+## repeat and delay
+
+``` js
+
+// The repeat and delay properties can be added. They are pretty self explanatory.
+// Repeat will run the animation for the given number of times, delay will delay the animation for the given number of seconds
+gsap.to(".target", {x: 500, duration: 3, repeat: 2});
+gsap.to(".target", {x: 500, duration: 3, delay: 2});
+
+// You can add the boolean yoyo with a repeat to make the animation repeat the given number of times in a yoyo motion. 
+// So it wont just snap back like if using just repeat
+gsap.to(".target", {x: 500, duration: 3, repeat: 2, yoyo: true});
+
+// To repeat infinitely use -1 as the repeat value
+gsap.to(".target", {x: 500, duration: 3, repeat: -1, yoyo: true});
+
+```
+
+## easing
+
+The default setting for ease is easeOut. See [GSAP Easing](https://greensock.com/docs/v2/Easing) for examples of them all. On that page there is a graph whihc shows how the animations run. The steeper the curve, the faster the animation, or movement. The flatter the curve, the slower the animation or movement.
+
+Ease types: 
+- in
+- inOut
+- out
+
+** You don't have to specify out as it's implied seeing as it's the default **
+
+These can be combined with: 
+- power0
+- power1
+- power2
+- power3
+- power4
+- back
+- elastic
+- bounce
+- rough
+- slowMo
+- stepped
+- circ
+- expo
+- sine
+
+``` js
+
+// If you add ease linear then it removes the easing
+gsap.to(".target", {x: 200, ease: "linear"});
+
+// There 3 types of ease that can be combined via dot notation with different types of animation, causing different effects
+// For example
+gsap.to(".target", {x: 300, duration: 3, ease:"bounce.inOut"})
+
+// Back will overshoot the end point and bounce back slightly. Back takes a function param which specifies how much it will overshoot the end point and bounce back again
+gsap.to(".target", {x: 300, duration: 3, ease:"back(3)"})
+
+
+```
+
+## stagger
+
+Used to stagger a group of elements animations.
+
+``` js
+// If you have a number of elements with the className .target then this will stagger the animations 1 second apart
+gsap.to(".target", {x: 350, stagger: 1});
+
+// For a really subtle stagger you can lower the stagger amount
+gsap.to(".target", {x: 350, stagger: 0.2});
+
+// Stagger can take an object instead of just a numerical value. Inside this object you can pass some params
+// Passing each with a numerical value will work the same as just passing a numerical value to stagger. 
+// So in this example each element will fire after 0.2 second, the same as the above implementation
+gsap.to(".target", {x: 350, stagger: {
+    each: 0.2
+}});
+
+// You can also pass amount as a param, which will make each element in the group share the numerical value.
+// If we had 5 elements in our group, each animation would fire for a total of 1 second, so the gap in between would be shorter 
+// but the whole groups animation would take 1 second
+gsap.to(".target", {x: 350, stagger: {
+    amount: 1
+}});
+
+// From can be used to tell gsap from where to begin the stagger. You can pass the array position
+gsap.to(".target", {x: 350, stagger: {
+    from: 2
+}});
+
+// Or you can pass some string values. (Random was added in v3.1.0)
+gsap.to(".target", {x: 350, stagger: {
+    from: "start" || "center" || "edges" || "end" || "random"
+}});
+
+// This looks cool, if your elements are visually in a grid on the page you can pass grid as a param, indicating how many rows and columns there are. 
+gsap.to(".target", {x: 350, stagger: {
+    grid: [3,4] // 3 rows, 4 columns
+}});
+
+// Or you can pass auto to grid and gsap will calculate the rows and columns using element.getBoundingClientRect()
+gsap.to(".target", {x: 350, stagger: {
+    grid: "auto"
+}});
+
+// If you have a grid you can focus on just one axis (x or y)
+gsap.to(".target", {x: 350, stagger: {
+    grid: "auto",
+    from: "center",
+    axis: "y"
+}});
+
+// A cool example from the gsap website. If you have a grid of boxes then you can make them fall away from the center
+gsap.to(".box", {
+  duration: 1,
+  scale: 0.1,
+  y: 40,
+  ease: "power1.inOut",
+  stagger: {
+    grid: [7,15],
+    from: "center",
+    amount: 1.5
+  }
+});
+
+// And of course you can add an ease (if you don't the default is out remember) that distributes the start times of the animations
+gsap.to(".target", {x: 350, stagger: {
+    grid: "auto",
+    from: "center",
+    axis: "y",
+    ease: "power2.in"
+}});
+```

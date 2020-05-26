@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 import PostAuthor from "./post-author";
 import PostDate from "./post-date";
 
-const PostInfo = ({ author, category, date }) => {
+const PostInfo = ({ author, date }) => {
   return (
     <section
       sx={{

@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-const PostTitle = props => (
+const PostTitle = ({ children }) => (
   <h2
     sx={{
       fontFamily: "heading"
     }}
   >
-    {props.children}
+    {children}
   </h2>
 );
 

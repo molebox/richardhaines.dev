@@ -18,7 +18,6 @@ export default ({ headings }) => (
       fontWeight: "heading",
       color: "#fff",
       margin: "2em",
-      // width: ["none", "max-content"],
       backgroundColor: "secondaryDarker"
     }}
   >

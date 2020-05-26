@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 
 const ScrollToTop = () => (
   <motion.div
-    // whileHover={{ scale: 1.5 }}
     drag
     dragElastic={0.7}
     dragConstraints={{

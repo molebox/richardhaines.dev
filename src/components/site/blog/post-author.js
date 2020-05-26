@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-const PostAuthor = props => (
+const PostAuthor = ({ children }) => (
   <p
     sx={{
       fontFamily: "heading",
@@ -9,7 +9,7 @@ const PostAuthor = props => (
       marginBottom: ["1em", null, null]
     }}
   >
-    {props.children}
+    {children}
   </p>
 );
 

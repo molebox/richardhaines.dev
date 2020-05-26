@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-const PostDate = props => (
+const PostDate = ({ children }) => (
   <span
     sx={{
       fontFamily: "heading",
@@ -9,7 +9,7 @@ const PostDate = props => (
       marginBottom: ["1em", null, null]
     }}
   >
-    {props.children}
+    {children}
   </span>
 );
 

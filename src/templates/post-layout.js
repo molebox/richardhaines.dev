@@ -31,13 +31,10 @@ const PostLayout = ({ data, pageContext, location }) => {
     frontmatter,
     body,
     excerpt,
-    tableOfContents,
     fields: { editLink }
   } = data.mdx;
   const { title, date, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
-
-  console.log({ tableOfContents });
 
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
@@ -65,20 +62,6 @@ const PostLayout = ({ data, pageContext, location }) => {
           <PostDate> Posted: {date}</PostDate>
           <Twitter />
         </div>
-        {typeof tableOfContents.items === "undefined" ? null : (
-          <Toc>
-            <InnerScroll>
-              <h2>Table of contents</h2>
-              {tableOfContents.items.map(i => (
-                <li key={i.url}>
-                  <a href={i.url} key={i.url}>
-                    {i.title}
-                  </a>
-                </li>
-              ))}
-            </InnerScroll>
-          </Toc>
-        )}
         <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
         <div
           sx={{
