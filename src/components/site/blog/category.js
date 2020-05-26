@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-const Category = ({ category, handleCategoryQuery }) => {
+const Category = ({ category, handleCategoryQuery, ...rest }) => {
   return (
     <button
+      {...rest}
       sx={{
         border: "1px solid",
         borderColor: "accent",

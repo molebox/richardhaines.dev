@@ -1,42 +1,18 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
+
 import { graphql, useStaticQuery } from "gatsby";
 import ProjectCard from "./project-card";
-import H3 from "../../common/h3";
-import { motion } from "framer-motion";
 
-const variants = {
-  hidden: { scale: 0 },
-  show: {
-    scale: 1,
-    transition: {
-      delayChildren: 0.5,
-      // staggerChildren: 0.1,
-      staggerDirection: 0.6
-    }
-  }
-};
-
-const title = {
-  hidden: { scale: 0 },
-  show: {
-    scale: 1,
-    transition: {
-      delay: 0.1
-    }
-  }
-};
-
-const Projects = ({ projectsRef, isInView }) => {
+const Projects = () => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
+
   return (
     <section
       sx={{
         marginTop: ["3em", "3em", "5em"]
       }}
-      ref={projectsRef}
     >
       <div
         sx={{
@@ -45,13 +21,19 @@ const Projects = ({ projectsRef, isInView }) => {
           alignItems: "center"
         }}
       >
-        <motion.span
-          variants={title}
-          initial="hidden"
-          animate={isInView ? "show" : "hidden"}
+        <h3
+          sx={{
+            color: "text",
+            fontFamily: "heading",
+            fontWeight: "heading",
+            fontSize: ["0.9em", "1em", "1.2em"],
+            margin: "1em auto",
+            textTransform: "uppercase",
+            letterSpacing: "text"
+          }}
         >
-          <H3>Selected Work</H3>
-        </motion.span>
+          Some Work
+        </h3>
       </div>
       <div
         sx={{
@@ -65,22 +47,16 @@ const Projects = ({ projectsRef, isInView }) => {
         }}
       >
         {projects.map(({ node: project, index }) => (
-          <motion.div
-            variants={variants}
-            initial="hidden"
-            animate={isInView ? "show" : "hidden"}
-          >
-            <ProjectCard
-              key={project.name + index}
-              name={project.name}
-              description={project.description}
-              fluid={project.image.src.childImageSharp.fluid}
-              alt={project.image.alt}
-              website={project.website}
-              github={project.github}
-              npm={project.npm}
-            />
-          </motion.div>
+          <ProjectCard
+            key={project.name + index}
+            name={project.name}
+            description={project.description}
+            fluid={project.image.src.childImageSharp.fluid}
+            alt={project.image.alt}
+            website={project.website}
+            github={project.github}
+            npm={project.npm}
+          />
         ))}
       </div>
     </section>

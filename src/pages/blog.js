@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import Main from "../components/site/layout/main";
 import { graphql } from "gatsby";
 import { useSearchBar } from "./../components/site/blog/useSearchBar";
@@ -12,10 +13,54 @@ import SEO from "gatsby-theme-seo/src/components/seo";
 import Category from "../components/site/blog/category";
 import { useCategory } from "./../components/site/blog/useCategory";
 import AllCategory from "../components/site/blog/all-categories";
+import gsap from "gsap";
+import { useWindupString } from "windups";
 
 const Blog = ({ data, location }) => {
   const { posts, handleSearchQuery } = useSearchBar(data);
   const { categories, handleCategoryQuery } = useCategory(posts);
+  const [garden] = useWindupString("Digital Garden", {
+    pace: char => (char === " " ? 60 : 100)
+  });
+
+  React.useEffect(() => {
+    gsap.to("body", { visibility: "visible" });
+  }, []);
+
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".garden-p",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        duration: 1.2,
+        y: 0,
+        delay: 2.5,
+        stagger: {
+          amount: 0.5
+        }
+      }
+    );
+
+    gsap.fromTo(
+      ".categories",
+      {
+        opacity: 0
+      },
+      {
+        opacity: 1,
+        duration: 1,
+        delay: 3,
+        stagger: {
+          grid: "auto",
+          from: "edges",
+          axis: "x",
+          amount: 1
+        }
+      }
+    );
+  }, []);
+
   const categoriesList = [
     ...new Set(posts.map(post => post.frontmatter.category))
   ];
@@ -50,13 +95,25 @@ const Blog = ({ data, location }) => {
         twitter="studio_hungry"
       />
       <Divider />
-      <AnimatedH1 string={blog} />
+      <h1
+        sx={{
+          color: "text",
+          fontFamily: "Jost",
+          fontSize: ["1.7em", "2.5em", "3.8em"],
+          fontWeight: "body",
+          marginTop: "1em",
+          display: "flex",
+          justifyContent: "flex-start"
+        }}
+      >
+        {garden}
+      </h1>
       <div
         sx={{
           marginBottom: "4em"
         }}
       >
-        <P>
+        <P className="garden-p">
           This is my garden, there are many like it, but this one is mine. Its a
           place for me to sow my ideas, some i will grow, some i wont. 🌼
         </P>
@@ -72,6 +129,7 @@ const Blog = ({ data, location }) => {
           placeContent: "center",
           paddingTop: "2em"
         }}
+        className="categories"
       >
         <AllCategory handleCategoryQuery={handleCategoryQuery} />
         {categoriesList.map((cat, index) => (
@@ -79,6 +137,7 @@ const Blog = ({ data, location }) => {
             key={cat + index}
             category={cat}
             handleCategoryQuery={handleCategoryQuery}
+            className="categories"
           />
         ))}
       </section>

@@ -48,6 +48,7 @@ const RecentPosts = () => {
             textTransform: "uppercase",
             letterSpacing: "text"
           }}
+          className="recent-posts"
         >
           On my mind recently
         </h3>

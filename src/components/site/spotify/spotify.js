@@ -58,6 +58,7 @@ const Spotify = () => {
             textTransform: "uppercase",
             letterSpacing: "text"
           }}
+          className="spotify"
         >
           Coding Tunes
         </h3>

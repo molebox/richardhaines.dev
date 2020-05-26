@@ -11,6 +11,7 @@ const P = props => {
         fontSize: ["0.9em", "1.1em", "1.2em"],
         margin: "1em auto"
       }}
+      {...props}
     >
       {props.children}
     </p>

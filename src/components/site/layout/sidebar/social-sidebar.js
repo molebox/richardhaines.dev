@@ -21,6 +21,7 @@ const SocialSideBar = () => {
       }
     );
   }, []);
+
   return (
     <div
       sx={{

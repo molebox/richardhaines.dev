@@ -1,9 +1,27 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import { Link } from "gatsby";
 import { motion } from "framer-motion";
+import gsap from "gsap";
 
 const BlogIndex = ({ posts }) => {
+  React.useEffect(() => {
+    gsap.from(".card", {
+      duration: 2.5,
+      scale: 0,
+      y: 40,
+      ease: "power2.easeOut",
+      delay: 2.5,
+      stagger: {
+        grid: "auto",
+        from: "start",
+        amount: 2,
+        ease: "power2.easeOut"
+      }
+    });
+  }, []);
+
   return (
     <section
       sx={{
@@ -15,6 +33,7 @@ const BlogIndex = ({ posts }) => {
         width: "100%",
         placeContent: "center"
       }}
+      className="card"
     >
       {posts.map(({ id, frontmatter, fields, excerpt }) => (
         <Link
@@ -23,6 +42,7 @@ const BlogIndex = ({ posts }) => {
           }}
           key={id}
           to={fields.slug}
+          className="card"
         >
           <motion.div
             whileHover={{ scale: 1.02 }}
@@ -58,6 +78,7 @@ const BlogIndex = ({ posts }) => {
                   }
                 : null
             }}
+            className="card"
           >
             <p
               sx={{

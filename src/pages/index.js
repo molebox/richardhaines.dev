@@ -41,9 +41,9 @@ const SEOKeywords = [
 
 export default () => {
   const { description, intro } = useSiteMetadata();
-  const [ref, inView] = useInView({
-    rootMargin: "-100px 0px"
-  });
+  // const [ref, inView] = useInView({
+  //   rootMargin: "-100px 0px"
+  // });
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
@@ -75,7 +75,7 @@ export default () => {
         <Spotify />
       </section>
       <Divider />
-      <Projects projectsRef={ref} isInView={inView} />
+      <Projects />
       <IconContainer>
         <GatsbyIcon />
         <ReactIcon />
