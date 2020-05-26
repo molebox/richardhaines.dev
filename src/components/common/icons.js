@@ -9,6 +9,7 @@ import Github from "../../assets/github.svg";
 import LinkedIn from "../../assets/linkedin.svg";
 import TypeScript from "../../assets/typescript.svg";
 import Rocket from "../../assets/rocket.svg";
+import gsap from "gsap";
 
 export const RocketIcon = () => (
   <Rocket
@@ -119,10 +120,15 @@ export const Brain = () => (
   </span>
 );
 
-export const Music = () => (
-  <span alt="headphone emoji" role="img" sx={{ fontSize: ["6em", "7em"] }}>
+export const Music = props => (
+  <div
+    {...props}
+    alt="headphone emoji"
+    role="img"
+    sx={{ fontSize: ["6em", "7em"] }}
+  >
     🎧
-  </span>
+  </div>
 );
 
 export default {
