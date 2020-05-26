@@ -2751,6 +2751,11 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
+break-styled-lines@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/break-styled-lines/-/break-styled-lines-1.1.1.tgz#8e14aaafaa7497bebd1a55985701cd7099f10aa2"
+  integrity sha512-DNLqyaNnzBQvs55GTUmq4V85g1KihiDMO5w9MnKBcgBgQgYd+JgQsW6EBvCr62o03tYWH6cVOXvjD2qKCSBicQ==
+
 brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
@@ -6731,6 +6736,11 @@ gray-matter@^4.0.2:
     kind-of "^6.0.2"
     section-matter "^1.0.0"
     strip-bom-string "^1.0.0"
+
+gsap@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.2.6.tgz#fbaddab30c8c2fb029d61ef56f667b42f99c932f"
+  integrity sha512-QX7WQWZUAooS9tOCYg4kKLcnjBreA4Xyu11EVx6zp4BbKijnMK+NtzkB47las/E0luFE84hGscOZm5vd13KzZA==
 
 gud@^1.0.0:
   version "1.0.0"
@@ -13976,6 +13986,13 @@ widest-line@^3.1.0:
   integrity sha512-NsmoXalsWVDMGupxZ5R08ka9flZjjiLvHVAWYOKtiKM8ujtZWr9cRffak+uSE48+Ob8ObalXpwyeUiyDD6QFgg==
   dependencies:
     string-width "^4.0.0"
+
+windups@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/windups/-/windups-1.0.1.tgz#ab65e3bec8591cdca02ad948663c906dcf043861"
+  integrity sha512-dT1hf34qRwPYB/PbbfO7TKb1G2rpEvplDsYrtOI8Lcy9AIrdttyncZVXFFGNQBayyj9bzX8IWD/PUHfqhA9DKg==
+  dependencies:
+    break-styled-lines "^1.1.1"
 
 with-open-file@^0.1.6:
   version "0.1.7"

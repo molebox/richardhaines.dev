@@ -1,10 +1,19 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { motion } from "framer-motion";
+import React from "react";
+import gsap from "gsap";
 
 const Divider = () => {
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".divider",
+      { opacity: 0, x: -100 },
+      { x: 0, opacity: 1, duration: 2.5, delay: 1.5 }
+    );
+  }, []);
+
   return (
-    <motion.div
+    <div
       // animate={{
       //   width: ["20%", "40%", "60%", "80%", "100%"]
       // }}
@@ -15,6 +24,7 @@ const Divider = () => {
         color: "accent",
         width: "100%"
       }}
+      className="divider"
     />
   );
 };

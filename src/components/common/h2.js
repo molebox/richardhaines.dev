@@ -11,6 +11,7 @@ const H2 = props => {
         fontWeight: "body",
         margin: "1em auto"
       }}
+      {...props}
     >
       {props.children}
     </h2>
