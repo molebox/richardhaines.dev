@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import { Music } from "../../common/icons";
 import H3 from "./../../common/h3";
 import { motion } from "framer-motion";
 import MusicalNotes from "./../../common/musical-notes";
+import gsap from "gsap";
 
 const container = {
   hidden: { scale: 0 },
@@ -20,6 +22,22 @@ const Spotify = () => {
   const data = useStaticQuery(query);
   const playlist = data.allSpotifyPlaylist.edges;
 
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".spotify",
+      { opacity: 0, x: 200 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1.2,
+        delay: 4,
+        stagger: {
+          amount: 0.3
+        }
+      }
+    );
+  }, []);
+
   return (
     <section>
       <div
@@ -28,8 +46,21 @@ const Spotify = () => {
           alignItems: "center",
           marginTop: ["3em", "3em", "5em"]
         }}
+        className="spotify"
       >
-        <H3>Coding Tunes</H3>
+        <h3
+          sx={{
+            color: "text",
+            fontFamily: "heading",
+            fontWeight: "heading",
+            fontSize: ["0.9em", "1em", "1.2em"],
+            margin: "1em auto",
+            textTransform: "uppercase",
+            letterSpacing: "text"
+          }}
+        >
+          Coding Tunes
+        </h3>
       </div>
 
       <section
@@ -42,18 +73,16 @@ const Spotify = () => {
           marginBottom: "3em"
         }}
       >
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
+        <div
           sx={{
             justifySelf: ["center", "center"]
           }}
+          className="spotify"
         >
           <MusicalNotes>
             <Music />
           </MusicalNotes>
-        </motion.div>
+        </div>
 
         <ul
           sx={{
@@ -63,13 +92,11 @@ const Spotify = () => {
         >
           {playlist.map(list => (
             <motion.li
-              variants={container}
-              initial="hidden"
-              animate="show"
               sx={{
                 marginBottom: "1em"
               }}
               key={list.node.spotifyId}
+              className="spotify"
             >
               <a
                 sx={{
@@ -84,7 +111,7 @@ const Spotify = () => {
                 }}
                 href={list.node.external_urls.spotify}
               >
-                <span>{list.node.name}</span>
+                <span className="spotify">{list.node.name}</span>
               </a>
             </motion.li>
           ))}

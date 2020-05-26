@@ -2,7 +2,7 @@
 import { jsx, useColorMode } from "theme-ui";
 import React from "react";
 
-const Darkmode = () => {
+const Darkmode = props => {
   const [colorMode, setColorMode] = useColorMode("dark");
 
   return (
@@ -43,6 +43,7 @@ const Darkmode = () => {
           top: "22px"
         }
       }}
+      {...props}
     >
       <span hidden className="visually-hidden">
         {colorMode === "light" ? "Dark" : "Light"}

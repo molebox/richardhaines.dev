@@ -1,24 +1,32 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import { Link } from "gatsby";
 import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
 import H3 from "../../../common/h3";
 import { Brain } from "./../../../common/icons";
-
-const container = {
-  hidden: { scale: 0 },
-  show: {
-    scale: 1,
-    transition: {
-      delay: 0.8
-    }
-  }
-};
+import gsap from "gsap";
 
 const RecentPosts = () => {
   const data = useStaticQuery(query);
   const posts = data.allMdx.edges;
+
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".recent-posts",
+      { opacity: 0, x: -200 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1.2,
+        delay: 4,
+        stagger: {
+          amount: 0.3
+        }
+      }
+    );
+  }, []);
 
   return (
     <section>
@@ -28,8 +36,21 @@ const RecentPosts = () => {
           alignItems: "center",
           marginTop: ["3em", "3em", "5em"]
         }}
+        className="recent-posts"
       >
-        <H3>On my mind recently</H3>
+        <h3
+          sx={{
+            color: "text",
+            fontFamily: "heading",
+            fontWeight: "heading",
+            fontSize: ["0.9em", "1em", "1.2em"],
+            margin: "1em auto",
+            textTransform: "uppercase",
+            letterSpacing: "text"
+          }}
+        >
+          On my mind recently
+        </h3>
       </div>
 
       <section
@@ -42,16 +63,9 @@ const RecentPosts = () => {
           marginBottom: "3em"
         }}
       >
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          sx={{
-            justifySelf: ["center", "center"]
-          }}
-        >
+        <div className="recent-posts">
           <Brain />
-        </motion.div>
+        </div>
 
         <ul
           sx={{
@@ -60,14 +74,12 @@ const RecentPosts = () => {
           }}
         >
           {posts.map(post => (
-            <motion.li
-              variants={container}
-              initial="hidden"
-              animate="show"
+            <li
               sx={{
                 marginBottom: "1em"
               }}
               key={post.node.id}
+              className="recent-posts"
             >
               <Link
                 sx={{
@@ -82,9 +94,11 @@ const RecentPosts = () => {
                 }}
                 to={post.node.fields.slug}
               >
-                <span>{post.node.frontmatter.title}</span>
+                <span className="recent-posts">
+                  {post.node.frontmatter.title}
+                </span>
               </Link>
-            </motion.li>
+            </li>
           ))}
         </ul>
       </section>

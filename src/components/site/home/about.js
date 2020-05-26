@@ -20,7 +20,7 @@ const About = props => {
         opacity: 1,
         duration: 1.2,
         y: 0,
-        delay: 2.1,
+        delay: 2.5,
         stagger: {
           amount: 0.5
         }

@@ -1,11 +1,29 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import { Link } from "gatsby";
 import { useSiteMetadata } from "./../../useSiteMetadata";
-// import Darkmode from "../darkmode";
+import gsap from "gsap";
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
+
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".nav-link",
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1.2,
+        delay: 3,
+        stagger: {
+          amount: 1,
+          from: "random"
+        }
+      }
+    );
+  }, []);
+
   return (
     <nav
       sx={{
@@ -30,6 +48,7 @@ const Nav = () => {
           }
         }}
         to="/"
+        className="nav-link"
       >
         {siteName}
       </Link>
@@ -49,6 +68,7 @@ const Nav = () => {
           }
         }}
         to="/blog"
+        className="nav-link"
       >
         Garden
       </Link>
@@ -68,6 +88,7 @@ const Nav = () => {
           }
         }}
         to="/copy-paste"
+        className="nav-link"
       >
         Copy/Paste
       </Link>
@@ -87,6 +108,7 @@ const Nav = () => {
           }
         }}
         to="/gatsby-themes"
+        className="nav-link"
       >
         Gatsby Themes
       </Link>
@@ -108,6 +130,7 @@ const Nav = () => {
         href="https://richardhainesresume.netlify.com/"
         target="_blank"
         rel="noopener noreferrer"
+        className="nav-link"
       >
         Resume
       </a>

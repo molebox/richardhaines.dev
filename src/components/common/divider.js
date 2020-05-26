@@ -8,7 +8,7 @@ const Divider = () => {
     gsap.fromTo(
       ".divider",
       { opacity: 0, x: -100 },
-      { x: 0, opacity: 1, duration: 2.5, delay: 1.5 }
+      { x: 0, opacity: 1, duration: 3, delay: 1.5 }
     );
   }, []);
 

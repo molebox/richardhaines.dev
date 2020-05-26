@@ -1,9 +1,26 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import { TwitterIcon, GithubIcon, LinkedInIcon } from "../../../common/icons";
-import Darkmode from "./../../darkmode";
+// import Darkmode from "./../../darkmode";
+import gsap from "gsap";
 
 const SocialSideBar = () => {
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".social-links",
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1.2,
+        delay: 4.3,
+        stagger: {
+          amount: 1,
+          from: "edges"
+        }
+      }
+    );
+  }, []);
   return (
     <div
       sx={{
@@ -20,16 +37,19 @@ const SocialSideBar = () => {
         backgroundColor: "transparent"
       }}
     >
-      <a href="https://twitter.com/studio_hungry">
+      <a href="https://twitter.com/studio_hungry" className="social-links">
         <TwitterIcon />
       </a>
-      <a href="https://github.com/molebox">
+      <a href="https://github.com/molebox" className="social-links">
         <GithubIcon />
       </a>
-      <a href="https://www.linkedin.com/in/richard-haines-578464176/">
+      <a
+        href="https://www.linkedin.com/in/richard-haines-578464176/"
+        className="social-links"
+      >
         <LinkedInIcon />
       </a>
-      <Darkmode />
+      {/* <Darkmode className="social-links" /> */}
     </div>
   );
 };

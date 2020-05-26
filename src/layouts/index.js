@@ -24,6 +24,7 @@ const Layout = ({ children }) => {
             box-sizing: border-box;
           }
           body {
+            visibility: hidden;
             scroll-behavior: smooth;
             overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
