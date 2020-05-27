@@ -1,6 +1,7 @@
 import { MDXProvider } from '@mdx-js/react'
 import React from 'react'
 import { Code } from './src/components/site/blog/code'
+import PostsLayout from './src/components/site/layout/posts-layout'
 
 const components = {
   'p.inlineCode': props => (
@@ -22,6 +23,9 @@ const components = {
       )
     }
   },
+  CustomWrapper: props => (
+    <PostsLayout {...props}/>
+  )
 }
 
 export const wrapRootElement = ({ element }) => (

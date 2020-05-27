@@ -16,6 +16,9 @@ module.exports = {
         {
           resolve: 'gatsby-plugin-mdx',
           options: {
+            defaultLayouts: {
+              copyPaste: require.resolve("./src/components/site/layout/posts-layout.js")
+            },
             remarkPlugins: [
               require('remark-slug')
             ]

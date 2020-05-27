@@ -2,13 +2,12 @@
 import { jsx } from "theme-ui";
 import React from "react";
 import { Link } from "gatsby";
-import { motion } from "framer-motion";
 import gsap from "gsap";
 
 const BlogIndex = ({ posts }) => {
   React.useEffect(() => {
     gsap.from(".card", {
-      duration: 2.5,
+      duration: 1.7,
       scale: 0,
       y: 40,
       ease: "power2.easeOut",
@@ -22,6 +21,12 @@ const BlogIndex = ({ posts }) => {
     });
   }, []);
 
+  const handleMouseEnter = e =>
+    gsap.to(e.target, { scale: 1.01, duration: 0.3 });
+
+  const handleMouseLeave = e =>
+    gsap.to(e.target, { scale: 1, duration: 0.4, ease: "back(10)" });
+
   return (
     <section
       sx={{
@@ -33,7 +38,6 @@ const BlogIndex = ({ posts }) => {
         width: "100%",
         placeContent: "center"
       }}
-      className="card"
     >
       {posts.map(({ id, frontmatter, fields, excerpt }) => (
         <Link
@@ -42,14 +46,10 @@ const BlogIndex = ({ posts }) => {
           }}
           key={id}
           to={fields.slug}
-          className="card"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{
-              duration: 0.2,
-              ease: "easeOut"
-            }}
+          <div
             sx={{
               border: "solid 1px",
               borderColor: "accent",
@@ -136,7 +136,7 @@ const BlogIndex = ({ posts }) => {
                 {frontmatter.date}
               </p>
             </div>
-          </motion.div>
+          </div>
         </Link>
       ))}
     </section>

@@ -45,7 +45,7 @@ const Blog = ({ data, location }) => {
       {
         opacity: 1,
         duration: 1,
-        delay: 3,
+        delay: 2,
         stagger: {
           grid: "auto",
           from: "edges",

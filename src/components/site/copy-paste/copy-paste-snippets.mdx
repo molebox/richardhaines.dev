@@ -1,8 +1,24 @@
+import { Box } from "theme-ui";
 import AccentBox from "../../site/blog/accent-box.js";
 import Text from "../../../../posts/posts-components/linear-gradient-text.js";
 import TableOfContents from "./toc.js";
 
-<TableOfContents headings={props.headings} />
+export default props => (
+  <Box
+    sx={{
+      display: 'grid',
+      gridTemplateColumns: ["1fr", "2fr 1fr"],
+    }}
+  >
+    {props.children}
+  </Box>
+);
+
+<Box sx={{ gridColumn: [1, 2], gridRow: 1, marginTop: 100 }}>
+  <TableOfContents headings={props.headings} />
+</Box>
+
+<Box style={{gridColumn: 1, gridRow: 1}}>
 
 ## Responsive css grid
 
@@ -248,3 +264,5 @@ export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>{element}</ApolloProvider>
 );
 ```
+
+</Box>

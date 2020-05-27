@@ -10,6 +10,8 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import ScrollToTop from "./../components/common/scroll-to-top";
 import gsap from "gsap";
 import PageTitle from "./../components/common/page-title";
+import TableOfContents from "../components/site/copy-paste/toc";
+import PostsLayout from "../components/site/layout/posts-layout";
 
 const CopyPaste = ({
   data: {
@@ -82,7 +84,7 @@ const CopyPaste = ({
           </MDXRenderer>
         </div>
       </Main>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
     </>
   );
 };

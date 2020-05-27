@@ -1,5 +1,4 @@
 /** @jsx jsx */
-
 import { jsx } from "theme-ui";
 import React from "react";
 import Slugger from "github-slugger";
@@ -18,10 +17,24 @@ export default ({ headings }) => (
       fontWeight: "heading",
       color: "#fff",
       margin: "2em",
-      backgroundColor: "secondaryDarker"
+      backgroundColor: "secondaryDarker",
+      position: [null, "sticky"],
+      top: "33%"
     }}
   >
-    <H3>Where's it at...?</H3>
+    <h3
+      sx={{
+        color: "text",
+        fontFamily: "heading",
+        fontWeight: "heading",
+        fontSize: ["0.9em", "1em", "1.2em"],
+        margin: "1em auto",
+        textTransform: "uppercase",
+        letterSpacing: "text"
+      }}
+    >
+      take me there
+    </h3>
     <ul>
       {headings
         .filter(heading => heading.depth !== 1)
