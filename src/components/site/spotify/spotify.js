@@ -36,22 +36,6 @@ const Spotify = () => {
         }
       }
     );
-
-    gsap.fromTo(
-      ".headphones",
-      { rotate: -2, scale: 0.95 },
-      {
-        duration: 1,
-        rotate: 2,
-        repeat: -1,
-        scale: 1,
-        yoyo: true,
-        stagger: {
-          from: "random",
-          ease: "back.inOut"
-        }
-      }
-    );
   }, []);
 
   return (
@@ -97,7 +81,7 @@ const Spotify = () => {
           className="spotify"
         >
           <MusicalNotes>
-            <Music className="headphones" />
+            <Music />
           </MusicalNotes>
         </div>
 
