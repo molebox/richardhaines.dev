@@ -3,7 +3,6 @@ import { jsx } from "theme-ui";
 import React from "react";
 import Main from "../components/site/layout/main";
 import { graphql } from "gatsby";
-import { useSearchBar } from "./../components/site/blog/useSearchBar";
 import P from "./../components/common/p";
 import Divider from "./../components/common/divider";
 import BlogIndex from "../components/site/blog/blog-index";

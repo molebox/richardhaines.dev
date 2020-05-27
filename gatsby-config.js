@@ -8,17 +8,14 @@ require("dotenv").config({
 module.exports = {
   siteMetadata: {
     siteName: 'richardhaines.dev',
-    intro: 'A software developer who specializes in JAMstack development.',
-    description: 'I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create websites and themes with Gatsby and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
+    intro: 'A software developer who specializes in Jamstack development.',
+    description: 'I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create fun user experiences and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
     siteUrl: 'https://richardhaines.dev',
   },
     plugins: [
         {
           resolve: 'gatsby-plugin-mdx',
           options: {
-            defaultLayouts: {
-              copyPaste: require.resolve("./src/components/site/layout/posts-layout.js")
-            },
             remarkPlugins: [
               require('remark-slug')
             ]
@@ -96,7 +93,7 @@ module.exports = {
           options: {
               title: 'richardhaines.dev',
               author: "Richard Haines",
-              description: 'A software developer who specializes in JAMstack development. I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create websites and themes with Gatsby and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
+              description: 'A software developer who specializes in Jamstack development. I currently work as a frontend developer and scrum master for a network security company in the north of Sweden. Im a passionate coder who in my spare time loves to blog, create fun user experiences and explore new technologies. Im currently diving into serverless tech, Apollo and FaunaDB. I also ❤️ emoji!',
               siteUrl: 'https://richardhaines.dev',
               social: {
                   twitter: 'studio_hungry'

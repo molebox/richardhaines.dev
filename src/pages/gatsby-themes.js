@@ -1,17 +1,52 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 import Main from "../components/site/layout/main";
 import { graphql, useStaticQuery } from "gatsby";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Divider from "./../components/common/divider";
-import AnimatedH1 from "./../components/common/animated-h1";
 import P from "../components/common/p";
+import gsap from "gsap";
+import PageTitle from "./../components/common/page-title";
 
 const GatsbyThemes = ({ location }) => {
   const data = useStaticQuery(query);
   const themes = data.allGatsbyThemesJson.edges;
 
-  const gatsbyThemes = Array.from("Gatsby Themes");
+  React.useEffect(() => {
+    gsap.to("body", { visibility: "visible" });
+  }, []);
+
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".themes-p",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        duration: 1.2,
+        y: 0,
+        delay: 1.8,
+        stagger: {
+          amount: 0.5
+        }
+      }
+    );
+
+    gsap.from(".theme", {
+      duration: 1.7,
+      scale: 0,
+      y: 40,
+      ease: "power2.easeOut",
+      delay: 2,
+      stagger: {
+        grid: "auto",
+        from: "start",
+        amount: 2,
+        ease: "power2.easeOut"
+      }
+    });
+  }, []);
+
   const SEODescription = `
       I'm a software developer who specializes in JAMstack development. This is a collection of gatsby themes i have created.
   `;
@@ -36,13 +71,15 @@ const GatsbyThemes = ({ location }) => {
         twitter="studio_hungry"
       />
       <Divider />
-      <AnimatedH1 string={gatsbyThemes} />
+      <PageTitle title="Gatsby Themes" />
       <div
         sx={{
           marginBottom: "4em"
         }}
       >
-        <P>This a collection of gatsby themes i have created.</P>
+        <P className="themes-p">
+          This a collection of gatsby themes i have created.
+        </P>
       </div>
       <Divider />
       <section
@@ -76,6 +113,7 @@ const GatsbyThemes = ({ location }) => {
               height: "auto",
               position: "relative"
             }}
+            className="theme"
           >
             <p
               sx={{
