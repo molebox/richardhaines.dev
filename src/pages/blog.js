@@ -5,23 +5,18 @@ import Main from "../components/site/layout/main";
 import { graphql } from "gatsby";
 import { useSearchBar } from "./../components/site/blog/useSearchBar";
 import P from "./../components/common/p";
-import SearchBar from "./../components/site/blog/SearchBar";
 import Divider from "./../components/common/divider";
 import BlogIndex from "../components/site/blog/blog-index";
-import AnimatedH1 from "./../components/common/animated-h1";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Category from "../components/site/blog/category";
 import { useCategory } from "./../components/site/blog/useCategory";
 import AllCategory from "../components/site/blog/all-categories";
 import gsap from "gsap";
-import { useWindupString } from "windups";
+import PageTitle from "./../components/common/page-title";
 
 const Blog = ({ data, location }) => {
-  const { posts, handleSearchQuery } = useSearchBar(data);
-  const { categories, handleCategoryQuery } = useCategory(posts);
-  const [garden] = useWindupString("Digital Garden", {
-    pace: char => (char === " " ? 60 : 100)
-  });
+  // const { posts, handleSearchQuery } = useSearchBar(data);
+  const { categories, handleCategoryQuery } = useCategory(data.allMdx.nodes);
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
@@ -62,14 +57,15 @@ const Blog = ({ data, location }) => {
   }, []);
 
   const categoriesList = [
-    ...new Set(posts.map(post => post.frontmatter.category))
+    ...new Set(data.allMdx.nodes.map(post => post.frontmatter.category))
   ];
-  const pinned = posts.filter(post => post.frontmatter.pin === true);
+  const pinned = data.allMdx.nodes.filter(
+    post => post.frontmatter.pin === true
+  );
   const allPosts = pinned.length
-    ? [pinned[0], ...posts.filter(post => !post.frontmatter.pin)]
-    : posts;
+    ? [pinned[0], ...data.allMdx.nodes.filter(post => !post.frontmatter.pin)]
+    : data.allMdx.nodes;
 
-  const blog = Array.from("Digital Garden");
   const SEODescription = `
 	I'm a software developer who specializes in JAMstack development. This is my Digital Garden where I write
   about stuff i code, problems i encounter, projects im working on and ideas that come to my mind.
@@ -95,19 +91,7 @@ const Blog = ({ data, location }) => {
         twitter="studio_hungry"
       />
       <Divider />
-      <h1
-        sx={{
-          color: "text",
-          fontFamily: "Jost",
-          fontSize: ["1.7em", "2.5em", "3.8em"],
-          fontWeight: "body",
-          marginTop: "1em",
-          display: "flex",
-          justifyContent: "flex-start"
-        }}
-      >
-        {garden}
-      </h1>
+      <PageTitle title="Digital Garden" />
       <div
         sx={{
           marginBottom: "4em"

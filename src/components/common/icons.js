@@ -114,10 +114,15 @@ export const SanityIcon = () => (
   />
 );
 
-export const Brain = () => (
-  <span alt="brain emoji" role="img" sx={{ fontSize: ["6em", "8em"] }}>
+export const Brain = props => (
+  <div
+    {...props}
+    alt="brain emoji"
+    role="img"
+    sx={{ fontSize: ["6em", "8em"] }}
+  >
     🧠
-  </span>
+  </div>
 );
 
 export const Music = props => (

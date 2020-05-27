@@ -39,8 +39,18 @@ const Spotify = () => {
 
     gsap.fromTo(
       ".headphones",
-      { rotate: -3 },
-      { duration: 0.6, rotate: 3, repeat: -1, yoyo: true, ease: "back.inOut" }
+      { rotate: -2, scale: 0.95 },
+      {
+        duration: 1,
+        rotate: 2,
+        repeat: -1,
+        scale: 1,
+        yoyo: true,
+        stagger: {
+          from: "random",
+          ease: "back.inOut"
+        }
+      }
     );
   }, []);
 

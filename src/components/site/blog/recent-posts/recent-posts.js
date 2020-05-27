@@ -2,9 +2,7 @@
 import { jsx } from "theme-ui";
 import React from "react";
 import { Link } from "gatsby";
-import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
-import H3 from "../../../common/h3";
 import { Brain } from "./../../../common/icons";
 import gsap from "gsap";
 
@@ -26,6 +24,14 @@ const RecentPosts = () => {
         }
       }
     );
+
+    gsap.to(".brain", {
+      duration: 1,
+      scaleX: 0.9,
+      scaleY: 0.95,
+      ease: "elastic.out",
+      repeat: -1
+    });
   }, []);
 
   return (
@@ -65,7 +71,7 @@ const RecentPosts = () => {
         }}
       >
         <div className="recent-posts">
-          <Brain />
+          <Brain className="brain" />
         </div>
 
         <ul

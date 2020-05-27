@@ -2,16 +2,10 @@
 import { jsx } from "theme-ui";
 import React from "react";
 import H2 from "./../../common/h2";
-import AnimatedH1 from "../../common/animated-h1";
-import { useWindupString } from "windups";
 import gsap from "gsap";
+import PageTitle from "../../common/page-title";
 
 const About = props => {
-  // const hello = Array.from("Hello, I'm Rich Haines");
-  const [hello] = useWindupString("Hello, I'm Rich Haines", {
-    pace: char => (char === " " ? 60 : 100)
-  });
-
   React.useEffect(() => {
     gsap.fromTo(
       ".home-h2",
@@ -37,20 +31,7 @@ const About = props => {
         fontFamily: "body"
       }}
     >
-      <h1
-        sx={{
-          color: "text",
-          fontFamily: "Jost",
-          fontSize: ["1.7em", "2.5em", "3.8em"],
-          fontWeight: "body",
-          marginTop: "1em",
-          display: "flex",
-          justifyContent: "flex-start"
-        }}
-      >
-        {hello}
-      </h1>
-      {/* <AnimatedH1 string={hello} /> */}
+      <PageTitle title="Hello, I'm Rich Haines" />
       <div
         sx={{
           marginBottom: "4em"
