@@ -8,6 +8,7 @@ const PostAuthor = ({ children }) => (
       fontSize: ["0.7em", "1em", "1em"],
       marginBottom: ["1em", null, null]
     }}
+    className="post-details"
   >
     {children}
   </p>

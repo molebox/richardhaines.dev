@@ -28,6 +28,30 @@ const PostLayout = ({ data, pageContext, location }) => {
     gsap.to("body", { visibility: "visible" });
   }, []);
 
+  React.useEffect(() => {
+    gsap.fromTo(
+      ".post-details",
+      {
+        opacity: 0
+      },
+      {
+        opacity: 1,
+        duration: 0.6,
+        delay: 0.7,
+        stagger: {
+          amount: 1,
+          from: "random"
+        }
+      }
+    );
+
+    gsap.fromTo(
+      ".post",
+      { opacity: 0 },
+      { opacity: 1, delay: 1.9, duration: 1 }
+    );
+  }, []);
+
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
   return (
@@ -54,7 +78,9 @@ const PostLayout = ({ data, pageContext, location }) => {
           <PostDate> Posted: {date}</PostDate>
           <Twitter />
         </div>
-        <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
+        <div className="post">
+          <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
+        </div>
         <div
           sx={{
             display: "flex",
