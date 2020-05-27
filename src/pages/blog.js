@@ -18,9 +18,9 @@ const Blog = ({ data, location }) => {
   // const { posts, handleSearchQuery } = useSearchBar(data);
   const { categories, handleCategoryQuery } = useCategory(data.allMdx.nodes);
 
-  // React.useEffect(() => {
-  //   gsap.to("body", { visibility: "visible" });
-  // }, []);
+  React.useEffect(() => {
+    gsap.to("body", { visibility: "visible" });
+  }, []);
 
   React.useEffect(() => {
     gsap.fromTo(

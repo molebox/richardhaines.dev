@@ -45,9 +45,9 @@ export default () => {
   //   rootMargin: "-100px 0px"
   // });
 
-  // React.useEffect(() => {
-  //   gsap.to("body", { visibility: "visible" });
-  // }, []);
+  React.useEffect(() => {
+    gsap.to("body", { visibility: "visible" });
+  }, []);
 
   return (
     <Main>

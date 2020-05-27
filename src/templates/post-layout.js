@@ -11,20 +11,8 @@ import PostAuthor from "./../components/site/blog/post-author";
 import PostDate from "./../components/site/blog/post-date";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Twitter from "../components/site/home/twitter";
-import styled from "@emotion/styled";
-
-const Toc = styled.ul`
-  position: fixed;
-  left: calc(50% + 400px);
-  top: 110px;
-  max-height: 70vh;
-  width: 310px;
-  display: flex;
-`;
-const InnerScroll = styled.div`
-  overflow: hidden;
-  overflow-y: scroll;
-`;
+import gsap from "gsap";
+import PageTitle from "./../components/common/page-title";
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
@@ -35,6 +23,10 @@ const PostLayout = ({ data, pageContext, location }) => {
   } = data.mdx;
   const { title, date, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
+
+  React.useEffect(() => {
+    gsap.to("body", { visibility: "visible" });
+  }, []);
 
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
@@ -49,7 +41,7 @@ const PostLayout = ({ data, pageContext, location }) => {
         ogImage={ogImage}
       />
       <section>
-        <H1>{title}</H1>
+        <PageTitle title={title} />
         <div
           sx={{
             display: "flex",
