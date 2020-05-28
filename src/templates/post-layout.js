@@ -6,20 +6,22 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import PostNavigation from "./../components/site/blog/post-navigation";
 import EditPost from "./../components/site/blog/edit-post";
 import Main from "./../components/site/layout/main";
-import H1 from "./../components/common/h1";
 import PostAuthor from "./../components/site/blog/post-author";
 import PostDate from "./../components/site/blog/post-date";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Twitter from "../components/site/home/twitter";
 import gsap from "gsap";
 import PageTitle from "./../components/common/page-title";
+import Divider from "./../components/common/divider";
+import ContentLayout from "../components/site/blog/content-layout";
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
     frontmatter,
     body,
     excerpt,
-    fields: { editLink }
+    headings,
+    fields: { editLink, slug }
   } = data.mdx;
   const { title, date, author, keywords } = frontmatter;
   const { previous, next } = pageContext;
@@ -65,6 +67,7 @@ const PostLayout = ({ data, pageContext, location }) => {
         ogImage={ogImage}
       />
       <section>
+        <Divider />
         <PageTitle title={title} />
         <div
           sx={{
@@ -78,9 +81,15 @@ const PostLayout = ({ data, pageContext, location }) => {
           <PostDate> Posted: {date}</PostDate>
           <Twitter />
         </div>
-        <div className="post">
-          <MDXRenderer sx={{ height: "100vh" }}>{body}</MDXRenderer>
-        </div>
+        <Divider />
+        <MDXRenderer
+          className="post"
+          headings={headings}
+          slug={slug}
+          sx={{ height: "100vh" }}
+        >
+          {body}
+        </MDXRenderer>
         <div
           sx={{
             display: "flex",
@@ -132,7 +141,6 @@ export const query = graphql`
         depth
         value
       }
-      tableOfContents
       fields {
         slug
         editLink

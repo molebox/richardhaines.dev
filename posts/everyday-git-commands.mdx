@@ -10,7 +10,7 @@ pin: false
 
 This is a collection of notes for everyday git commands.
 
-### Add an existing project to git
+## Add an existing project to git
 
 Create a new repository on github, then from the projects root:
 
@@ -30,13 +30,13 @@ git push origin master
 - Set the new remote
 - Push the changes in your local repo to github
 
-### Amend a commit message
+## Amend a commit message
 
 ```bash
  git commit --amend
 ```
 
-### Commit your work
+## Commit your work
 
 ```bash
 git add .
@@ -44,7 +44,7 @@ git commit -m "my commit message"
 git push
 ```
 
-### Squash commits
+## Squash commits
 
 Check how many commits have been made:
 
@@ -58,7 +58,7 @@ Use that number to tell git how many commits to squash into one:
 git rebase -i HEAD~<number-of-commits>
 ```
 
-### Create a new branch
+## Create a new branch
 
 To create a new branch checkout the branch you want to base your work on:
 
@@ -73,7 +73,7 @@ git pull
 git checkout -b myNewBranch
 ```
 
-### Clone repo and push to new repo
+## Clone repo and push to new repo
 
 Create a new repo on github then clone the repo you want to copy.
 

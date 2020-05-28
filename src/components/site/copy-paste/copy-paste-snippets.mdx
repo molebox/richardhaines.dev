@@ -3,6 +3,7 @@ import AccentBox from "../../site/blog/accent-box.js";
 import Text from "../../../../posts/posts-components/linear-gradient-text.js";
 import TableOfContents from "./toc.js";
 
+
 export default props => (
   <Box
     sx={{
@@ -41,27 +42,32 @@ export default props => (
 </section>
 ```
 
+----
+
 ## Linear gradient background to text
 
-```css
-.gradientText {
-background-image: linear-gradient(
-    90deg,
-    rgba(127, 9, 9, 1) 0%,
-    rgba(255, 197, 0, 1) 12%,
-    rgba(238, 225, 23, 1) 24%
-    );
-background-size: 100%;
-background-repeat: repeat;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-```
-
 ```jsx
-function GradientText() {
-  return <p className="styles.gradientText">Check out my beautiful colours!</p>;
-}
+
+  const GradientText = styled.p`
+  background-image: linear-gradient(
+      90deg,
+      rgba(127, 9, 9, 1) 0%,
+      rgba(255, 197, 0, 1) 12%,
+      rgba(238, 225, 23, 1) 24%
+      );
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  `
+
+  <GradientText>Check out my beautiful colours!</GradientText>
+
 ```
+<LinearGradientText>Check out my beautiful colours!</LinearGradientText>
+
+
+-----
 
 ## Global styles from Emotion
 
@@ -85,6 +91,8 @@ import { Global, css } from "@emotion/core";
   `}
 />;
 ```
+
+----
 
 ## Svg Icon with Theme-ui color mode
 
@@ -110,6 +118,8 @@ export const GithubIcon = () => {
   );
 };
 ```
+
+----
 
 ## Navbar in Gatsby
 
@@ -170,6 +180,8 @@ const Nav = () => {
 };
 ```
 
+----
+
 ## Theme-ui preset
 
 ```js
@@ -216,6 +228,8 @@ export default {
 };
 ```
 
+----
+
 ## Breakpoints areas for grid
 
 ```js
@@ -237,6 +251,8 @@ export const DesktopTemplateAreas = `
   '.    footer   footer  footer  footer  footer  footer .'
 `;
 ```
+
+----
 
 ## Set up Apollo with Gatsby and Netlify Functions
 

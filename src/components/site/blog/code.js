@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from "theme-ui";
 import React from "react";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import theme from "prism-react-renderer/themes/nightOwl";
@@ -49,10 +51,14 @@ const CopyCode = styled.button`
 export const Code = ({ codeString, language, ...props }) => {
   if (props["react-live"]) {
     return (
-      <LiveProvider code={codeString} scope={styled} theme={theme}>
+      <LiveProvider scope={styled} code={codeString} theme={theme}>
         <LiveEditor />
+        <LivePreview
+          sx={{
+            marginTop: "2em"
+          }}
+        />
         <LiveError />
-        <LivePreview />
       </LiveProvider>
     );
   }

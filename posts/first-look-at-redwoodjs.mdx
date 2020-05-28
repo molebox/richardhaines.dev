@@ -8,11 +8,15 @@ keywords: [javascript, redwoodjs]
 pin: false
 ---
 
+## Introduction to RedwoodJS
+
 RedwoodJS is a new opinionated full stack, serverless web app framework that takes all the good parts of what a JAMstack website offers and packages it up into something that promises to offer all the good and much more. Its still in alpha phase but i decided to take it for a spin to learn a little about how it works and how its workflow compares to my favorite dev tool Gatsby. This post is about some of the things i found along the way that i thought were cool and wanted to point out.
 
 Of course its unfair to compare the two as they are very different beasts. While Gatsby is a progressive web app generator where you can connect to any backend headless CMS you like, Redwood aims to take the full stack approach and gives you an api setup via prisma. The main difference could be argued to be their approaches to data and how you store and retrieve it. With Gatsby you get the database connection at build time where as with Redwood its at runtime. Having said that there is in fact more to it but i will not dive into such things in this post. See [here](https://www.gatsbyjs.org/docs/data-fetching/) and [here](https://stackoverflow.com/questions/846103/runtime-vs-compile-time) for some googling inspiration.
 
 I highly suggest you take a look at the [Redwood docs](https://redwoodjs.com/docs/introduction) and follow their tutorial, which i have to say is one of the best out there! Thats where i began, my aim was to follow along, get a site up and running and try to add a few things along the way that i would normally include in my day to day toolchain.
+
+## Cells
 
 To that end i wanted to see if i could transfer some of my workflow from Gatsby over to Redwood. By that i mean, how i generally like to develop a Gatsby site.
 
@@ -77,6 +81,8 @@ export const Success = ({ posts }) => {
 };
 ```
 
+## Scaffolding
+
 The magic happens behind the scenes but the gist is that it will show the Loading component first then once the query is run Redwood will show one of the three other states. These functions are placed in a file appended with Cell. The beauty is that you can use the CLI to scaffold out the files, you can use a multitude of ways to format how the file should be named so long as it indicates that its two word:
 
 From the tutorial:
@@ -99,6 +105,8 @@ yarn rw generate page post
 - Redwood will create a folder and page by appending the name in the command with Page
 - Create a test file
 - Add a route to the routes.js file for us
+
+## Routing
 
 Here is my routes.js file after going through the tutorial:
 
@@ -158,6 +166,8 @@ Taken from the tutorial:
 ```
 
 Ive worked on code bases with extremely complicated routing systems where passing values, whatever they may be, via the routes has been a headache, and im sure im not alone. You can read more about routing in the [routing-params docs](https://redwoodjs.com/tutorial/routing-params).
+
+## Styling with Theme-ui
 
 There isn't much info on how to style your website in the docs and when looking at the project all i saw was an index.css file. Nowadays i really enjoy using theme-ui to style my websites so i wanted to see how easy it would be to integrate that with Redwood. Turns out its super simple. Now, im not blowing smoke up Redwoods backside here, this is also a great benefit to using theme-ui but i was happy that Redwood didn't put any obstacles in the way.
 

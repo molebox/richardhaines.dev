@@ -16,6 +16,9 @@ module.exports = {
         {
           resolve: 'gatsby-plugin-mdx',
           options: {
+            defaultLayouts: {
+              default: require.resolve('./src/templates/post-layout.js')
+            },
             remarkPlugins: [
               require('remark-slug')
             ]

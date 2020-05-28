@@ -75,11 +75,9 @@ const CopyPaste = ({
           </P>
         </div>
         <Divider />
-        <div className="content">
-          <MDXRenderer headings={childMdx.headings}>
-            {childMdx.body}
-          </MDXRenderer>
-        </div>
+        <MDXRenderer className="content" headings={childMdx.headings}>
+          {childMdx.body}
+        </MDXRenderer>
       </Main>
     </>
   );

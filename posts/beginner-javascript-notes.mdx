@@ -19,20 +19,20 @@ import AccentBox from "../src/components/site/blog/accent-box.js";
 
 Course link: [beginnerjavascript.com](https://beginnerjavascript.com/)
 
-### Global Variables
+## Global Variables
 
 A variable created in a javascript file while not inside of a function, module or code block. Can be accessed from anywhere.
 
 - var variables are attached to the window objects Scope
 - Anything in the global scope is attached to the window object except const and let. This includes custom functions
 
-### Function Scope
+## Function Scope
 
 - Any variables declared within a function are only available within that function and not from outside the function.
 - Scope lookup: If a variable in a function is used but not declared in the function it will go up a level in the scope to find it. That could be in a parent function if nested or to the global scope.
 - Variable shadow is two variables in different scope with the same name.
 
-### Block Scope
+## Block Scope
 
 Curly braces are blocks, like if statements. Variable declarations inside are scoped to the block.
 
@@ -44,12 +44,12 @@ if (1 === 1) {
 
 The variable yep is unavailable outside of the if statement. If however it was changed form a const to a var then it would be function scoped and available outside the if statement.
 
-### Hoisting
+## Hoisting
 
 - Hoisting allows accessing functions and variables before they have been created.
 - The javascript compiler will re-arrange the file so that a function that is run before its declaration will swap places so its declared then run.
 
-### Closures
+## Closures
 
 Closures give the ability to access a parent level scope from a child scope, even after the parent level scope has been destroyed.
 
