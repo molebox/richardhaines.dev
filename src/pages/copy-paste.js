@@ -48,7 +48,7 @@ const CopyPaste = ({
 
   const SEOKeywords = ["Jamstack", "React", "Gatsby"];
 
-  const title = `Copy / Paste`;
+  const title = `Copy Paste`;
 
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${SEOKeywords}&author=@studio_hungry`;
 
