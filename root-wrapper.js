@@ -6,6 +6,8 @@ import { Code } from './src/components/site/blog/code'
 import LinearGradientText from './posts/posts-components/linear-gradient-text'
 import ContentLayout from './src/components/site/blog/content-layout';
 import TableOfContents from './src/components/site/copy-paste/toc';
+import Glitch from './src/components/common/glitch';
+import H1 from './src/components/common/h1';
 
 const components = {
   'p.inlineCode': props => (
@@ -28,9 +30,10 @@ const components = {
     }
   },
   wrapper: ({children, ...props}) => {
+    console.log({props})
     return (
       <ContentLayout>
-        <Box sx={{gridColumn: [1, 2], gridRow: 1}}>
+        <Box sx={{gridColumn: [1, 2], gridRow: 1, marginTop: 100}}>
           <TableOfContents slug={props.slug} headings={props.headings}/>
         </Box>
         <Box sx={{gridColumn: 1, gridRow: 1}}>
@@ -41,6 +44,8 @@ const components = {
     )
   },
   LinearGradientText,
+  Glitch,
+  H1
 }
 
 export const wrapRootElement = ({ element }) => (

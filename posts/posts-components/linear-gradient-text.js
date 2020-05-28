@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 const Style = styled.p`
 margin: 2em 0;
-font-family: Montserrat;
+font-family: Jost;
 font-size: 1.5em;
 
   background-image: linear-gradient(

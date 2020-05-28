@@ -75,7 +75,12 @@ const CopyPaste = ({
           </P>
         </div>
         <Divider />
-        <MDXRenderer className="content" headings={childMdx.headings}>
+        <MDXRenderer
+          className="content"
+          headings={childMdx.headings}
+          slug="/copy-paste/"
+          sx={{ height: "100vh" }}
+        >
           {childMdx.body}
         </MDXRenderer>
       </Main>
