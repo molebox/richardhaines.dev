@@ -8,6 +8,8 @@ keywords: [expo, react-native, faunadb, vercel]
 pin: false
 ---
 
+## Setup
+
 Im currently working on a project which will be a mobile app for parents to swap
 unused items. To do this im using [Expo](https://expo.io/) with a
 [FaunaDB](https://fauna.com/) database. I had already setup a project with Fauna
@@ -49,6 +51,8 @@ yarn add @apollo/client apollo-link-context apollo-link-http graphql graphql-tag
 
 yarn add react-native-dotenv -D
 ```
+
+## Adding Apollo
 
 First we want to setup our Apollo Provider which will wrap our root component,
 App.js. Create a new file in the constants folder and name it apollo.js
@@ -128,6 +132,8 @@ return (
 );
 ```
 
+## Our schema
+
 Now we can add a schema, which we will import into our Fauna database via their
 dashboard. Inside the constants folder create a new file named schema.gql.
 
@@ -199,6 +205,8 @@ module.exports = {
   faunaServerKey: process.env.FAUNA_SERVER
 };
 ```
+
+## Graphql
 
 Back to the api folder create a new file called graphql.js and add the
 following.
