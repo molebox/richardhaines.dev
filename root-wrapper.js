@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, Box } from "theme-ui";
 import { MDXProvider } from '@mdx-js/react'
 import React from 'react'
 import { Code } from './src/components/site/blog/code'
@@ -30,13 +30,14 @@ const components = {
   wrapper: ({children, ...props}) => {
     return (
       <ContentLayout>
-      <section sx={{gridColumn: [1, 2], gridRow: 1}}>
-      <TableOfContents slug={props.slug} headings={props.headings}/>
-      </section>
-      <section sx={{gridColumn: 1, gridRow: 1}}>
-      {children}
-      </section>
+        <Box sx={{gridColumn: [1, 2], gridRow: 1}}>
+          <TableOfContents slug={props.slug} headings={props.headings}/>
+        </Box>
+        <Box sx={{gridColumn: 1, gridRow: 1}}>
+          {children}
+        </Box>
     </ContentLayout>
+
     )
   },
   LinearGradientText,
