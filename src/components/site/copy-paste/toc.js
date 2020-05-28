@@ -19,7 +19,8 @@ export default ({ headings, slug }) => {
         margin: "2em",
         backgroundColor: "secondaryDarker",
         position: [null, "sticky"],
-        top: "33%"
+        top: "33%",
+        display: ['none', 'block']
       }}
     >
       <h3

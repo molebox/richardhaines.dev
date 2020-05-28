@@ -7,7 +7,7 @@ import LinearGradientText from './posts/posts-components/linear-gradient-text'
 import ContentLayout from './src/components/site/blog/content-layout';
 import TableOfContents from './src/components/site/copy-paste/toc';
 import Glitch from './src/components/common/glitch';
-import H1 from './src/components/common/h1';
+import H3 from './src/components/common/h3';
 
 const components = {
   'p.inlineCode': props => (
@@ -45,7 +45,7 @@ const components = {
   },
   LinearGradientText,
   Glitch,
-  H1
+  H3
 }
 
 export const wrapRootElement = ({ element }) => (
