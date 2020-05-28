@@ -28,20 +28,15 @@ const components = {
     }
   },
   wrapper: ({children, ...props}) => {
-   return props.headings.length ? (
-       (
-        <ContentLayout>
-          <section sx={{gridColumn: [1, 2], gridRow: 1}}>
-          <TableOfContents slug={props.slug} headings={props.headings}/>
-          </section>
-          <section sx={{gridColumn: 1, gridRow: 1}}>
-          {children}
-          </section>
-        </ContentLayout>
-      )
-    ) : ( (
-            {children}        
-      )
+    return (
+      <ContentLayout>
+      <section sx={{gridColumn: [1, 2], gridRow: 1}}>
+      <TableOfContents slug={props.slug} headings={props.headings}/>
+      </section>
+      <section sx={{gridColumn: 1, gridRow: 1}}>
+      {children}
+      </section>
+    </ContentLayout>
     )
   },
   LinearGradientText,
