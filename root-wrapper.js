@@ -40,9 +40,7 @@ const components = {
         </ContentLayout>
       )
     ) : ( (
-          <section >
-            {children}
-          </section>         
+            {children}        
       )
     )
   },
