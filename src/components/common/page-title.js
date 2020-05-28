@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { useWindupString } from "windups";
+import Glitch from "./glitch";
 
 const PageTitle = ({ title }) => {
   const [pageTitle] = useWindupString(title, {
@@ -19,7 +20,7 @@ const PageTitle = ({ title }) => {
         justifyContent: "flex-start"
       }}
     >
-      {pageTitle}
+      <Glitch>{pageTitle}</Glitch>
     </h1>
   );
 };
