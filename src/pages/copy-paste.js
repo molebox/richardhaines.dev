@@ -46,12 +46,11 @@ const CopyPaste = ({
 	I'm a software developer who specializes in JAMstack development. This is a collection of things i find myself copy pasting from other projects ive done.
     `;
 
-  const SEOKeywords = ["Jamstack", "React", "Gatsby"];
+  const SEOKeywords = ["Jamstack", "React", "Gatsby", "CSS", "JavaScript"];
 
   const title = `Copy Paste`;
 
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${SEOKeywords}&author=@studio_hungry`;
-
 
   return (
     <>

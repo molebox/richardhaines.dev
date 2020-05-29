@@ -20,7 +20,7 @@ export default ({ headings, slug }) => {
         backgroundColor: "secondaryDarker",
         position: [null, "sticky"],
         top: "33%",
-        display: ['none', 'block']
+        display: ["none", "block"]
       }}
     >
       <h3
@@ -52,7 +52,6 @@ export default ({ headings, slug }) => {
                 }}
                 to={`${slug}#${slugger.slug(heading.value)}`}
                 title={heading.value}
-                stripHash
               >
                 {heading.value}
               </AnchorLink>
