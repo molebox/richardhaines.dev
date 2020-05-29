@@ -8,6 +8,7 @@ export default ({ children }) => (
       gridTemplateColumns: ["1fr", "2fr 1fr"],
       gridAutoRows: "auto"
     }}
+    className="content"
   >
     {children}
   </section>
