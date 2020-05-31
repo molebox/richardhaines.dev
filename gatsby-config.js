@@ -57,6 +57,13 @@ module.exports = {
           name: 'gatsby-themes'
         },
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: `${__dirname}/src/assets/`,
+        name: 'assets'
+      },
+  },
       {
         resolve: 'gatsby-source-filesystem',
         options: {

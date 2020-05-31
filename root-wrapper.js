@@ -8,6 +8,7 @@ import ContentLayout from './src/components/site/blog/content-layout';
 import TableOfContents from './src/components/site/copy-paste/toc';
 import Glitch from './src/components/common/glitch';
 import H3 from './src/components/common/h3';
+import SiteProvider from "./src/components/site-context";
 
 const components = {
   'p.inlineCode': props => (
@@ -49,5 +50,8 @@ const components = {
 }
 
 export const wrapRootElement = ({ element }) => (
-  <MDXProvider components={components}>{element}</MDXProvider>
+  <SiteProvider>
+    <MDXProvider components={components}>{element}</MDXProvider>
+  </SiteProvider>
+  
 )
