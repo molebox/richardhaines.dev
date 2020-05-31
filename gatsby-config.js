@@ -53,6 +53,13 @@ module.exports = {
       {
         resolve: 'gatsby-source-filesystem',
         options: {
+          path: 'memory',
+          name: 'memory'
+        },
+    },
+      {
+        resolve: 'gatsby-source-filesystem',
+        options: {
           path: 'gatsby-themes',
           name: 'gatsby-themes'
         },
@@ -71,6 +78,13 @@ module.exports = {
           name: 'images'
         },
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: `${__dirname}/memory/images/`,
+        name: 'images'
+      },
+  },
         {
           resolve: 'gatsby-source-filesystem',
           options: {

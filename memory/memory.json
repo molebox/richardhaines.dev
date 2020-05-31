@@ -1,0 +1,71 @@
+[{
+        "name": "corgi-1",
+        "backImage": {
+            "src": "./images/corgi-1.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-2",
+        "backImage": {
+            "src": "./images/corgi-2.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-3",
+        "backImage": {
+            "src": "./images/corgi-3.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-4",
+        "backImage": {
+            "src": "./images/corgi-4.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-5",
+        "backImage": {
+            "src": "./images/corgi-5.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-6",
+        "backImage": {
+            "src": "./images/corgi-6.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-7",
+        "backImage": {
+            "src": "./images/corgi-7.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-8",
+        "backImage": {
+            "src": "./images/corgi-8.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-9",
+        "backImage": {
+            "src": "./images/corgi-9.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    },
+    {
+        "name": "corgi-10",
+        "backImage": {
+            "src": "./images/corgi-10.jpg",
+            "alt": "An image of a happy corgi"
+        }
+    }
+]

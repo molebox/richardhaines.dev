@@ -9,7 +9,17 @@ import Github from "../../assets/github.svg";
 import LinkedIn from "../../assets/linkedin.svg";
 import TypeScript from "../../assets/typescript.svg";
 import Rocket from "../../assets/rocket.svg";
-import gsap from "gsap";
+import Corgi from "../../assets/corgi-icon.svg";
+
+export const CorgiIcon = () => (
+  <Corgi
+    sx={{
+      width: "100px",
+      height: "100px",
+      fill: "#DE3C4B"
+    }}
+  />
+);
 
 export const RocketIcon = () => (
   <Rocket
@@ -143,5 +153,6 @@ export default {
   JSIcon,
   Brain,
   Music,
-  RocketIcon
+  RocketIcon,
+  CorgiIcon
 };

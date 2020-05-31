@@ -7,6 +7,8 @@ import Main from "../components/site/layout/main";
 import Divider from "../components/common/divider";
 import hoverEffect from "hover-effect";
 import PageTitle from "./../components/common/page-title";
+import Board from "../components/memory/board";
+import Card from "../components/memory/card";
 
 const SecretPage = () => {
   const ref = React.useRef(null);
@@ -34,20 +36,22 @@ const SecretPage = () => {
   return (
     <Main>
       <Divider />
-      <PageTitle title="A Secret Corgi Page!" />
+      <PageTitle title="Oh! You found me!" />
       <div
         sx={{
           marginBottom: "4em"
         }}
       >
         <P>
-          Welcome to the very secret corgi page. Here you will find a picture of
-          a very cute corgi. Try giving him a pat on the head..
+          Welcome to the very secret corgi memory game. You know memory, right?
+          Match 2 pictures until none are left. All Pictures from
+          https://unsplash.com/collections/3336303/corgi-%F0%9F%90%B6 - MOVE
+          THIS
         </P>
       </div>
 
       <Divider />
-      <div
+      {/* <div
         sx={{
           height: 500,
           width: 500,
@@ -55,7 +59,18 @@ const SecretPage = () => {
         }}
         className="corgi-box"
         ref={ref}
-      ></div>
+      ></div> */}
+      <section
+        sx={{
+          display: "flex",
+          justifyItems: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%"
+        }}
+      >
+        <Board />
+      </section>
     </Main>
   );
 };
