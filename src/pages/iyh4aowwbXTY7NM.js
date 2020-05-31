@@ -42,7 +42,7 @@ const SecretPage = () => {
       >
         <P>
           Welcome to the very secret corgi page. Here you will find a picture of
-          a very cute corgi{" "}
+          a very cute corgi. Try giving him a pat on the head..
         </P>
       </div>
 
