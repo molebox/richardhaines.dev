@@ -15,9 +15,9 @@ const SecretPage = () => {
     const animation = new hoverEffect({
       parent: ref.current,
       intensity: 1,
-      image1: "/static/corgi1-fd85ef4b37d38ea9a393f6c2fb487ff4.jpg",
-      image2: "/static/corgi2-fe88c35428948866fbc584b0d6a87871.jpg",
-      displacementImage: "/static/corgi2-fe88c35428948866fbc584b0d6a87871.jpg"
+      image1: "/corgi1.jpg",
+      image2: "/corgi2.jpg",
+      displacementImage: "/displacementcorgi.jpg"
     });
   }, []);
 
