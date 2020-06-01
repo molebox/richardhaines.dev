@@ -5,9 +5,25 @@ import gsap from "gsap";
 import GatsbyImage from "gatsby-image";
 import { CorgiIcon } from "./../common/icons";
 
-const Card = ({ index, backImage }) => {
+const Card = ({ index, backImage, name, getFlippedCard }) => {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
+  React.useEffect(() => {
+    if (isFlipped) {
+      getFlippedCard({ name, isFlipped });
+    }
+  }, [isFlipped]);
+
+  // React.useEffect(() => {
+  //   console.log({reset})
+  //   if (reset) {
+  //     setIsFlipped(false);
+  //     gsap.to(`.card${index}`, { rotateY: 180, duration: 1 });
+  //   }
+
+  // }, [reset])
+
+  // Slight bounce animation
   const handleMouseEnter = e =>
     gsap.to(e.target, { scale: 1.05, duration: 0.3 });
 
@@ -15,19 +31,25 @@ const Card = ({ index, backImage }) => {
     gsap.to(e.target, { scale: 1, duration: 0.4, ease: "back(10)" });
 
   const onCardClick = () => {
-    setIsFlipped(!isFlipped);
-    if (isFlipped) {
-      gsap.to(`.card${index}`, { rotateY: 180 });
-    }
-    gsap.to(`.card${index}`, { rotateY: -180 });
-    // isFlipped
-    //   ? gsap.to(`.card${index}`, { rotateY: 180 })
-    //   : gsap.to(`.card${index}`, { rotateY: -180 });
+    setIsFlipped(isFlipped => !isFlipped);
+    isFlipped
+      ? gsap.to(`.card${index}`, { rotateY: 180, duration: 0.8 })
+      : gsap.to(`.card${index}`, { rotateY: -180, duration: 0.8 });
   };
 
-  // React.useEffect(() => {
-  //     gsap.to(".card", {rotateY: 180})
-  // }, [isFlipped])
+  const front = () => <CorgiIcon />;
+
+  const back = () => (
+    <GatsbyImage
+      sx={{
+        width: "100%",
+        height: "100%"
+      }}
+      fluid={backImage}
+    />
+  );
+
+  let content = isFlipped ? back() : front();
 
   return (
     <div
@@ -40,31 +62,14 @@ const Card = ({ index, backImage }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
+        // pointerEvents: reset ? 'none' : 'auto'
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onCardClick}
       className={`card${index}`}
     >
-      {isFlipped ? (
-        <GatsbyImage
-          sx={{
-            width: "100%",
-            height: "100%"
-            // display: 'flex',
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            // backgroundColor: isFlipped ? 'accent' : 'text',
-            // backgroundImage: isFlipped ? url("/corgi1.jpg") : 'text'
-            // backgroundImage: isFlipped ? `url(${backImage})` : `url(${frontIcon})`,
-            // backgroundRepeat: 'no-repeat',
-            // backgroundPosition: 'center'
-          }}
-          fluid={backImage}
-        />
-      ) : (
-        <CorgiIcon />
-      )}
+      {content}
     </div>
   );
 };

@@ -9,19 +9,29 @@ import hoverEffect from "hover-effect";
 import PageTitle from "./../components/common/page-title";
 import Board from "../components/memory/board";
 import Card from "../components/memory/card";
+import { graphql, useStaticQuery } from "gatsby";
+import ExternalLink from "./../components/common/external-link";
 
 const SecretPage = () => {
   const ref = React.useRef(null);
+  const data = useStaticQuery(query);
+  const corgis = data.allMemoryJson.nodes;
 
-  React.useEffect(() => {
-    const animation = new hoverEffect({
-      parent: ref.current,
-      intensity: 1,
-      image1: "/corgi1.jpg",
-      image2: "/corgi2.jpg",
-      displacementImage: "/displacementcorgi.jpg"
-    });
-  }, []);
+  let wholeBoard = corgis.concat(corgis);
+
+  const shuffle = array => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  // React.useEffect(() => {
+  //   const animation = new hoverEffect({
+  //     parent: ref.current,
+  //     intensity: 1,
+  //     image1: "/corgi1.jpg",
+  //     image2: "/corgi2.jpg",
+  //     displacementImage: "/displacementcorgi.jpg"
+  //   });
+  // }, []);
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
@@ -44,9 +54,7 @@ const SecretPage = () => {
       >
         <P>
           Welcome to the very secret corgi memory game. You know memory, right?
-          Match 2 pictures until none are left. All Pictures from
-          https://unsplash.com/collections/3336303/corgi-%F0%9F%90%B6 - MOVE
-          THIS
+          Match 2 pictures until none are left.
         </P>
       </div>
 
@@ -60,19 +68,46 @@ const SecretPage = () => {
         className="corgi-box"
         ref={ref}
       ></div> */}
-      <section
+      <section>
+        <Board corgis={shuffle(wholeBoard)} />
+      </section>
+      <div
         sx={{
           display: "flex",
-          justifyItems: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "100%"
+          justifyContent: "center",
+          alignItems: "center"
         }}
       >
-        <Board />
-      </section>
+        <P>
+          All Pictures from
+          <ExternalLink href="https://unsplash.com/collections/3336303/corgi-%F0%9F%90%B6">
+            {" "}
+            Stefanie Henneböhl unsplash collection
+          </ExternalLink>
+        </P>
+      </div>
     </Main>
   );
 };
 
 export default SecretPage;
+
+export const query = graphql`
+  query MemoryQuery {
+    allMemoryJson {
+      nodes {
+        backImage {
+          alt
+          src {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+        name
+      }
+    }
+  }
+`;
