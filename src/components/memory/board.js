@@ -7,62 +7,44 @@ import Card from "./card";
 
 const Board = ({ corgis }) => {
   const [count, setCount] = React.useState(0);
-  const [match, setMatch] = React.useState(false);
+  const [matches, setMatches] = React.useState([]);
   const [resetCards, setResetCards] = React.useState(false);
-  const [isCardFlipped, setIsCardFlipped] = React.useState(false);
   const [cardName, setCardName] = React.useState("");
-  // const [flippedCards, setFlippedCards] = React.useState([]);
-
-  const [guess, setGuess] = React.useState({
-    firstGuess: "",
-    secondGuess: ""
-  });
+  const [firstGuess, setFirstGuess] = React.useState("");
+  const [secondGuess, setSecondGuess] = React.useState("");
 
   React.useEffect(() => {
-    console.log("whats the count now", count);
     if (count <= 2) {
-      console.log("im in");
       if (count === 1) {
-        console.log("firstGuess:", cardName);
-        setGuess({ firstGuess: cardName });
+        setFirstGuess(cardName);
       }
       if (count === 2) {
-        console.log("second count");
-        console.log("secondGuess:", cardName);
-        setGuess({ secondGuess: cardName });
+        setSecondGuess(cardName);
       }
 
-      if (count === 2 && guess.firstGuess !== "" && guess.secondGuess !== "") {
-        console.log("they are not empty", guess);
-        console.log(guess.firstGuess);
-        console.log(guess.secondGuess);
+      if (count === 2 && firstGuess !== "" && secondGuess !== "") {
+        console.log("guesses: ", firstGuess, secondGuess);
 
-        if (guess.firstGuess === guess.secondGuess) {
+        if (firstGuess === secondGuess) {
           console.log("MATCH");
-          cardsMatch();
-          // resetGuesses();
+          setMatches(matches => [...matches, { firstGuess, secondGuess }]);
+          resetGuesses();
+        } else {
+          resetGuesses();
         }
       }
     }
-  }, [count]);
+  }, [count, firstGuess, secondGuess]);
 
-  const cardsMatch = () => {
-    console.log("MATCH");
-    setMatch(true);
-  };
-
-  const getFlippedCard = ({ name, isFlipped }) => {
-    console.log({ isFlipped, name });
+  const getFlippedCard = ({ name, id }) => {
+    console.log({ id, name });
     setCount(count + 1);
-    setIsCardFlipped(isFlipped);
     setCardName(name);
   };
 
   const resetGuesses = () => {
-    setGuess({
-      firstGuess: "",
-      secondGuess: ""
-    });
+    setFirstGuess("");
+    setSecondGuess("");
     setCount(0);
     setResetCards(true);
   };
@@ -89,6 +71,9 @@ const Board = ({ corgis }) => {
             name={node.name}
             key={node.name + index}
             getFlippedCard={getFlippedCard}
+            count={count}
+            id={node.id}
+            matches={matches}
           />
         );
       })}
