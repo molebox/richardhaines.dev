@@ -56,6 +56,10 @@ const SecretPage = () => {
           Welcome to the very secret corgi memory game. You know memory, right?
           Match 2 pictures until none are left.
         </P>
+        <P>
+          If you have stumbled upon this page then please note that this is WIP
+          and is not yet complete.
+        </P>
       </div>
 
       <Divider />
