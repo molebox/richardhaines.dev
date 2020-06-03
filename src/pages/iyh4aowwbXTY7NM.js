@@ -5,15 +5,11 @@ import P from "../components/common/p";
 import { gsap } from "gsap";
 import Main from "../components/site/layout/main";
 import Divider from "../components/common/divider";
-import hoverEffect from "hover-effect";
 import PageTitle from "./../components/common/page-title";
 import Board from "../components/memory/board";
-import Card from "../components/memory/card";
 import { graphql, useStaticQuery } from "gatsby";
 import ExternalLink from "./../components/common/external-link";
 import LinearGradientText from "../components/common/gradient-text";
-
-// https://www.youtube.com/watch?v=MLNLT_-mBA0&t=651s
 
 const SecretPage = () => {
   const data = useStaticQuery(query);
@@ -34,8 +30,7 @@ const SecretPage = () => {
   };
 
   React.useEffect(() => {
-    // setCorgis(shuffle(data.allMemoryJson.nodes));
-    setCorgis(data.allMemoryJson.nodes);
+    setCorgis(shuffle(data.allMemoryJson.nodes));
   }, []);
 
   const handleClick = id => {
