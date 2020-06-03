@@ -5,13 +5,16 @@ import gsap from "gsap";
 import { CorgiIcon } from "./../common/icons";
 
 const Front = ({ selectedAsPair }) => {
-  React.useEffect(() => {}, []);
+  // React.useEffect(() => {
+  //   gsap.to(".front", {rotateY: 180, duration: 1})
+  // }, []);
 
   return (
     <div
-      sx={{
-        pointerEvents: selectedAsPair ? "none" : "auto"
-      }}
+      // sx={{
+      //   pointerEvents: selectedAsPair ? "none" : "auto"
+      // }}
+      className="front"
     >
       <CorgiIcon />
     </div>

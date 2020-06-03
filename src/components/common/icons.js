@@ -18,6 +18,7 @@ export const CorgiIcon = () => (
       height: "100px",
       fill: "#DE3C4B"
     }}
+    className="front"
   />
 );
 

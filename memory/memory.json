@@ -1,71 +1,221 @@
 [{
         "name": "corgi-1",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-1.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-2",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-2.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-3",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-3.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-4",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-4.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-5",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-5.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-6",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-6.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-7",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-7.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-8",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-8.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-9",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-9.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     },
     {
         "name": "corgi-10",
-        "backImage": {
+        "frontImage": {
             "src": "./images/corgi-10.jpg",
             "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-1",
+        "frontImage": {
+            "src": "./images/corgi-1.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-2",
+        "frontImage": {
+            "src": "./images/corgi-2.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-3",
+        "frontImage": {
+            "src": "./images/corgi-3.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-4",
+        "frontImage": {
+            "src": "./images/corgi-4.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-5",
+        "frontImage": {
+            "src": "./images/corgi-5.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-6",
+        "frontImage": {
+            "src": "./images/corgi-6.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-7",
+        "frontImage": {
+            "src": "./images/corgi-7.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-8",
+        "frontImage": {
+            "src": "./images/corgi-8.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-9",
+        "frontImage": {
+            "src": "./images/corgi-9.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
+        }
+    },
+    {
+        "name": "corgi-10",
+        "frontImage": {
+            "src": "./images/corgi-10.jpg",
+            "alt": "An image of a happy corgi"
+        },
+        "backImage": {
+            "src": "./images/corgi-emoji.png",
+            "alt": "A cartoon corgi with thumbs up"
         }
     }
 ]

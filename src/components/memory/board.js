@@ -2,87 +2,39 @@
 import { jsx } from "theme-ui";
 import React from "react";
 import Card from "./card";
+import gsap from "gsap";
 
-// https://www.taniarascia.com/how-to-create-a-memory-game-super-mario-with-plain-javascript/
-
-const Board = ({ corgis }) => {
-  const [count, setCount] = React.useState(0);
-  const [matches, setMatches] = React.useState([]);
-  const [resetCards, setResetCards] = React.useState(false);
-  const [flippedCards, setFlippedCards] = React.useState([]);
-
-  React.useEffect(() => {
-    console.log({ count });
-  }, [count]);
-
-  React.useEffect(() => {
-    if (count < 2) {
-      if (
-        count === 2 &&
-        flippedCards[0].name !== "" &&
-        flippedCards[1].name !== ""
-      ) {
-        console.log("guesses: ", flippedCards[0].name, flippedCards[1].name);
-
-        if (flippedCards[0].name === flippedCards[1].name) {
-          console.log("MATCH");
-          const firstGuess = flippedCards[0].name;
-          const secondGuess = flippedCards[1].name;
-          setMatches(matches => [...matches, { firstGuess, secondGuess }]);
-          resetGuesses();
-        } else {
-          resetGuesses();
-        }
-      }
-    }
-  }, [count, flippedCards]);
-
-  const getFlippedCard = ({ name, id }) => {
-    // console.log({ id, name });
-    setFlippedCards(flippedCards => [...flippedCards, { name, id }]);
-  };
-
-  const resetGuesses = () => {
-    // setFlippedCards([]);
-    setCount(0);
-    setResetCards(true);
-  };
-
-  const getCount = count => {
-    setCount(count);
-  };
-
+const Board = ({ corgis, flipped, handleClick, disabled, solved }) => {
   return (
     <section
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(5,  150px)",
+        gridTemplateColumns: "repeat(5, 155px)",
         gridAutoRows: "auto",
         gap: "1em",
-        margin: "4em auto",
+        margin: "2em auto",
         width: "100%",
         height: "auto",
-        minHeight: "600px",
         placeContent: "center"
       }}
+      className="corgi-board"
     >
-      {corgis.map((node, index) => {
-        return (
-          <Card
-            index={index}
-            backImage={node.backImage.src.childImageSharp.fluid}
-            name={node.name}
-            key={node.id + index}
-            getFlippedCard={getFlippedCard}
-            count={count}
-            id={node.id}
-            matches={matches}
-            resetCards={resetCards}
-            flippedCards={flippedCards}
-            getCount={getCount}
-          />
-        );
-      })}
+      {corgis &&
+        corgis.map(node => {
+          return (
+            <Card
+              name={node.name}
+              key={node.id}
+              id={node.id}
+              backImage={node.backImage.src.childImageSharp.fluid}
+              frontImage={node.frontImage.src.childImageSharp.fluid}
+              flipped={flipped.includes(node.id)}
+              handleClick={handleClick}
+              disabled={disabled || solved.includes(node.id)}
+              solved={solved.includes(node.id)}
+            />
+          );
+        })}
     </section>
   );
 };

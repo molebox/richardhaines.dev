@@ -11,42 +11,99 @@ import Board from "../components/memory/board";
 import Card from "../components/memory/card";
 import { graphql, useStaticQuery } from "gatsby";
 import ExternalLink from "./../components/common/external-link";
+import LinearGradientText from "../components/common/gradient-text";
+
+// https://www.youtube.com/watch?v=MLNLT_-mBA0&t=651s
 
 const SecretPage = () => {
-  const ref = React.useRef(null);
   const data = useStaticQuery(query);
-  const corgis = data.allMemoryJson.nodes;
-
-  let wholeBoard = corgis.concat(corgis);
+  const [corgis, setCorgis] = React.useState([]);
+  const [flipped, setFlipped] = React.useState([]);
+  const [solved, setSolved] = React.useState([]);
+  const [disabled, setDisabled] = React.useState(false);
 
   const shuffle = array => {
-    return array.sort(() => Math.random() - 0.5);
+    const copy = array.slice(0);
+    for (let i = 0; i < array.length - 1; i++) {
+      let randomIndex = Math.floor(Math.random() * (i + 1));
+      let temp = copy[i];
+      copy[i] = copy[randomIndex];
+      copy[randomIndex] = temp;
+    }
+    return copy;
   };
 
-  // React.useEffect(() => {
-  //   const animation = new hoverEffect({
-  //     parent: ref.current,
-  //     intensity: 1,
-  //     image1: "/corgi1.jpg",
-  //     image2: "/corgi2.jpg",
-  //     displacementImage: "/displacementcorgi.jpg"
-  //   });
-  // }, []);
+  React.useEffect(() => {
+    // setCorgis(shuffle(data.allMemoryJson.nodes));
+    setCorgis(data.allMemoryJson.nodes);
+  }, []);
+
+  const handleClick = id => {
+    setDisabled(true);
+    if (flipped.length === 0) {
+      setFlipped([id]);
+      setDisabled(false);
+    } else {
+      if (sameCardClicked(id)) return;
+      setFlipped([flipped[0], id]);
+      if (isMatch(id)) {
+        setSolved([...solved, flipped[0], id]);
+        resetCards();
+      } else {
+        setTimeout(resetCards, 1500);
+      }
+    }
+  };
+
+  const resetCards = () => {
+    setFlipped([]);
+    setDisabled(false);
+  };
+
+  const isMatch = id => {
+    const clickedCard = corgis.find(card => card.id === id);
+    const flippedCard = corgis.find(card => flipped[0] === card.id);
+    return flippedCard.name === clickedCard.name;
+  };
+
+  const sameCardClicked = id => flipped.includes(id);
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
 
     gsap.fromTo(
-      ".corgi-box",
+      ".corgi-board",
       { opacity: 0 },
       { opacity: 1, delay: 1.9, duration: 1 }
     );
   }, []);
 
+  React.useEffect(() => {
+    if (solved.length === 20) {
+      gsap.to(".corgi-board", {
+        duration: 1,
+        scale: 0.7,
+        y: 40,
+        ease: "power1.inOut",
+        stagger: {
+          grid: [5, 4],
+          from: "random",
+          amount: 1.5
+        }
+      });
+
+      gsap.fromTo(
+        ".winner",
+        { opacity: 0, x: 1000 },
+        { opacity: 1, delay: 1, duration: 1, x: 0, ease: "back(5)" }
+      );
+    }
+  }, [solved]);
+
   return (
     <Main>
       <Divider />
-      <PageTitle title="Oh! You found me!" />
+      <PageTitle title="Oh! You found me, you sly dog you..." />
       <div
         sx={{
           marginBottom: "4em"
@@ -54,11 +111,7 @@ const SecretPage = () => {
       >
         <P>
           Welcome to the very secret corgi memory game. You know memory, right?
-          Match 2 pictures until none are left.
-        </P>
-        <P>
-          If you have stumbled upon this page then please note that this is WIP
-          and is not yet complete.
+          Match 2 pictures until none are left. LETS GOOOO
         </P>
       </div>
 
@@ -72,8 +125,38 @@ const SecretPage = () => {
         className="corgi-box"
         ref={ref}
       ></div> */}
-      <section>
-        <Board corgis={shuffle(wholeBoard)} />
+
+      <section
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly"
+        }}
+      >
+        {solved.length === 20 ? (
+          <div
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "min-content"
+            }}
+            className="winner"
+          >
+            <LinearGradientText size={50}>
+              Winner Winner Chicken Dinner!
+            </LinearGradientText>
+            <P>Now get on out of here you rascal!</P>
+          </div>
+        ) : null}
+        <Board
+          corgis={corgis}
+          handleClick={handleClick}
+          flipped={flipped}
+          disabled={disabled}
+          solved={solved}
+        />
       </section>
       <div
         sx={{
@@ -100,6 +183,16 @@ export const query = graphql`
   query MemoryQuery {
     allMemoryJson {
       nodes {
+        frontImage {
+          alt
+          src {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
         backImage {
           alt
           src {
