@@ -385,3 +385,25 @@ export default ({ children }) => {
 <H3>
   <Glitch>Hover over me and watch me wobble (or click me on mobile)</Glitch>
 </H3>
+
+---
+
+## Load custom font in Gatsby
+
+```js
+// gatsby-ssr.js
+
+const React = require("react");
+export const onRenderBody = ({ setHeadComponents }) => {
+  setHeadComponents([
+    <link
+      rel="stylesheet"
+      href="https://indestructibletype.com/fonts/Jost.css"
+      type="text/css"
+      charset="utf-8"
+    />
+  ]);
+};
+
+// Can then be accessed like: font-family: Jost in your code
+```

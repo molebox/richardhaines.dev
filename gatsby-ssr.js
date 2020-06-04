@@ -6,6 +6,6 @@ export const onRenderBody = ({setHeadComponents, setPostBodyComponents}) => {
       <script src="three.min.js"></script>,
       <script src="TweenMax.min.js"></script>
   ]);
-  }
+}
 
 export const wrapRootElement = wrap
