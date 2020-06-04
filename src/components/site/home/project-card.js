@@ -1,8 +1,37 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import ProjectImage from "./project-image";
+import React from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ProjectCard = props => {
+  const projectCardRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (projectCardRef.current) {
+      console.log(projectCardRef.current);
+      gsap.fromTo(
+        projectCardRef.current,
+        { opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: projectCardRef.current,
+            toggleActions: "restart none none none"
+          },
+          stagger: {
+            duration: 3,
+            amount: 1,
+            from: "start"
+          },
+          delay: 1.2,
+          opacity: 1
+        }
+      );
+    }
+  }, []);
   return (
     <div
       sx={{
@@ -23,7 +52,7 @@ const ProjectCard = props => {
         minHeight: "600px",
         position: "relative"
       }}
-      className="project-card"
+      ref={projectCardRef}
     >
       <ProjectImage fluid={props.fluid} alt={props.alt} />
       <p

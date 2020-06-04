@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 import Label from "./label";
 import Input from "./input";
 
-const Form = () => {
+const Form = ({ contactFormRef }) => {
   return (
     <form
       sx={{
@@ -21,7 +21,7 @@ const Form = () => {
       name="contact"
       method="POST"
       data-netlify="true"
-      className="contact-form"
+      ref={contactFormRef}
     >
       <input type="hidden" name="bot-field" />
       <Label>

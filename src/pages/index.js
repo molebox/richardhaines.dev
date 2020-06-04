@@ -43,42 +43,69 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default () => {
   const { description, intro } = useSiteMetadata();
-
+  const contactTextRef = React.useRef(null);
+  const contactFormRef = React.useRef(null);
+  const iconRef = React.useRef(null);
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
-    
-    gsap.fromTo(
-      ".contact-text",
-      { opacity: 0, y: 100 },
-      {
-        scrollTrigger: {
-          trigger: ".contact-text",
-          toggleActions: "restart none none none"
-        },
-        opacity: 1,
-        duration: 1.2,
-        y: 0,
-        delay: 3,
-        stagger: {
-          amount: 0.5
+
+    if (contactTextRef.current) {
+      gsap.fromTo(
+        contactTextRef.current,
+        { opacity: 0, y: 100 },
+        {
+          scrollTrigger: {
+            trigger: contactTextRef.current,
+            toggleActions: "restart none none none"
+          },
+          opacity: 1,
+          duration: 1.2,
+          y: 0,
+          delay: 3,
+          stagger: {
+            amount: 0.5
+          }
         }
-      }
-    );
-    gsap.fromTo(
-      ".contact-form",
-      { opacity: 0, x: 500 },
-      {
-        scrollTrigger: {
-          trigger: ".contact-form",
-          toggleActions: "restart none none none"
-        },
-        opacity: 1,
-        duration: 1.2,
-        x: 0,
-        delay: 3
-      }
-    );
+      );
+    }
+
+    if (contactFormRef.current) {
+      gsap.fromTo(
+        contactFormRef.current,
+        { opacity: 0, x: 500 },
+        {
+          scrollTrigger: {
+            trigger: contactFormRef.current,
+            toggleActions: "restart none none none"
+          },
+          opacity: 1,
+          duration: 1.2,
+          x: 0,
+          delay: 3
+        }
+      );
+    }
+
+    if (iconRef.current) {
+      gsap.fromTo(
+        iconRef.current,
+        { opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: iconRef.current,
+            toggleActions: "restart none none none"
+          },
+          stagger: {
+            duration: 3,
+            amount: 1,
+            from: "end"
+          },
+          delay: 1.2,
+          opacity: 1
+        }
+      );
+    }
   }, []);
 
   return (
@@ -109,10 +136,10 @@ export default () => {
       <Divider />
       <Projects />
       <IconContainer>
-        <GatsbyIcon />
-        <ReactIcon />
-        <JSIcon />
-        <TypeScriptIcon />
+        <GatsbyIcon iconRef={iconRef} />
+        <ReactIcon iconRef={iconRef} />
+        <JSIcon iconRef={iconRef} />
+        <TypeScriptIcon iconRef={iconRef} />
       </IconContainer>
       <Divider />
       <ContactLayout>
@@ -120,7 +147,7 @@ export default () => {
           sx={{
             fontFamily: "body"
           }}
-          className="contact-text"
+          ref={contactTextRef}
         >
           <P>
             If you would like to get in touch about a project, or if you have
@@ -139,7 +166,7 @@ export default () => {
           </P>
         </div>
         <Social />
-        <Form />
+        <Form contactFormRef={contactFormRef} />
       </ContactLayout>
     </Main>
   );
