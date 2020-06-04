@@ -407,3 +407,23 @@ export const onRenderBody = ({ setHeadComponents }) => {
 
 // Can then be accessed like: font-family: Jost in your code
 ```
+
+---
+
+## Base scripts for Gatsby project
+
+```json
+
+// package.json
+// Assumes you have prettier installed
+
+  "scripts": {
+    "dev": "gatsby develop",
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "pretty-check": "prettier --check \"src/**/*.{js}\"",
+    "pretty": "prettier --write \"src/**/*js\"",
+    "sitemap": "gatsby build && gatsby serve",
+    "z": "gatsby clean && gatsby develop"
+  },
+```
