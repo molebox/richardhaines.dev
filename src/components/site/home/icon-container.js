@@ -4,8 +4,10 @@ import React from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const IconContainer = ({ children }) => {
-  gsap.registerPlugin(ScrollTrigger);
+
   React.useEffect(() => {
     
     gsap.fromTo(

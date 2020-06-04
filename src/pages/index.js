@@ -39,9 +39,11 @@ const SEOKeywords = [
   "Sanity.io"
 ];
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default () => {
   const { description, intro } = useSiteMetadata();
-  gsap.registerPlugin(ScrollTrigger);
+
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });

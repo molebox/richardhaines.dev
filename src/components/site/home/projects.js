@@ -6,10 +6,12 @@ import React from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Projects = () => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
-  gsap.registerPlugin(ScrollTrigger);
+
   React.useEffect(() => {
     
     gsap.fromTo(
