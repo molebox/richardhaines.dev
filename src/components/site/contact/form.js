@@ -21,6 +21,7 @@ const Form = () => {
       name="contact"
       method="POST"
       data-netlify="true"
+      className="contact-form"
     >
       <input type="hidden" name="bot-field" />
       <Label>

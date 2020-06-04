@@ -9,18 +9,6 @@ import Github from "../../assets/github.svg";
 import LinkedIn from "../../assets/linkedin.svg";
 import TypeScript from "../../assets/typescript.svg";
 import Rocket from "../../assets/rocket.svg";
-import Corgi from "../../assets/corgi-icon.svg";
-
-export const CorgiIcon = () => (
-  <Corgi
-    sx={{
-      width: "100px",
-      height: "100px",
-      fill: "#DE3C4B"
-    }}
-    className="front"
-  />
-);
 
 export const RocketIcon = () => (
   <Rocket
@@ -39,6 +27,7 @@ export const TypeScriptIcon = () => (
       height: ["3em", "5em", "5em"],
       fill: "#007ACC"
     }}
+    className="icon"
   />
 );
 
@@ -94,6 +83,7 @@ export const JSIcon = () => (
       height: ["3em", "5em", "5em"],
       fill: "#ffff00"
     }}
+    className="icon"
   />
 );
 
@@ -104,6 +94,7 @@ export const GatsbyIcon = () => (
       height: ["3em", "5em", "5em"],
       fill: "#362066"
     }}
+    className="icon"
   />
 );
 
@@ -113,6 +104,7 @@ export const ReactIcon = () => (
       width: ["3em", "5em", "5em"],
       height: ["3em", "5em", "5em"]
     }}
+    className="icon"
   />
 );
 
@@ -154,6 +146,5 @@ export default {
   JSIcon,
   Brain,
   Music,
-  RocketIcon,
-  CorgiIcon
+  RocketIcon
 };

@@ -20,9 +20,9 @@ import {
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Social from "./../components/site/layout/social";
 import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
-import { useInView } from "react-intersection-observer";
 import Spotify from "../components/site/spotify/spotify";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -41,12 +41,41 @@ const SEOKeywords = [
 
 export default () => {
   const { description, intro } = useSiteMetadata();
-  // const [ref, inView] = useInView({
-  //   rootMargin: "-100px 0px"
-  // });
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.fromTo(
+      ".contact-text",
+      { opacity: 0, y: 100 },
+      {
+        scrollTrigger: {
+          trigger: ".contact-text",
+          toggleActions: "restart none none none"
+        },
+        opacity: 1,
+        duration: 1.2,
+        y: 0,
+        delay: 3,
+        stagger: {
+          amount: 0.5
+        }
+      }
+    );
+    gsap.fromTo(
+      ".contact-form",
+      { opacity: 0, x: 500 },
+      {
+        scrollTrigger: {
+          trigger: ".contact-form",
+          toggleActions: "restart none none none"
+        },
+        opacity: 1,
+        duration: 1.2,
+        x: 0,
+        delay: 3
+      }
+    );
   }, []);
 
   return (
@@ -88,6 +117,7 @@ export default () => {
           sx={{
             fontFamily: "body"
           }}
+          className="contact-text"
         >
           <P>
             If you would like to get in touch about a project, or if you have

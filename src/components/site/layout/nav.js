@@ -62,7 +62,6 @@ const Nav = () => {
           letterSpacing: "text",
           textTransform: "uppercase",
           display: ["none", "block", "block"],
-          // marginRight: [0, "10vw", "5vw"],
           ":hover": {
             color: "accent"
           }

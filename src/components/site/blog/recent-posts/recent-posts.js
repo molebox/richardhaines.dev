@@ -26,6 +26,10 @@ const RecentPosts = () => {
     );
 
     gsap.to(".brain", {
+      scrollTrigger: {
+        trigger: ".brain",
+        toggleActions: "restart none none reset"
+      },
       duration: 1,
       scaleX: 0.9,
       scaleY: 0.95,
