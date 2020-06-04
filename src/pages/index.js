@@ -41,10 +41,11 @@ const SEOKeywords = [
 
 export default () => {
   const { description, intro } = useSiteMetadata();
+  gsap.registerPlugin(ScrollTrigger);
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
-    gsap.registerPlugin(ScrollTrigger);
+    
     gsap.fromTo(
       ".contact-text",
       { opacity: 0, y: 100 },

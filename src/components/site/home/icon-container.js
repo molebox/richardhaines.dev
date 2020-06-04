@@ -5,8 +5,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const IconContainer = ({ children }) => {
+  gsap.registerPlugin(ScrollTrigger);
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    
     gsap.fromTo(
       ".icon",
       { opacity: 0 },

@@ -9,9 +9,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 const Projects = () => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
-
+  gsap.registerPlugin(ScrollTrigger);
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    
     gsap.fromTo(
       ".project-card",
       { opacity: 0 },
