@@ -49,8 +49,9 @@ export default () => {
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
+    console.log(iconRef.current);
 
-    if (contactTextRef.current) {
+    if (contactTextRef.current !== null) {
       gsap.fromTo(
         contactTextRef.current,
         { opacity: 0, y: 100 },
@@ -70,7 +71,7 @@ export default () => {
       );
     }
 
-    if (contactFormRef.current) {
+    if (contactFormRef.current !== null) {
       gsap.fromTo(
         contactFormRef.current,
         { opacity: 0, x: 500 },
@@ -87,24 +88,20 @@ export default () => {
       );
     }
 
-    if (iconRef.current) {
-      gsap.fromTo(
-        iconRef.current,
-        { opacity: 0 },
-        {
-          scrollTrigger: {
-            trigger: iconRef.current,
-            toggleActions: "restart none none none"
-          },
-          stagger: {
-            duration: 3,
-            amount: 1,
-            from: "end"
-          },
-          delay: 1.2,
-          opacity: 1
-        }
-      );
+    if (iconRef.current !== null) {
+      gsap.to(iconRef.current, {
+        scrollTrigger: {
+          trigger: iconRef.current,
+          toggleActions: "restart none none none"
+        },
+        stagger: {
+          duration: 3,
+          amount: 1,
+          from: "end"
+        },
+        delay: 1.2,
+        opacity: 1
+      });
     }
   }, []);
 

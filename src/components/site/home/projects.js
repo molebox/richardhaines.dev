@@ -2,10 +2,38 @@
 import { jsx } from "theme-ui";
 import { graphql, useStaticQuery } from "gatsby";
 import ProjectCard from "./project-card";
+import React from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
+  const projectCardRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (projectCardRef.current) {
+      gsap.fromTo(
+        projectCardRef.current,
+        { opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: projectCardRef.current,
+            toggleActions: "restart none none none"
+          },
+          stagger: {
+            duration: 3,
+            amount: 1,
+            from: "start"
+          },
+          delay: 1.2,
+          opacity: 1
+        }
+      );
+    }
+  }, []);
 
   return (
     <section
@@ -47,6 +75,7 @@ const Projects = () => {
       >
         {projects.map(({ node: project, index }) => (
           <ProjectCard
+            projectCardRef={projectCardRef}
             key={project.name + index}
             name={project.name}
             description={project.description}
