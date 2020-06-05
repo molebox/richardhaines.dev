@@ -33,17 +33,17 @@ const SEOKeywords = [
   "Sanity.io"
 ];
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 export default () => {
   const { description, intro } = useSiteMetadata();
   const contactTextRef = React.useRef(null);
   const contactFormRef = React.useRef(null);
-
+  gsap.registerPlugin(ScrollTrigger);
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
-
+    
     if (contactTextRef.current) {
       gsap.fromTo(
         contactTextRef.current,

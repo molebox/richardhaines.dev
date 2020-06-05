@@ -3,18 +3,17 @@ import { jsx } from "theme-ui";
 import { graphql, useStaticQuery } from "gatsby";
 import ProjectCard from "./project-card";
 import React from "react";
-import {gsap} from "gsap";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
   // const projectCardRef = React.useRef(null);
   const projectCardRef = React.useRef(null);
-
+  gsap.registerPlugin(ScrollTrigger);
   React.useEffect(() => {
+    
     // if (projectCardRef.current) {
     //   console.log(projectCardRef.current)
     //   gsap.fromTo(

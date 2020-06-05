@@ -5,11 +5,11 @@ import React from 'react';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 const IconContainer = () => {
   const iconRef = React.useRef(null);
-
+  gsap.registerPlugin(ScrollTrigger);
   React.useEffect(() => {
 
     if (iconRef.current) {
