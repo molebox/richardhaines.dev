@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 import { graphql, useStaticQuery } from "gatsby";
 import ProjectCard from "./project-card";
 import React from "react";
-import gsap from "gsap";
+import {gsap} from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,28 +11,49 @@ gsap.registerPlugin(ScrollTrigger);
 const Projects = () => {
   const data = useStaticQuery(query);
   const projects = data.allProjectsJson.edges;
+  // const projectCardRef = React.useRef(null);
   const projectCardRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (projectCardRef.current) {
+    // if (projectCardRef.current) {
+    //   console.log(projectCardRef.current)
+    //   gsap.fromTo(
+    //     projectCardRef.current,
+    //     { opacity: 0 },
+    //     {
+    //       scrollTrigger: {
+    //         trigger: projectCardRef.current,
+    //         toggleActions: "restart none none none"
+    //       },
+    //       stagger: {
+    //         amount: 1,
+    //         from: "start"
+    //       },
+    //       delay: 2,
+    //       duration: 2,
+    //       opacity: 1
+    //     }
+    //   );
+    // }
+
       gsap.fromTo(
-        projectCardRef.current,
+        '.project-card',
         { opacity: 0 },
         {
           scrollTrigger: {
-            trigger: projectCardRef.current,
+            trigger: '.project-card',
             toggleActions: "restart none none none"
           },
           stagger: {
-            duration: 3,
             amount: 1,
             from: "start"
           },
-          delay: 1.2,
+          delay: 2,
+          duration: 2,
           opacity: 1
         }
       );
-    }
+
   }, []);
 
   return (
@@ -75,7 +96,7 @@ const Projects = () => {
       >
         {projects.map(({ node: project, index }) => (
           <ProjectCard
-            projectCardRef={projectCardRef}
+            // ref={projectCardRef.current}
             key={project.name + index}
             name={project.name}
             description={project.description}

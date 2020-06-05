@@ -78,15 +78,15 @@ export const LinkedInIcon = () => (
 );
 
 export const JSIcon = ({ iconRef }) => (
-  <div ref={iconRef}>
     <JS
       sx={{
         width: ["3em", "5em", "5em"],
         height: ["3em", "5em", "5em"],
         fill: "#ffff00"
       }}
+      ref={iconRef}
     />
-  </div>
+
 );
 
 export const GatsbyIcon = ({ iconRef }) => (

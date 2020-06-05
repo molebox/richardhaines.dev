@@ -13653,6 +13653,11 @@ use-cloudinary@^2.2.5:
     lodash "^4.17.15"
     react-query "^1.2.1"
 
+use-dynamic-refs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-dynamic-refs/-/use-dynamic-refs-1.0.0.tgz#934b9448d59773ef299f65f36ffc87c343e40353"
+  integrity sha512-1Ky+Jaj6MIpTRz6NTaCLVm/iDXfRNwUMH9X7BkLtgSL2RCXHQhK2p9SVhut8jZPDfxLDtOIYNM3txsiLXd4yVQ==
+
 use-typing-effect@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/use-typing-effect/-/use-typing-effect-1.1.0.tgz#0b0d0d9be77413a45c67aa9606e160fcb0ed3df3"

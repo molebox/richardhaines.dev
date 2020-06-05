@@ -11,12 +11,6 @@ import ExternalLink from "./../components/common/external-link";
 import ContactLayout from "./../components/site/contact/contact-layout";
 import Form from "./../components/site/contact/form";
 import IconContainer from "../components/site/home/icon-container";
-import {
-  GatsbyIcon,
-  ReactIcon,
-  JSIcon,
-  TypeScriptIcon
-} from "../components/common/icons";
 import SEO from "gatsby-theme-seo/src/components/seo";
 import Social from "./../components/site/layout/social";
 import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
@@ -45,13 +39,12 @@ export default () => {
   const { description, intro } = useSiteMetadata();
   const contactTextRef = React.useRef(null);
   const contactFormRef = React.useRef(null);
-  const iconRef = React.useRef(null);
+
 
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
-    console.log(iconRef.current);
 
-    if (contactTextRef.current !== null) {
+    if (contactTextRef.current) {
       gsap.fromTo(
         contactTextRef.current,
         { opacity: 0, y: 100 },
@@ -71,7 +64,7 @@ export default () => {
       );
     }
 
-    if (contactFormRef.current !== null) {
+    if (contactFormRef.current) {
       gsap.fromTo(
         contactFormRef.current,
         { opacity: 0, x: 500 },
@@ -88,21 +81,7 @@ export default () => {
       );
     }
 
-    if (iconRef.current !== null) {
-      gsap.to(iconRef.current, {
-        scrollTrigger: {
-          trigger: iconRef.current,
-          toggleActions: "restart none none none"
-        },
-        stagger: {
-          duration: 3,
-          amount: 1,
-          from: "end"
-        },
-        delay: 1.2,
-        opacity: 1
-      });
-    }
+  
   }, []);
 
   return (
@@ -132,12 +111,7 @@ export default () => {
       </section>
       <Divider />
       <Projects />
-      <IconContainer>
-        <GatsbyIcon iconRef={iconRef} />
-        <ReactIcon iconRef={iconRef} />
-        <JSIcon iconRef={iconRef} />
-        <TypeScriptIcon iconRef={iconRef} />
-      </IconContainer>
+      <IconContainer/>
       <Divider />
       <ContactLayout>
         <div

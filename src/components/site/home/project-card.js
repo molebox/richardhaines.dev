@@ -1,8 +1,10 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from 'react';
 import ProjectImage from "./project-image";
 
-const ProjectCard = props => {
+const ProjectCard = React.forwardRef((props, ref) => {
+  
   return (
     <div
       sx={{
@@ -23,7 +25,8 @@ const ProjectCard = props => {
         minHeight: "600px",
         position: "relative"
       }}
-      ref={props.projectCardRef}
+      ref={ref}
+      className="project-card"
     >
       <ProjectImage fluid={props.fluid} alt={props.alt} />
       <p
@@ -102,6 +105,6 @@ const ProjectCard = props => {
       </div>
     </div>
   );
-};
+});
 
 export default ProjectCard;

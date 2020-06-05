@@ -52,6 +52,7 @@
     "remark-slug": "^6.0.0",
     "theme-ui": "^0.3.1",
     "use-cloudinary": "^2.2.5",
+    "use-dynamic-refs": "^1.0.0",
     "use-typing-effect": "^1.1.0",
     "windups": "^1.0.1"
   },
