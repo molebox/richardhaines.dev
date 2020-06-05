@@ -9,8 +9,6 @@ import TableOfContents from './src/components/site/copy-paste/toc';
 import Glitch from './src/components/common/glitch';
 import H3 from './src/components/common/h3';
 import SiteProvider from "./src/components/site-context";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const components = {
   'p.inlineCode': props => (
@@ -51,12 +49,9 @@ const components = {
   H3
 }
 
-export const wrapRootElement = ({ element }) => {
-  gsap.registerPlugin(ScrollTrigger);
-  return (
-    <SiteProvider>
-      <MDXProvider components={components}>{element}</MDXProvider>
-    </SiteProvider>
-    
-  )
-} 
+export const wrapRootElement = ({ element }) => (
+  <SiteProvider>
+    <MDXProvider components={components}>{element}</MDXProvider>
+  </SiteProvider>
+  
+)
