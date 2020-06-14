@@ -56,7 +56,7 @@ module.exports = {
           path: 'memory',
           name: 'memory'
         },
-    },
+      },
       {
         resolve: 'gatsby-source-filesystem',
         options: {
@@ -70,7 +70,7 @@ module.exports = {
         path: `${__dirname}/src/assets/`,
         name: 'assets'
       },
-  },
+    },
       {
         resolve: 'gatsby-source-filesystem',
         options: {

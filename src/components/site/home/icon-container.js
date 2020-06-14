@@ -1,35 +1,8 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { GatsbyIcon, ReactIcon, JSIcon, TypeScriptIcon } from './../../common/icons';
-import React from 'react';
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 
-
-
-const IconContainer = () => {
-  const iconRef = React.useRef(null);
-  gsap.registerPlugin(ScrollTrigger);
-  React.useEffect(() => {
-
-    if (iconRef.current) {
-      gsap.to(iconRef.current, {
-        scrollTrigger: {
-          trigger: iconRef.current,
-          toggleActions: "restart none none none"
-        },
-        stagger: {
-          duration: 3,
-          amount: 1,
-          from: "end"
-        },
-        delay: 1.2,
-        opacity: 1
-      });
-    }
-   
-  }, [])
-
+const IconContainer = ({ children }) => {
   return (
     <div
       sx={{
@@ -38,12 +11,9 @@ const IconContainer = () => {
         alignItems: "center",
         margin: "5em auto"
       }}
-      ref={iconRef}
+      className="icon"
     >
-        <GatsbyIcon iconRef={iconRef} />
-        <ReactIcon iconRef={iconRef} />
-        <JSIcon iconRef={iconRef} />
-        <TypeScriptIcon iconRef={iconRef} />
+      {children}
     </div>
   );
 };

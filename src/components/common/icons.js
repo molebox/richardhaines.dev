@@ -20,16 +20,14 @@ export const RocketIcon = () => (
   />
 );
 
-export const TypeScriptIcon = ({ iconRef }) => (
-  <div ref={iconRef}>
-    <TypeScript
-      sx={{
-        width: ["3em", "5em", "5em"],
-        height: ["3em", "5em", "5em"],
-        fill: "#007ACC"
-      }}
-    />
-  </div>
+export const TypeScriptIcon = () => (
+  <TypeScript
+    sx={{
+      width: ["3em", "5em", "5em"],
+      height: ["3em", "5em", "5em"],
+      fill: "#007ACC"
+    }}
+  />
 );
 
 export const TwitterIcon = () => (
@@ -77,39 +75,33 @@ export const LinkedInIcon = () => (
   />
 );
 
-export const JSIcon = ({ iconRef }) => (
-    <JS
-      sx={{
-        width: ["3em", "5em", "5em"],
-        height: ["3em", "5em", "5em"],
-        fill: "#ffff00"
-      }}
-      ref={iconRef}
-    />
-
+export const JSIcon = () => (
+  <JS
+    sx={{
+      width: ["3em", "5em", "5em"],
+      height: ["3em", "5em", "5em"],
+      fill: "#ffff00"
+    }}
+  />
 );
 
-export const GatsbyIcon = ({ iconRef }) => (
-  <div ref={iconRef}>
-    <Gatsby
-      sx={{
-        width: ["3em", "5em", "5em"],
-        height: ["3em", "5em", "5em"],
-        fill: "#362066"
-      }}
-    />
-  </div>
+export const GatsbyIcon = () => (
+  <Gatsby
+    sx={{
+      width: ["3em", "5em", "5em"],
+      height: ["3em", "5em", "5em"],
+      fill: "#362066"
+    }}
+  />
 );
 
-export const ReactIcon = ({ iconRef }) => (
-  <div ref={iconRef}>
-    <ReactJs
-      sx={{
-        width: ["3em", "5em", "5em"],
-        height: ["3em", "5em", "5em"]
-      }}
-    />
-  </div>
+export const ReactIcon = () => (
+  <ReactJs
+    sx={{
+      width: ["3em", "5em", "5em"],
+      height: ["3em", "5em", "5em"]
+    }}
+  />
 );
 
 export const SanityIcon = () => (

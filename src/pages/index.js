@@ -17,6 +17,12 @@ import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
 import Spotify from "../components/site/spotify/spotify";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  GatsbyIcon,
+  ReactIcon,
+  JSIcon,
+  TypeScriptIcon
+} from "./../components/common/icons";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -33,16 +39,18 @@ const SEOKeywords = [
   "Sanity.io"
 ];
 
-const plugin = [gsap.registerPlugin(ScrollTrigger)];
-
 export default () => {
   const { description, intro } = useSiteMetadata();
   const contactTextRef = React.useRef(null);
   const contactFormRef = React.useRef(null);
+  const iconRef = React.useRef(null);
 
   React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+    }
     gsap.to("body", { visibility: "visible" });
-    
+
     if (contactTextRef.current) {
       gsap.fromTo(
         contactTextRef.current,
@@ -80,7 +88,19 @@ export default () => {
       );
     }
 
-  
+    gsap.to(".icon", {
+      scrollTrigger: {
+        trigger: ".icon",
+        toggleActions: "restart none none none"
+      },
+      stagger: {
+        duration: 3,
+        amount: 1,
+        from: "end"
+      },
+      delay: 1.2,
+      opacity: 1
+    });
   }, []);
 
   return (
@@ -110,7 +130,12 @@ export default () => {
       </section>
       <Divider />
       <Projects />
-      <IconContainer/>
+      <IconContainer>
+        <GatsbyIcon />
+        <ReactIcon />
+        <JSIcon />
+        <TypeScriptIcon />
+      </IconContainer>
       <Divider />
       <ContactLayout>
         <div
