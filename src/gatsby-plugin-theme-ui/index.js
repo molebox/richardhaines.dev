@@ -1,6 +1,4 @@
 export default {
-  initialColorMode: "dark",
-  useCustomProperties: false,
   fonts: {
     body: "Jost",
     heading: "Jost"
@@ -26,16 +24,6 @@ export default {
     secondary: "#E7E7E9",
     secondaryDarker: "#0F1218",
     accent: "#DE3C4B",
-    modes: {
-      dark: {
-        text: "#000010",
-        background: "#E7E7E9",
-        primary: "#000010",
-        secondary: "#E7E7E9",
-        secondaryDarker: "#0F1218",
-        accent: "#DE3C4B"
-      }
-    }
   },
   breakpoints: ["40em", "56em", "64em"]
 };
