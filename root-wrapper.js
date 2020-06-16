@@ -9,6 +9,7 @@ import TableOfContents from './src/components/site/copy-paste/toc';
 import Glitch from './src/components/common/glitch';
 import H3 from './src/components/common/h3';
 import SiteProvider from "./src/components/site-context";
+import ExternalLink from './src/components/common/external-link';
 
 const components = {
   'p.inlineCode': props => (
@@ -34,7 +35,7 @@ const components = {
     console.log({props})
     return (
       <ContentLayout>
-        <Box sx={{gridColumn: [1, 2], gridRow: 1, marginTop: 100}}>
+        <Box sx={{gridColumn: [1, 2], gridRow: 1}}>
           <TableOfContents slug={props.slug} headings={props.headings}/>
         </Box>
         <Box sx={{gridColumn: 1, gridRow: 1}}>
@@ -46,7 +47,8 @@ const components = {
   },
   LinearGradientText,
   Glitch,
-  H3
+  H3,
+  ExternalLink
 }
 
 export const wrapRootElement = ({ element }) => (

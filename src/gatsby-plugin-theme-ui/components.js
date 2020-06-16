@@ -12,7 +12,7 @@ export default {
     <h2
       sx={{
         fontFamily: "heading",
-        fontWeight: "body",
+        fontWeight: "bold",
         margin: "2em auto"
       }}
       {...props}
