@@ -174,34 +174,34 @@ into Fauna, our serverless function which will live in graphql.js and create the
 link to and use the schema from Fauna and our database connection to Fauna.
 
 ```bash
-    mkdir harry-potter
-    cd harry-potter
-    yarn init- y
-    mkdir src/pages/
-    cd src/pages && touch index.js
-    mkdir src/components
-    touch gatsby-config.js
-    touch gatsby-browser.js
-    touch gatsby-ssr.js
-    touch .gitignore
+mkdir harry-potter
+cd harry-potter
+yarn init- y
+mkdir src/pages/
+cd src/pages && touch index.js
+mkdir src/components
+touch gatsby-config.js
+touch gatsby-browser.js
+touch gatsby-ssr.js
+touch .gitignore
 
-    mkdir functions/graphql
-    cd functions/graphql && touch schema.gql graphql.js db-connection.js
+mkdir functions/graphql
+cd functions/graphql && touch schema.gql graphql.js db-connection.js
 ```
 
 We'll also need to add some packages.
 
 ```bash
-    yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui faunadb isomorphic-fetch dotenv
+yarn add gatsby react react-dom theme-ui gatsby-plugin-theme-ui faunadb isomorphic-fetch dotenv
 ```
 
 Add the following to your newly created .gitignore file:
 
 ```bash
-    .netlify
-    node_modules
-    .cache
-    public
+.netlify
+node_modules
+.cache
+public
 ```
 
 ## Serverless setup
@@ -318,8 +318,8 @@ them. Also add the .env path to the .gitignore file.
 **.gitignore**
 
 ```bash
-    // ...other stuff
-    .env.*
+// ...other stuff
+.env.*
 ```
 
 **.env**
