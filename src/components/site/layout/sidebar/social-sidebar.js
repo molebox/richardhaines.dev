@@ -44,10 +44,7 @@ const SocialSideBar = () => {
       <a href="https://github.com/molebox" className="social-links">
         <GithubIcon />
       </a>
-      <a
-        href="https://www.linkedin.com/in/richard-haines-578464176/"
-        className="social-links"
-      >
+      <a href="https://www.linkedin.com/in/richard-haines-578464176/" className="social-links">
         <LinkedInIcon />
       </a>
       {/* <Darkmode className="social-links" /> */}

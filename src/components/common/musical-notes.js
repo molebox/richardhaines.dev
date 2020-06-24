@@ -57,12 +57,7 @@ const MusicalNotes = ({ color = DEFAULT_COLOR, children, ...delegated }) => {
   return (
     <Wrapper {...delegated}>
       {musicalNotes.map(note => (
-        <MusicNote
-          key={note.id}
-          color={note.color}
-          size={note.size}
-          style={note.style}
-        />
+        <MusicNote key={note.id} color={note.color} size={note.size} style={note.style} />
       ))}
       <ChildWrapper>{children}</ChildWrapper>
     </Wrapper>

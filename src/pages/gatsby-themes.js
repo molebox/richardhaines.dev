@@ -77,9 +77,7 @@ const GatsbyThemes = ({ location }) => {
           marginBottom: "4em"
         }}
       >
-        <P className="themes-p">
-          This a collection of gatsby themes i have created.
-        </P>
+        <P className="themes-p">This a collection of gatsby themes i have created.</P>
       </div>
       <Divider />
       <section

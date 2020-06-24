@@ -9,9 +9,7 @@ export const useCategory = posts => {
     const categoryPosts = posts || [];
 
     const filteredData = categoryPosts.filter(post => {
-      return category === "All"
-        ? []
-        : post.frontmatter.category.includes(category);
+      return category === "All" ? [] : post.frontmatter.category.includes(category);
     });
 
     setCategoryQuery({ filteredData });
@@ -20,9 +18,7 @@ export const useCategory = posts => {
   const { filteredData } = categoryQuery;
   const hasSearchResult = filteredData !== [];
 
-  const sortedPosts = posts.sort(
-    (a, b) => b.frontmatter.pin - a.frontmatter.pin
-  );
+  const sortedPosts = posts.sort((a, b) => b.frontmatter.pin - a.frontmatter.pin);
 
   const categories = hasSearchResult ? filteredData : sortedPosts;
 

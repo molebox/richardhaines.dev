@@ -127,15 +127,7 @@ export default Spotify;
 export const query = graphql`
   query MyPlaylistQuery {
     allSpotifyPlaylist(
-      filter: {
-        name: {
-          in: [
-            "Big Glasses & Jumpers"
-            "All Good HipHop/RnB"
-            "Rawkus Presents Soundbombing II"
-          ]
-        }
-      }
+      filter: { name: { in: ["Big Glasses & Jumpers", "All Good HipHop/RnB", "Rawkus Presents Soundbombing II"] } }
     ) {
       edges {
         node {

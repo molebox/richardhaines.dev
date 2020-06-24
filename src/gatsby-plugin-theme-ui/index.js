@@ -23,7 +23,7 @@ export default {
     primary: "#000010",
     secondary: "#E7E7E9",
     secondaryDarker: "#0F1218",
-    accent: "#DE3C4B",
+    accent: "#DE3C4B"
   },
   breakpoints: ["40em", "56em", "64em"]
 };

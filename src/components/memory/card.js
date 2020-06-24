@@ -3,21 +3,11 @@ import { jsx } from "theme-ui";
 import GatsbyImage from "gatsby-image";
 import cardStyles from "./card.module.css";
 
-const Card = ({
-  id,
-  handleClick,
-  flipped,
-  backImage,
-  frontImage,
-  disabled,
-  solved
-}) => {
+const Card = ({ id, handleClick, flipped, backImage, frontImage, disabled, solved }) => {
   return (
     <div
       onClick={() => (disabled ? null : handleClick(id))}
-      className={`${cardStyles.flipContainer} ${
-        flipped ? cardStyles.flipped : null
-      }`}
+      className={`${cardStyles.flipContainer} ${flipped ? cardStyles.flipped : null}`}
     >
       <div className={cardStyles.flipper}>
         <div

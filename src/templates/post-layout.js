@@ -46,11 +46,7 @@ const PostLayout = ({ data, pageContext, location }) => {
       }
     );
 
-    gsap.fromTo(
-      ".post",
-      { opacity: 0 },
-      { opacity: 1, delay: 1.9, duration: 1 }
-    );
+    gsap.fromTo(".post", { opacity: 0 }, { opacity: 1, delay: 1.9, duration: 1 });
   }, []);
 
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
@@ -81,12 +77,7 @@ const PostLayout = ({ data, pageContext, location }) => {
           <Twitter />
         </div>
         <Divider />
-        <MDXRenderer
-          className="post"
-          headings={headings}
-          slug={slug}
-          sx={{ height: "100vh" }}
-        >
+        <MDXRenderer className="post" headings={headings} slug={slug} sx={{ height: "100vh" }}>
           {body}
         </MDXRenderer>
         <div
@@ -109,11 +100,7 @@ const PostLayout = ({ data, pageContext, location }) => {
           )}
           {next === false ? null : (
             <>
-              {next && (
-                <PostNavigation destination={next.fields.slug}>
-                  Next: {next.frontmatter.title}
-                </PostNavigation>
-              )}
+              {next && <PostNavigation destination={next.fields.slug}>Next: {next.frontmatter.title}</PostNavigation>}
             </>
           )}
         </div>

@@ -5,11 +5,7 @@ import gsap from "gsap";
 
 const Divider = () => {
   React.useEffect(() => {
-    gsap.fromTo(
-      ".divider",
-      { opacity: 0 },
-      { opacity: 1, duration: 3, delay: 1.5 }
-    );
+    gsap.fromTo(".divider", { opacity: 0 }, { opacity: 1, duration: 3, delay: 1.5 });
   }, []);
 
   return (

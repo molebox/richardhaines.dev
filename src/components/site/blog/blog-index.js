@@ -21,11 +21,9 @@ const BlogIndex = ({ posts }) => {
     });
   }, []);
 
-  const handleMouseEnter = e =>
-    gsap.to(e.target, { scale: 1.01, duration: 0.3 });
+  const handleMouseEnter = e => gsap.to(e.target, { scale: 1.01, duration: 0.3 });
 
-  const handleMouseLeave = e =>
-    gsap.to(e.target, { scale: 1, duration: 0.4, ease: "back(10)" });
+  const handleMouseLeave = e => gsap.to(e.target, { scale: 1, duration: 0.4, ease: "back(10)" });
 
   return (
     <section

@@ -3,11 +3,7 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { Global, css } from "@emotion/core";
 import Header from "../components/site/layout/header";
-import {
-  PhoneTemplateAreas,
-  TabletTemplateAreas,
-  DesktopTemplateAreas
-} from "./../window/breakpoints";
+import { PhoneTemplateAreas, TabletTemplateAreas, DesktopTemplateAreas } from "./../window/breakpoints";
 import Footer from "../components/site/layout/footer";
 import Nav from "./../components/site/layout/nav";
 import SidebarNav from "../components/site/layout/sidebar/sidebar-nav";
@@ -37,16 +33,8 @@ const Layout = ({ children }) => {
         sx={{
           display: "grid",
           gridTemplateRows: "auto",
-          gridTemplateColumns: [
-            "repeat(4, 1fr)",
-            "repeat(6, 1fr)",
-            "repeat(8, 1fr)"
-          ],
-          gridTemplateAreas: [
-            PhoneTemplateAreas,
-            TabletTemplateAreas,
-            DesktopTemplateAreas
-          ],
+          gridTemplateColumns: ["repeat(4, 1fr)", "repeat(6, 1fr)", "repeat(8, 1fr)"],
+          gridTemplateAreas: [PhoneTemplateAreas, TabletTemplateAreas, DesktopTemplateAreas],
           padding: "0 1em"
         }}
       >

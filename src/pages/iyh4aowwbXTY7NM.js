@@ -66,11 +66,7 @@ const SecretPage = () => {
   React.useEffect(() => {
     gsap.to("body", { visibility: "visible" });
 
-    gsap.fromTo(
-      ".corgi-board",
-      { opacity: 0 },
-      { opacity: 1, delay: 1.9, duration: 1 }
-    );
+    gsap.fromTo(".corgi-board", { opacity: 0 }, { opacity: 1, delay: 1.9, duration: 1 });
   }, []);
 
   React.useEffect(() => {
@@ -87,11 +83,7 @@ const SecretPage = () => {
         }
       });
 
-      gsap.fromTo(
-        ".winner",
-        { opacity: 0, x: 1000 },
-        { opacity: 1, delay: 1, duration: 1, x: 0, ease: "back(5)" }
-      );
+      gsap.fromTo(".winner", { opacity: 0, x: 1000 }, { opacity: 1, delay: 1, duration: 1, x: 0, ease: "back(5)" });
     }
   }, [solved]);
 
@@ -105,8 +97,8 @@ const SecretPage = () => {
         }}
       >
         <P>
-          Welcome to the very secret corgi memory game. You know memory, right?
-          Match 2 pictures until none are left. LETS GOOOO
+          Welcome to the very secret corgi memory game. You know memory, right? Match 2 pictures until none are left.
+          LETS GOOOO
         </P>
       </div>
 
@@ -139,19 +131,11 @@ const SecretPage = () => {
             }}
             className="winner"
           >
-            <LinearGradientText size={50}>
-              Winner Winner Chicken Dinner!
-            </LinearGradientText>
+            <LinearGradientText size={50}>Winner Winner Chicken Dinner!</LinearGradientText>
             <P>Now get on out of here you rascal!</P>
           </div>
         ) : null}
-        <Board
-          corgis={corgis}
-          handleClick={handleClick}
-          flipped={flipped}
-          disabled={disabled}
-          solved={solved}
-        />
+        <Board corgis={corgis} handleClick={handleClick} flipped={flipped} disabled={disabled} solved={solved} />
       </section>
       <div
         sx={{

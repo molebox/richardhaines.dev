@@ -66,12 +66,7 @@ export const Code = ({ codeString, language, ...props }) => {
     copyToClipboard(codeString);
   };
   return (
-    <Highlight
-      {...defaultProps}
-      code={codeString}
-      language={language}
-      theme={theme}
-    >
+    <Highlight {...defaultProps} code={codeString} language={language} theme={theme}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <Pre className={className} style={style}>
           <CopyCode onClick={handleClick}>Copy</CopyCode>

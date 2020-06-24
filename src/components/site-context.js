@@ -15,9 +15,7 @@ const SiteProvider = ({ children }) => {
     keyed.current = keyed.current.length ? [...keyed.current, e.key] : [e.key];
     console.log(keyed.current);
     if (
-      splitCode.current
-        .slice(0, keyed.current.length)
-        .every((v, i) => v === keyed.current[i]) &&
+      splitCode.current.slice(0, keyed.current.length).every((v, i) => v === keyed.current[i]) &&
       keyed.current.length === splitCode.current.length
     ) {
       console.log("MATCH!");
@@ -25,11 +23,7 @@ const SiteProvider = ({ children }) => {
       window.removeEventListener("keydown", handlePress);
       setCodeActive(true);
       keyed.current = [];
-    } else if (
-      !splitCode.current
-        .slice(0, keyed.current.length)
-        .every((v, i) => v === keyed.current[i])
-    ) {
+    } else if (!splitCode.current.slice(0, keyed.current.length).every((v, i) => v === keyed.current[i])) {
       console.log("NO MATCH");
       // No match so reset 👎
       keyed.current = [];
@@ -50,11 +44,7 @@ const SiteProvider = ({ children }) => {
     setCodeActive(false);
   }, [codeActive]);
 
-  return (
-    <SiteContext.Provider value={{ codeActive, setCodeActive }}>
-      {children}
-    </SiteContext.Provider>
-  );
+  return <SiteContext.Provider value={{ codeActive, setCodeActive }}>{children}</SiteContext.Provider>;
 };
 
 export default SiteProvider;

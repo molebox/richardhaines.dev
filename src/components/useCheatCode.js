@@ -20,9 +20,7 @@ export const useCheatCode = code => {
     keyed.current = keyed.current.length ? [...keyed.current, e.key] : [e.key];
     console.log(keyed.current);
     if (
-      splitCode.current
-        .slice(0, keyed.current.length)
-        .every((v, i) => v === keyed.current[i]) &&
+      splitCode.current.slice(0, keyed.current.length).every((v, i) => v === keyed.current[i]) &&
       keyed.current.length === splitCode.current.length
     ) {
       console.log("MATCH!");
@@ -31,11 +29,7 @@ export const useCheatCode = code => {
       setActive(true);
       keyed.current = [];
       // navigate('/secret-page/')
-    } else if (
-      !splitCode.current
-        .slice(0, keyed.current.length)
-        .every((v, i) => v === keyed.current[i])
-    ) {
+    } else if (!splitCode.current.slice(0, keyed.current.length).every((v, i) => v === keyed.current[i])) {
       console.log("NO MATCH");
       // No match so reset 👎
       keyed.current = [];

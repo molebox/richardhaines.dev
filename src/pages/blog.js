@@ -55,12 +55,8 @@ const Blog = ({ data, location }) => {
     );
   }, []);
 
-  const categoriesList = [
-    ...new Set(data.allMdx.nodes.map(post => post.frontmatter.category))
-  ];
-  const pinned = data.allMdx.nodes.filter(
-    post => post.frontmatter.pin === true
-  );
+  const categoriesList = [...new Set(data.allMdx.nodes.map(post => post.frontmatter.category))];
+  const pinned = data.allMdx.nodes.filter(post => post.frontmatter.pin === true);
   const allPosts = pinned.length
     ? [pinned[0], ...data.allMdx.nodes.filter(post => !post.frontmatter.pin)]
     : data.allMdx.nodes;
@@ -97,8 +93,8 @@ const Blog = ({ data, location }) => {
         }}
       >
         <P className="garden-p">
-          This is my garden, there are many like it, but this one is mine. Its a
-          place for me to sow my ideas, some i will grow, some i wont. 🌼
+          This is my garden, there are many like it, but this one is mine. Its a place for me to sow my ideas, some i
+          will grow, some i wont. 🌼
         </P>
       </div>
       <Divider />
@@ -116,12 +112,7 @@ const Blog = ({ data, location }) => {
       >
         <AllCategory handleCategoryQuery={handleCategoryQuery} />
         {categoriesList.map((cat, index) => (
-          <Category
-            key={cat + index}
-            category={cat}
-            handleCategoryQuery={handleCategoryQuery}
-            className="categories"
-          />
+          <Category key={cat + index} category={cat} handleCategoryQuery={handleCategoryQuery} className="categories" />
         ))}
       </section>
       <BlogIndex posts={categories.length ? categories : allPosts} />
@@ -133,10 +124,7 @@ export default Blog;
 
 export const query = graphql`
   query BlogIndexQuery {
-    allMdx(
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { published: { eq: true } } }
-    ) {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }, filter: { frontmatter: { published: { eq: true } } }) {
       nodes {
         id
         excerpt(pruneLength: 200)

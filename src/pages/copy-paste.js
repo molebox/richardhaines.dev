@@ -35,11 +35,7 @@ const CopyPaste = ({
       }
     );
 
-    gsap.fromTo(
-      ".content",
-      { opacity: 0 },
-      { opacity: 1, delay: 1.9, duration: 1 }
-    );
+    gsap.fromTo(".content", { opacity: 0 }, { opacity: 1, delay: 1.9, duration: 1 });
   }, []);
 
   const SEODescription = `
@@ -72,17 +68,12 @@ const CopyPaste = ({
           id="toTop"
         >
           <P className="copy-p">
-            This is a collection of things I find my self copying over from
-            other projects I have done. Handy to have it all in one place 📒
+            This is a collection of things I find my self copying over from other projects I have done. Handy to have it
+            all in one place 📒
           </P>
         </div>
         <Divider />
-        <MDXRenderer
-          className="content"
-          headings={childMdx.headings}
-          slug="/copy-paste/"
-          sx={{ height: "100vh" }}
-        >
+        <MDXRenderer className="content" headings={childMdx.headings} slug="/copy-paste/" sx={{ height: "100vh" }}>
           {childMdx.body}
         </MDXRenderer>
       </Main>
@@ -94,10 +85,7 @@ export default CopyPaste;
 
 export const query = graphql`
   query CopyPasteQuery {
-    file(
-      sourceInstanceName: { eq: "copy-paste" }
-      name: { eq: "copy-paste-snippets" }
-    ) {
+    file(sourceInstanceName: { eq: "copy-paste" }, name: { eq: "copy-paste-snippets" }) {
       childMdx {
         body
         headings {

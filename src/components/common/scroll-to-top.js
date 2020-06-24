@@ -27,12 +27,8 @@ const ScrollToTop = () => (
     onClick={() => scrollTo("#toTop")}
   >
     <RocketIcon />
-    <div sx={{ fontFamily: "heading", textTransform: "uppercase" }}>
-      pull back
-    </div>
-    <div sx={{ fontFamily: "heading", textTransform: "uppercase" }}>
-      blast up!
-    </div>
+    <div sx={{ fontFamily: "heading", textTransform: "uppercase" }}>pull back</div>
+    <div sx={{ fontFamily: "heading", textTransform: "uppercase" }}>blast up!</div>
   </motion.div>
 );
 

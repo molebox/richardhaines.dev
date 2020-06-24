@@ -1,4 +1,14 @@
-[
+[{
+        "name": "devpack.dev",
+        "description": "A SaaS to keep your personal branding consistent across multiple platforms. Manage your social presence, media and domains from one hub. Current status: in development",
+        "image": {
+            "src": "./images/devpack.png",
+            "alt": "devpack.dev website screenshot"
+        },
+        "github": "https://github.com/molebox/dev-pack",
+        "website": "https://devpack.dev/",
+        "npm": ""
+    },
     {
         "name": "serverless-graphql-potter",
         "description": "This is a side project that i used to understand how serverless functions work. I decided to use the potter api as i love the world of harry potter. Built with Gatsby, Netlify functions, Apollo and FaunaDB. Data provided via the Potter API.",
@@ -8,17 +18,6 @@
         },
         "github": "https://github.com/molebox/serverless-graphql-potter",
         "website": "https://serverless-graphql-potter.netlify.com/",
-        "npm": ""
-    },
-    {
-        "name": "justask.dev",
-        "description": "A website to provide answers to seamingly easy questions about web dev. Built with Gatsby and MDX",
-        "image": {
-            "src": "./images/justask.dev.PNG",
-            "alt": "justask.dev website screenshot"
-        },
-        "github": "https://github.com/molebox/justask.dev",
-        "website": "https://justask.dev/",
         "npm": ""
     },
     {

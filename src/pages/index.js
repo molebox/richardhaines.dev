@@ -17,12 +17,7 @@ import RecentPosts from "../components/site/blog/recent-posts/recent-posts";
 import Spotify from "../components/site/spotify/spotify";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  GatsbyIcon,
-  ReactIcon,
-  JSIcon,
-  TypeScriptIcon
-} from "./../components/common/icons";
+import { GatsbyIcon, ReactIcon, JSIcon, TypeScriptIcon } from "./../components/common/icons";
 
 const SEODescription = `
 	Hello I'm Richard Haines. I'm a software developer who specializes in JAMstack development.
@@ -145,19 +140,14 @@ export default () => {
           ref={contactTextRef}
         >
           <P>
-            If you would like to get in touch about a project, or if you have
-            any questions for me, don't hesitate to send me a message by filling
-            out the form. I will aim to get back to you within a couple of days
+            If you would like to get in touch about a project, or if you have any questions for me, don't hesitate to
+            send me a message by filling out the form. I will aim to get back to you within a couple of days
           </P>
           <P>
             You can also reach me on Twitter where im most active{" "}
-            <ExternalLink href="https://twitter.com/studio_hungry">
-              @studio_hungry
-            </ExternalLink>
-            . If you would prefer to contact me via email you can do so at{" "}
-            <ExternalLink href="mailto:hello@richardhaines.dev">
-              hello@richardhaines.dev
-            </ExternalLink>
+            <ExternalLink href="https://twitter.com/studio_hungry">@studio_hungry</ExternalLink>. If you would prefer to
+            contact me via email you can do so at{" "}
+            <ExternalLink href="mailto:hello@richardhaines.dev">hello@richardhaines.dev</ExternalLink>
           </P>
         </div>
         <Social />
