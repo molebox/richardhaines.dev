@@ -49,7 +49,9 @@ const PostLayout = ({ data, pageContext, location }) => {
     gsap.fromTo(".post", { opacity: 0 }, { opacity: 1, delay: 1.9, duration: 1 });
   }, []);
 
-  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
+  const ogImage = `https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  // const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
   return (
     <Main>
