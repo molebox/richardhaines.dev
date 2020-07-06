@@ -61,7 +61,7 @@
   },
   "prettier": {
     "singleQuote": false,
-    "printWidth": 120,
-    "proseWrap": "always"
+    "printWidth": 120
+
   }
 }

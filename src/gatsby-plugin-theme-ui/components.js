@@ -94,5 +94,20 @@ export default {
     >
       {props.children}
     </li>
+  ),
+  blockquote: props => (
+    <blockquote
+      sx={{
+        fontFamily: "heading",
+        fontSize: "1.3em",
+        color: "accent",
+        fontStyle: "italic",
+        fontWeight: "body",
+        margin: "2em auto"
+      }}
+      {...props}
+    >
+      {props.children}
+    </blockquote>
   )
 };

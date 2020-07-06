@@ -1,0 +1,46 @@
+---
+title: Side project distractions
+date: 2020-07-06
+published: true
+category: Whatever
+author: Richard Haines
+keywords: [css, theme-ui, css-in-js, emotion, nextjs]
+pin: false
+---
+
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
+A couple of weeks ago I had an idea, I'd been in the process of updating my profile picture across my different social
+media platforms, as well as correcting some bio info. During the undertaking of laborious task I thought to myself
+
+> Why can't I just do this all from one place? Why do I have to faff about with different sites?
+
+## The gist of it
+
+I decided to create an app, well a Gatsby site but I'll call it an app, which would house a hub from where I could
+update all my social media profile info from the one place. This idea then grew into handling profile pictures and cover
+images so the management of media would also have to have its own space in the hub. I then broke it down and decided
+that in fact, I could flesh this out into a sort of dev hub, and to that end I did what any sane developer would do when
+they have an idea but haven't started coding it yet....I brought a domain! <ExternalLink href="https://www.devpack.dev/">devpack.dev</ExternalLink>
+
+As well as editing and controlling a profile from one place and managing images I decided that being able to manage
+domains from this same hub would also be a handy addition. This would be taken care of via the <ExternalLink href="https://www.namecheap.com/support/api/intro/">namecheap API</ExternalLink> with the idea being to be able to buy sell and manage (to a certain degree) any domains through namecheap. Which incidently I switched to from GoDaddy a couple fo years ago and have never looked back!
+
+## Some sugar
+
+Not content with setting myself a mountain to climb with my initial goals I decided to add one other thing into the mix. A couple of months ago I created a Gatsby theme for creating a resume (<ExternalLink href="https://www.npmjs.com/package/gatsby-theme-dev-resume">gatsby-theme-dev-resume</ExternalLink>) Although very happy with the ease with which one could now spin up a new resume with my theme, I was still left wanting on the customization aspects of it in terms of layout and extra content. I thought it would be cool to have a set of pre made components for each section and seb section of a resume and then have a kind of drag and drop UI for putting it all together. The content would be filled in, in the sections themselves. So think lots a nice looking forms really that you can drag about.
+
+The last thing I wanted to add, and this was just on a whim for wanting to actually code the thing! A personal meeting room. Much like Zoom, you have a meeting room that is hosted inside our dev pack where you can invite people to hang out or have meetings from. Unlike Zoom however this would not be evasive in terms of privacy. This was to be handled via the <ExternalLink href="https://docs.daily.co/docs">daily.co API</ExternalLink>, Ive already spun up a test version in a Gatsby site and its super cool with a very wide range of things you can add or just not add and have a simple video call setup.
+
+## What now
+
+All this being said I might retract the resume and meeting rooms features as I near release, depending on the work load but also if i still see value in actually offering them as a service in the dev pack. Would people use these features? 
+
+So far I have:
+
+- Landing page with newsletter form
+- Private routes setup which are auth handled via onegraph
+- The hub structure setup
+- The dev card base layout setup as well as being able to edit the Github profile of the logged in user. Im working on Twitter
+
+In my next post I will start going through how I am making this, starting with the dev card. Hope some will find this of interest, you can signup for updates via the form on <ExternalLink href="https://www.devpack.dev/">devpack.dev</ExternalLink>. 
