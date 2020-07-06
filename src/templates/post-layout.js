@@ -50,8 +50,7 @@ const PostLayout = ({ data, pageContext, location }) => {
   }, []);
 
   // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
-  const ogImage = `https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=${title}&tags=${keywords}&author=@studio_hungry`;
-  // const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
   return (
     <Main>
