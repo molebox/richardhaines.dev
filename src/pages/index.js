@@ -43,6 +43,7 @@ export default () => {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
+      gsap.core.globals('ScrollTrigger', ScrollTrigger);
     }
     gsap.to("body", { visibility: "visible" });
 
