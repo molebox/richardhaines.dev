@@ -43,7 +43,7 @@ export default () => {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
-      gsap.core.globals('ScrollTrigger', ScrollTrigger);
+      gsap.core.globals("ScrollTrigger", ScrollTrigger);
     }
     gsap.to("body", { visibility: "visible" });
 
@@ -84,19 +84,21 @@ export default () => {
       );
     }
 
-    gsap.to(".icon", {
-      scrollTrigger: {
-        trigger: ".icon",
-        toggleActions: "restart none none none"
-      },
-      stagger: {
-        duration: 3,
-        amount: 1,
-        from: "end"
-      },
-      delay: 1.2,
-      opacity: 1
-    });
+    if (iconRef.current) {
+      gsap.to(iconRef.current, {
+        scrollTrigger: {
+          trigger: iconRef.current,
+          toggleActions: "restart none none none"
+        },
+        stagger: {
+          duration: 3,
+          amount: 1,
+          from: "end"
+        },
+        delay: 1.2,
+        opacity: 1
+      });
+    }
   }, []);
 
   return (
@@ -126,7 +128,7 @@ export default () => {
       </section>
       <Divider />
       <Projects />
-      <IconContainer>
+      <IconContainer ref={iconRef}>
         <GatsbyIcon />
         <ReactIcon />
         <JSIcon />

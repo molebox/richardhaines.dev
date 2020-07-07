@@ -13,6 +13,7 @@ const Projects = () => {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
+      gsap.core.globals("ScrollTrigger", ScrollTrigger);
     }
 
     if (projectCardRef.current) {
@@ -24,8 +25,8 @@ const Projects = () => {
             trigger: projectCardRef.current,
             toggleActions: "restart none none none"
           },
-          delay: 2,
-          duration: 1,
+          delay: 2.5,
+          duration: 2,
           opacity: 1
         }
       );
@@ -73,7 +74,7 @@ const Projects = () => {
       >
         {projects.map(({ node: project, index }) => (
           <ProjectCard
-            // projectCardRef={projectCardRef}
+            projectCardRef={projectCardRef}
             key={project.name + index}
             name={project.name}
             description={project.description}

@@ -24,7 +24,7 @@ const ProjectCard = props => {
         minHeight: "600px",
         position: "relative"
       }}
-      // ref={props.projectCardRef.current}
+      ref={props.projectCardRef.current}
     >
       <ProjectImage fluid={props.fluid} alt={props.alt} />
       <p

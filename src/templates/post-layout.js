@@ -13,6 +13,7 @@ import Twitter from "../components/site/home/twitter";
 import gsap from "gsap";
 import PageTitle from "./../components/common/page-title";
 import Divider from "./../components/common/divider";
+import getShareImage from "@jlengstorf/get-share-image";
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
@@ -52,6 +53,17 @@ const PostLayout = ({ data, pageContext, location }) => {
   // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
   const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
+  const socialImage = getShareImage({
+    title: title,
+    tagline: keywords.map(tag => `⚪${tag}`).join(" "),
+    cloudName: "richardhaines",
+    imagePublicID: "social-card-test",
+    titleFont: "Jost",
+    titleExtraConfig: "_line_spacing_-10",
+    taglineFont: "Jost",
+    textColor: "DE3C4B"
+  });
+
   return (
     <Main>
       <SEO
@@ -60,7 +72,7 @@ const PostLayout = ({ data, pageContext, location }) => {
         keywords={keywords}
         pathname={location.pathname}
         twitter="studio_hungry"
-        ogImage={ogImage}
+        ogImage={socialImage}
       />
       <section>
         <Divider />

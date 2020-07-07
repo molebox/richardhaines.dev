@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
 
 const IconContainer = ({ children }) => {
   return (
@@ -11,7 +10,6 @@ const IconContainer = ({ children }) => {
         alignItems: "center",
         margin: "5em auto"
       }}
-      className="icon"
     >
       {children}
     </div>
