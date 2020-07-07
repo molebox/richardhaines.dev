@@ -52,7 +52,7 @@ const PostLayout = ({ data, pageContext, location }) => {
   }, []);
 
   // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
-  // const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
   const socialImage = getShareImage({
     title: title,
@@ -81,14 +81,14 @@ const PostLayout = ({ data, pageContext, location }) => {
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={excerpt} />
-        <meta name="image" content={socialImage} />
+        <meta name="image" content={ogImage} />
 
         {/* OpenGraph tags */}
         <meta property="og:url" content={`https://richardhaines.dev${slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
-        <meta property="og:image" content={socialImage} />
+        <meta property="og:image" content={ogImage} />
 
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
