@@ -47,58 +47,58 @@ export default () => {
     }
     gsap.to("body", { visibility: "visible" });
 
-    if (contactTextRef.current) {
-      gsap.fromTo(
-        contactTextRef.current,
-        { opacity: 0, y: 100 },
-        {
-          scrollTrigger: {
-            trigger: contactTextRef.current,
-            toggleActions: "restart none none none"
-          },
-          opacity: 1,
-          duration: 1.2,
-          y: 0,
-          delay: 3,
-          stagger: {
-            amount: 0.5
-          }
-        }
-      );
-    }
+    // if (contactTextRef.current) {
+    //   gsap.fromTo(
+    //     contactTextRef.current,
+    //     { opacity: 0, y: 100 },
+    //     {
+    //       scrollTrigger: {
+    //         trigger: contactTextRef.current,
+    //         toggleActions: "restart none none none"
+    //       },
+    //       opacity: 1,
+    //       duration: 1.2,
+    //       y: 0,
+    //       delay: 3,
+    //       stagger: {
+    //         amount: 0.5
+    //       }
+    //     }
+    //   );
+    // }
 
-    if (contactFormRef.current) {
-      gsap.fromTo(
-        contactFormRef.current,
-        { opacity: 0, x: 500 },
-        {
-          scrollTrigger: {
-            trigger: contactFormRef.current,
-            toggleActions: "restart none none none"
-          },
-          opacity: 1,
-          duration: 1.2,
-          x: 0,
-          delay: 3
-        }
-      );
-    }
+    // if (contactFormRef.current) {
+    //   gsap.fromTo(
+    //     contactFormRef.current,
+    //     { opacity: 0, x: 500 },
+    //     {
+    //       scrollTrigger: {
+    //         trigger: contactFormRef.current,
+    //         toggleActions: "restart none none none"
+    //       },
+    //       opacity: 1,
+    //       duration: 1.2,
+    //       x: 0,
+    //       delay: 3
+    //     }
+    //   );
+    // }
 
-    if (iconRef.current) {
-      gsap.to(iconRef.current, {
-        scrollTrigger: {
-          trigger: iconRef.current,
-          toggleActions: "restart none none none"
-        },
-        stagger: {
-          duration: 3,
-          amount: 1,
-          from: "end"
-        },
-        delay: 1.2,
-        opacity: 1
-      });
-    }
+    // if (iconRef.current) {
+    //   gsap.to(iconRef.current, {
+    //     scrollTrigger: {
+    //       trigger: iconRef.current,
+    //       toggleActions: "restart none none none"
+    //     },
+    //     stagger: {
+    //       duration: 3,
+    //       amount: 1,
+    //       from: "end"
+    //     },
+    //     delay: 1.2,
+    //     opacity: 1
+    //   });
+    // }
   }, []);
 
   return (

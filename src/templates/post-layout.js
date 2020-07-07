@@ -56,11 +56,13 @@ const PostLayout = ({ data, pageContext, location }) => {
 
   const socialImage = getShareImage({
     title: title,
-    tagline: keywords.map(tag => `#${tag}`).join(" "),
+    tagline: keywords.map(tag => `💾${tag}`).join(" "),
     cloudName: "richardhaines",
-    imagePublicID: "social-card-test",
-    textAreaWidth: 1180,
+    imagePublicID: "social-card/social-card-test",
+    textAreaWidth: 955,
     textLeftOffset: 20,
+    titleGravity: 'north_west',
+    taglineGravity: 'north_west',
     titleFont: "Jost",
     taglineFont: "Jost",
     textColor: "DE3C4B"
