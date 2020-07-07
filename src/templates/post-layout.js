@@ -14,6 +14,7 @@ import gsap from "gsap";
 import PageTitle from "./../components/common/page-title";
 import Divider from "./../components/common/divider";
 import getShareImage from "@jlengstorf/get-share-image";
+import { Helmet } from 'react-helmet';
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
@@ -66,14 +67,34 @@ const PostLayout = ({ data, pageContext, location }) => {
 
   return (
     <Main>
-      <SEO
+      {/* <SEO
         title={title}
         description={excerpt}
         keywords={keywords}
         pathname={location.pathname}
         twitter="studio_hungry"
         ogImage={socialImage}
-      />
+      /> */}
+            <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={excerpt} />
+        <meta name="image" content={socialImage} />
+
+        {/* OpenGraph tags */}
+        <meta
+          property="og:url"
+          content={`https://richardhaines.dev${slug}`}
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={excerpt} />
+        <meta property="og:image" content={socialImage} />
+
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@studio_hungry" />
+        <meta name="twitter:creator" content="@studio_hungry" />
+      </Helmet>
       <section>
         <Divider />
         <PageTitle title={title} />
