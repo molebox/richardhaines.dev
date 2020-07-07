@@ -58,7 +58,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     title: title,
     tagline: keywords.map(tag => `⚪${tag}`).join(" "),
     cloudName: "richardhaines",
-    imagePublicID: "social-card-test",
+    imagePublicID: "social-card/social-card-test",
     titleFont: "Jost",
     titleExtraConfig: "_line_spacing_-10",
     taglineFont: "Jost",
@@ -78,7 +78,7 @@ const PostLayout = ({ data, pageContext, location }) => {
             <Helmet>
         <title>{title}</title>
         <meta name="description" content={excerpt} />
-        <meta name="image" content={ogImage} />
+        <meta name="image" content={socialImage} />
 
         {/* OpenGraph tags */}
         <meta
@@ -88,7 +88,7 @@ const PostLayout = ({ data, pageContext, location }) => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
-        <meta property="og:image" content={ogImage} />
+        <meta property="og:image" content={socialImage} />
 
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
