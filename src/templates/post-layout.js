@@ -14,7 +14,7 @@ import gsap from "gsap";
 import PageTitle from "./../components/common/page-title";
 import Divider from "./../components/common/divider";
 import getShareImage from "@jlengstorf/get-share-image";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 const PostLayout = ({ data, pageContext, location }) => {
   const {
@@ -52,7 +52,7 @@ const PostLayout = ({ data, pageContext, location }) => {
   }, []);
 
   // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
-  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  // const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
   const socialImage = getShareImage({
     title: title,
@@ -75,20 +75,17 @@ const PostLayout = ({ data, pageContext, location }) => {
         twitter="studio_hungry"
         ogImage={socialImage}
       /> */}
-            <Helmet>
+      <Helmet>
         <title>{title}</title>
         <meta name="description" content={excerpt} />
-        <meta name="image" content={ogImage} />
+        <meta name="image" content={socialImage} />
 
         {/* OpenGraph tags */}
-        <meta
-          property="og:url"
-          content={`https://richardhaines.dev${slug}`}
-        />
+        <meta property="og:url" content={`https://richardhaines.dev${slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
-        <meta property="og:image" content={ogImage} />
+        <meta property="og:image" content={socialImage} />
 
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
