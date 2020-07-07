@@ -78,7 +78,7 @@ const PostLayout = ({ data, pageContext, location }) => {
             <Helmet>
         <title>{title}</title>
         <meta name="description" content={excerpt} />
-        <meta name="image" content={socialImage} />
+        <meta name="image" content={ogImage} />
 
         {/* OpenGraph tags */}
         <meta
@@ -88,7 +88,7 @@ const PostLayout = ({ data, pageContext, location }) => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
-        <meta property="og:image" content={socialImage} />
+        <meta property="og:image" content={ogImage} />
 
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
