@@ -58,7 +58,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     title: title,
     tagline: keywords.map(tag => `#${tag}`).join(" "),
     cloudName: "richardhaines",
-    imagePublicID: "social-card/social-card-test",
+    imagePublicID: "/social-card-test",
     titleFont: "Jost",
     // titleExtraConfig: "_line_spacing_-10",
     taglineFont: "Jost",
