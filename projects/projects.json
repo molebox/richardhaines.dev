@@ -2,7 +2,7 @@
         "name": "devpack.dev",
         "description": "A SaaS to keep your personal branding consistent across multiple platforms. Manage your social presence, media and domains from one hub. Current status: in development",
         "image": {
-            "src": "./images/devpack.png",
+            "src": "./images/devpack.PNG",
             "alt": "devpack.dev website screenshot"
         },
         "github": "https://github.com/molebox/dev-pack",
