@@ -61,12 +61,12 @@ const PostLayout = ({ data, pageContext, location }) => {
     imagePublicID: "social-card/social-example",
     textAreaWidth: 930,
     textLeftOffset: 100,
-    taglineTopOffset: 100,
     titleFontSize: 75,
+    titleExtraConfig: 'bold',
     titleGravity: 'north_west',
     taglineGravity: 'north_west',
-    // titleFont: "Jost",
-    // taglineFont: "Jost",
+    titleFont: "Jost",
+    taglineFont: "Jost",
     textColor: "DE3C4B"
   });
 
