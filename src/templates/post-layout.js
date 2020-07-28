@@ -65,8 +65,8 @@ const PostLayout = ({ data, pageContext, location }) => {
     titleExtraConfig: 'bold',
     titleGravity: 'north_west',
     taglineGravity: 'north_west',
-    titleFont: "Jost",
-    taglineFont: "Jost",
+    titleFont: "Jost.ttf",
+    taglineFont: "Jost.ttf",
     textColor: "DE3C4B"
   });
 
