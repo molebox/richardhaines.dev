@@ -13,7 +13,7 @@ import Twitter from "../components/site/home/twitter";
 import gsap from "gsap";
 import PageTitle from "./../components/common/page-title";
 import Divider from "./../components/common/divider";
-import getShareImage from "@jlengstorf/get-share-image";
+// import getShareImage from "@jlengstorf/get-share-image";
 import { Helmet } from "react-helmet";
 
 const PostLayout = ({ data, pageContext, location }) => {
@@ -52,50 +52,32 @@ const PostLayout = ({ data, pageContext, location }) => {
   }, []);
 
   // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
-  const ogImage = `https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=${title}&tags=${keywords}&author=@studio_hungry`
-  // const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
-  const socialImage = getShareImage({
-    title: title,
-    tagline: keywords.map(tag => `💾${tag}`).join(" "),
-    cloudName: "richardhaines",
-    imagePublicID: "social-card/og-test",
-    textAreaWidth: 955,
-    textLeftOffset: 20,
-    titleGravity: 'north_west',
-    taglineGravity: 'north_west',
-    titleFont: "Jost",
-    taglineFont: "Jost",
-    textColor: "DE3C4B"
-  });
+  // const socialImage = getShareImage({
+  //   title: title,
+  //   tagline: keywords.map(tag => `💾${tag}`).join(" "),
+  //   cloudName: "richardhaines",
+  //   imagePublicID: "social-card/og-test",
+  //   textAreaWidth: 955,
+  //   textLeftOffset: 20,
+  //   titleGravity: 'north_west',
+  //   taglineGravity: 'north_west',
+  //   titleFont: "Jost",
+  //   taglineFont: "Jost",
+  //   textColor: "DE3C4B"
+  // });
 
   return (
     <Main>
-      {/* <SEO
+      <SEO
         title={title}
         description={excerpt}
         keywords={keywords}
         pathname={location.pathname}
         twitter="studio_hungry"
-        ogImage={socialImage}
-      /> */}
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={excerpt} />
-        <meta name="image" content={ogImage} />
-
-        {/* OpenGraph tags */}
-        <meta property="og:url" content={`https://richardhaines.dev${slug}`} />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={excerpt} />
-        <meta property="og:image" content={ogImage} />
-
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@studio_hungry" />
-        <meta name="twitter:creator" content="@studio_hungry" />
-      </Helmet>
+        ogImage={ogImage}
+      />
       <section>
         <Divider />
         <PageTitle title={title} />
