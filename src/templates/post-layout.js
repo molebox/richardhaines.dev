@@ -52,32 +52,55 @@ const PostLayout = ({ data, pageContext, location }) => {
   }, []);
 
   // https://vigilant-jones-f0730c.netlify.app/.netlify/functions/process-url?title=test&tags=test,test,test&author=@studio_hungry
-  const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
+  // const ogImage = `https://vigilant-jones-f0730c.netlify.app/opengraph?title=${title}&tags=${keywords}&author=@studio_hungry`;
 
-  // const socialImage = getShareImage({
-  //   title: title,
-  //   tagline: keywords.map(tag => `💾${tag}`).join(" "),
-  //   cloudName: "richardhaines",
-  //   imagePublicID: "social-card/og-test",
-  //   textAreaWidth: 955,
-  //   textLeftOffset: 20,
-  //   titleGravity: 'north_west',
-  //   taglineGravity: 'north_west',
-  //   titleFont: "Jost",
-  //   taglineFont: "Jost",
-  //   textColor: "DE3C4B"
-  // });
+  const socialImage = getShareImage({
+    title: title,
+    tagline: keywords.map(tag => `💾${tag}`).join(" "),
+    cloudName: "richardhaines",
+    imagePublicID: "social-card/social-example",
+    textAreaWidth: 955,
+    textLeftOffset: 20,
+    titleGravity: 'north_west',
+    taglineGravity: 'north_west',
+    // titleFont: "Jost",
+    // taglineFont: "Jost",
+    textColor: "DE3C4B"
+  });
 
   return (
     <Main>
-      <SEO
+      {/* <SEO
         title={title}
         description={excerpt}
         keywords={keywords}
         pathname={location.pathname}
         twitter="studio_hungry"
-        ogImage={ogImage}
-      />
+        ogImage={socialImage}
+      /> */}
+            <Helmet>
+        <title>{blogPost.title}</title>
+        <meta name="description" content={blogPost.excerpt} />
+        <meta name="image" content={socialImage} />
+
+        {/* OpenGraph tags */}
+        <meta
+          property="og:url"
+          content={`https://richardhaines.dev${slug}`}
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={excerpt} />
+        <meta property="og:image" content={socialImage} />
+
+        {/* Twitter Card tags */}
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={excerpt} />
+        <meta name="twitter:image" content={socialImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@studio_hungry" />
+        <meta name="twitter:creator" content="@studio_hungry" />
+      </Helmet>
       <section>
         <Divider />
         <PageTitle title={title} />
