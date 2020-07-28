@@ -79,8 +79,8 @@ const PostLayout = ({ data, pageContext, location }) => {
         ogImage={socialImage}
       /> */}
             <Helmet>
-        <title>{blogPost.title}</title>
-        <meta name="description" content={blogPost.excerpt} />
+        <title>{title}</title>
+        <meta name="description" content={excerpt} />
         <meta name="image" content={socialImage} />
 
         {/* OpenGraph tags */}
