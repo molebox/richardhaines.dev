@@ -56,7 +56,7 @@ const PostLayout = ({ data, pageContext, location }) => {
 
   const socialImage = getShareImage({
     title: title,
-    tagline: keywords.map(tag => `💾${tag}`).join(" "),
+    tagline: keywords.map(tag => `• ${tag}`).join(" "),
     cloudName: "richardhaines",
     imagePublicID: "social-card/social-example",
     textAreaWidth: 955,
