@@ -68,7 +68,8 @@ const PostLayout = ({ data, pageContext, location }) => {
     titleFont: "Jost.ttf",
     taglineFont: "Jost.ttf",
     taglineTopOffset: 547,
-    textColor: "DE3C4B",
+    taglineFontSize: 24,
+    textColor: "E7E7E9",
     version: "v1596020468"
   });
 
