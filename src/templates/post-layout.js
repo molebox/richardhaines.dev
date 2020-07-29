@@ -71,7 +71,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     taglineTopOffset: 547,
     taglineFontSize: 24,
     textColor: "E7E7E9",
-    version: "v1596023181"
+    version: "v1596023964"
   });
 
   return (
