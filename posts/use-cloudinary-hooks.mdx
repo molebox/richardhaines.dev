@@ -1,0 +1,233 @@
+---
+title: use-cloudinary - useUpload hook
+date: 2020-07-29
+published: true
+category: First Look
+author: Richard Haines
+keywords: [use-cloudinary, react hooks, react-dropzone]
+pin: false
+---
+
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
+Cloudinary is a great resource for handling and managing your images, with dynamic query string manipulation of the images you can deliver optimized, pictures to fit any applications needs. I've dabbled with it before but never really needed it in a project before. That was until I found myself with a real use case, to allow users to upload and store their social profile and cover photos in my latest project [devpack](https://www.devpack.dev/).
+
+I'd been made aware of a new hooks library built to harness the power of Cloudinary in React apps by it's creator [Domitrius Clark](https://twitter.com/domitriusclark), a dev rel at Cloudinary. Excited to try this new library out I combined it with an easy to use image dropzone package called [react-dropzone](https://react-dropzone.js.org/) and serverless functions. Having hit a few early snags, Dom was super helpful in getting me setup and on the correct path with how to use the lib! Now, shall we build something? LETS GOOOOOOOOOO! 😜
+
+<AccentBox>
+  This article assumes some prior knowledge of React, React hooks and Gatsby. It wont be covering version control or
+  Netlify site setup.
+</AccentBox>
+
+## Setup
+
+Let's do a clean install of Gatsby to get things up and running. You'll need a Netlify account also so that we can run the netlify-cli to locally check our serverless function is working correctly. Create a new folder which will house your project.
+
+```bash
+yarn init -y
+yarn add react react-dom gatsby netlify-cli use-cloudinary cloudinary react-dropzone dotenv
+```
+
+Add some default folders and files.
+
+```
+mkdir src/pages
+mkdir src/components
+mkdir functions
+```
+
+Inside the pages dir create an index.js file and give it a lovely h1 saying hello or whatever you like. We will remove this once we add our image upload component.
+
+```jsx
+import React from "react";
+
+export default () => {
+  return <h1>Hello!</h1>;
+};
+```
+
+Before we move on nows the time to create you free Cloudinary account if you don't already have one. You will need to grab your cloud name, API key and API secret. Theses are best stored as env variables so create a .env file at the projects root and add them.
+
+```
+CLOUDINARY_NAME=my-project
+CLOUDINARY_API_KEY=xxxxxxxxxxxxxxxxxx
+CLOUDINARY_API_SECRET=xxxxxxxxxxxxxxxxxxxxx
+```
+
+## Netlify toml
+
+Create a netlify.toml file at the projects root adding the following. This will tell netlify where to look for our function and how to run it.
+
+```toml
+[build]
+  command = "yarn build"
+  functions = "functions"
+  publish = "public"
+```
+
+## Serverless function
+
+Now that we have that done we can create our serverless function which will do the leg work or uploading our images to our Cloudinary account. Begin by creating a new file inside the functions folder called upload.js. We'll then add our serverless function. You can check out the awesome [use-cloudinary docs](https://use-cloudinary.netlify.app/usage/use-upload), this is taken directly from them and work like a charm.
+
+```js
+const cloudinary = require("cloudinary").v2;
+const dotenv = require("dotenv");
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// When doing a signed upload, you'll use a function like this
+exports.handler = async event => {
+  const { file } = JSON.parse(event.body);
+  const res = await cloudinary.uploader.upload(file, { ...JSON.parse(event.body) });
+  return {
+    statusCode: 200,
+    body: JSON.stringify(res)
+  };
+};
+```
+
+The hook we will use will help us in transforming our image to our liking, our serverless function is accepting the event params that we will send it, parsing and destructuring the the file then adding the file and spreading the rest of the body to the Cloudinary uploader function, which comes from the cloudinary package. This will make more sense once we write our component to use this function.
+
+## useUpload
+
+Inside the components dir create a new file called image-upload.js. Here we will use the useUpload hook as well as the react dropzone input. The useUpload hook comes with some handle states which will be familiar to those of you that have used Apollo before. Let's take a look at the code then destructure whats going on.
+
+```jsx
+import React from "react";
+import { useDropzone } from "react-dropzone";
+import { useUpload } from "use-cloudinary";
+
+const ImageUpload = ({ getUploadedProfileImage }) => {
+  const { upload, data, isLoading, isError, error } = useUpload({ endpoint: "/.netlify/functions/upload" });
+
+  const onDrop = React.useCallback(acceptedFiles => {
+    // Turn the blob into base64 to feed into the upload
+    const blobToBase64 = blob => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return new Promise(resolve => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    };
+
+    blobToBase64(acceptedFiles[0]).then(res => {
+      return upload({
+        // We pass the whole base64 string including the data:image tag
+        file: res,
+        uploadOptions: {
+          // Create a folder for our new image to live in
+          public_id: `my-cool-pics/${acceptedFiles[0].path}`,
+          tags: [],
+          // Manipulate our images size and crop
+          eager: [
+            {
+              width: 400,
+              height: 400,
+              crop: "fill"
+            }
+          ]
+        }
+      });
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (data && data.url) {
+      getUploadedProfileImage(data.url);
+    }
+  }, [data]);
+
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onDrop,
+    accept: "image/jpeg, image/png, image/PNG"
+  });
+
+  if (isLoading)
+    return (
+      <div>
+        <p>Loading.....</p>
+      </div>
+    );
+
+  return (
+    <div {...getRootProps()}>
+      <input {...getInputProps()} />
+      <>
+        <div>
+          <p>Drag 'n' drop a profile image here, or click to select</p>
+          <em>(Only *.jpeg and *.png images will be accepted)</em>
+        </div>
+        {data ? (
+          <aside>
+            <h4>File:</h4>
+            <div>
+              <p>{acceptedFiles[0].path}</p>
+              <p>{acceptedFiles[0].size} Bytes</p>
+            </div>
+          </aside>
+        ) : null}
+
+        {isError ? <p>{error.message}</p> : null}
+      </>
+    </div>
+  );
+};
+
+export default ImageUpload;
+```
+
+Beginning with the useUpload hook, we pass it our endpoint which the path to our serverless function. From this hook we can get the upload function, the returned data, two states (isLoading and isError) and any errors that may occur during the upload.
+
+Next we have a useCallback hook which handles the actual nitty gritty of the upload and file transformation. According to the libraries docs the file we upload can be:
+
+- A local file path
+- A byte array buffer
+- A base64 encoded string which has a max of 60MB
+- Remote FTP, HTTP or HTTPS URL address
+- A private storage bucket such as S3 from Amazon
+
+Our implementation uses the base64 encoded string. The useCallback hook is passed in an acceptedFiles array. First we create a utility function which takes the blob and converts it to a base64 string using the FileReader. We then use that function, passing in the first index of our acceptedFiles array. from the result we return the upload function from the useUpload hook. We pass our result as the file type, which is now a base64 encoded string. Our uploadOptions are how we want to manipulate our image. One gotcha here is that the function is expecting a tags array so be sure to add that, as well as the eager array, even if you are not adding any values to these.
+
+When uploading an image dynamically to our Cloudinary account we can create a folder on the fly by adding a name for our folder as the initial value to the public_id, the value after the slash is our files path name. This will save our image in a folder called my-cool-pics. Using a function that we pass in as a prop to return the resulting image upload we use an useEffect hook which will run whenever the data object returned form the useUpload hook as changed. Inside the useEffect we check if the data object has a value and if its url is present, if it is then it means our upload was successful and we pass the image url on to our parent component.
+
+Before we render our component we call the useDropzone hook, passing in our onDrop function created as a useCallback, as well as specifying what image formats we would like to accept.
+
+## Upload our image
+
+We can now import our new ImageUpload component into our index page.
+
+```jsx
+import React from "react";
+import ImageUpload from "../components/image-upload";
+
+export default () => {
+  const [uploadedProfileImage, setUploadedProfileImage] = React.useState("");
+
+  const getUploadedProfileImage = image => {
+    if (image !== "") {
+      setUploadedProfileImage(image);
+    }
+  };
+
+  return (
+    <div>
+      <ImageUpload getUploadedProfileImage={getUploadedProfileImage} />
+      {uploadedProfileImage !== "" ? <img src={uploadedProfileImage} /> : null}
+    </div>
+  );
+};
+```
+
+<AccentBox>
+  Of course seeing as we are using Gatsby we should really be taking advantage of the awesome power of gatsby-image but
+  that is beyond the scope of this article.
+</AccentBox>
+
+You can now use the netlify-cli and run netlify dev and check that everything is working...
