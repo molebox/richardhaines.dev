@@ -62,7 +62,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     textAreaWidth: 930,
     textLeftOffset: 100,
     titleFontSize: 75,
-    titleExtraConfig: 'bold',
+    // titleExtraConfig: 'bold',
     titleGravity: 'north_west',
     taglineGravity: 'north_west',
     // titleFont: "Jost.ttf",
