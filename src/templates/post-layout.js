@@ -63,6 +63,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     textLeftOffset: 100,
     titleFontSize: 110,
     titleExtraConfig: "_bold",
+    titleBottomOffset: 440,
     titleGravity: "north_west",
     taglineGravity: "north_west",
     titleFont: "Jost.ttf",
@@ -70,7 +71,7 @@ const PostLayout = ({ data, pageContext, location }) => {
     taglineTopOffset: 547,
     taglineFontSize: 24,
     textColor: "E7E7E9",
-    version: "v1596022448"
+    version: "v1596023181"
   });
 
   return (
