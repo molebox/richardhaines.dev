@@ -58,19 +58,18 @@ const PostLayout = ({ data, pageContext, location }) => {
     title: title,
     tagline: keywords.map(tag => `• ${tag}`).join(" "),
     cloudName: "richardhaines",
-    imagePublicID: "social-card/og-image-2",
+    imagePublicID: "social-card/og-image",
     textAreaWidth: 930,
     textLeftOffset: 100,
-    titleFontSize: 75,
-    titleExtraConfig: '_bold',
-    titleGravity: 'north_west',
-    taglineGravity: 'north_west',
+    titleFontSize: 85,
+    titleExtraConfig: "_bold",
+    titleGravity: "north_west",
+    taglineGravity: "north_west",
     titleFont: "Jost.ttf",
     taglineFont: "Jost.ttf",
     textColor: "DE3C4B",
-    version: 'v1596019189'
+    version: "v1596019189"
   });
-
 
   return (
     <Main>
@@ -82,16 +81,13 @@ const PostLayout = ({ data, pageContext, location }) => {
         twitter="studio_hungry"
         ogImage={socialImage}
       /> */}
-            <Helmet>
+      <Helmet>
         <title>{title}</title>
         <meta name="description" content={excerpt} />
         <meta name="image" content={socialImage} />
 
         {/* OpenGraph tags */}
-        <meta
-          property="og:url"
-          content={`https://richardhaines.dev${slug}`}
-        />
+        <meta property="og:url" content={`https://richardhaines.dev${slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
