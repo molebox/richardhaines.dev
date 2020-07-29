@@ -58,18 +58,19 @@ const PostLayout = ({ data, pageContext, location }) => {
     title: title,
     tagline: keywords.map(tag => `• ${tag}`).join(" "),
     cloudName: "richardhaines",
-    imagePublicID: "social-card/og-image-1",
+    imagePublicID: "social-card/og-image-2",
     textAreaWidth: 930,
     textLeftOffset: 100,
     titleFontSize: 75,
     titleExtraConfig: '_bold',
     titleGravity: 'north_west',
     taglineGravity: 'north_west',
-    // titleFont: "Jost.ttf",
-    // taglineFont: "Jost.ttf",
+    titleFont: "Jost.ttf",
+    taglineFont: "Jost.ttf",
     textColor: "DE3C4B",
-    version: 'v1595965495'
+    version: 'v1596019189'
   });
+
 
   return (
     <Main>
