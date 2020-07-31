@@ -1,0 +1,100 @@
+---
+title: Pinned blog post
+date: 2020-07-31
+published: true
+category: Whatever
+author: Richard Haines
+keywords: [mdx, blog, pinned post, gatsby]
+pin: false
+---
+
+So let's say you have your Gatsby blog all setup using MDX for your blog posts. Perhaps you have written a post that you want to pin to the top of your list of posts in your blog index, this post is awesome and you want people to see it when they first arrive to your blog.
+
+There is no magic here, just adding a new value to our posts frontmatter and filtering on that post. Let's dive into some code examples shall we! 😀
+
+## Frontmatter
+
+In the your posts frontmatter add a new filed, pin. This will be a boolean value.
+
+``` mdx
+---
+title: Pinned blog post
+date: 2020-07-31
+published: false
+category: Whatever
+author: Richard Haines
+keywords: [mdx, blog, pinned post, gatsby]
+pin: true
+---
+
+```
+
+## The blog index
+
+In the blog index you'll most likely have a query so that you can fetch your posts and pass them to the MDXRenderer. Add the new filed value to the frontmatter.
+
+``` mdx
+export const query = graphql`
+  query BlogIndexQuery {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }, filter: { frontmatter: { published: { eq: true } } }) {
+      nodes {
+        id
+        excerpt(pruneLength: 200)
+        frontmatter {
+          title
+          date(formatString: "DD MMM YYYY")
+          category
+          author
+          pin
+        }
+        fields {
+          slug
+        }
+      }
+    }
+  }
+`;
+```
+
+Create a new variable called pinned and filter the passed in mdx nodes by the pin frontmatter field. Then create a nice ternary to check if any posts are in fact pinned or not.
+
+``` js
+  const pinned = data.allMdx.nodes.filter(post => post.frontmatter.pin === true);
+  const allPosts = pinned.length
+    ? [pinned[0], ...data.allMdx.nodes.filter(post => !post.frontmatter.pin)]
+    : data.allMdx.nodes;
+```
+
+The allPosts variable will be passed used to render the posts in nice cards or however you choose to display them. We can now check the frontmatter and see if a post is pinned or not. I like to use Theme-ui to style my components but this same code can be used with CSS. In the container card for your blog post add a before pseudo element that only shows if the post is pinned.
+
+``` js
+
+        // ...the component
+          <div
+            sx={{
+            // ...card styles
+              ":before": frontmatter.pin
+                ? {
+                    content: "'Pinned'",
+                    width: "6em",
+                    backgroundColor: "accent",
+                    color: "background",
+                    textTransform: "uppercase",
+                    fontFamily: "heading",
+                    fontWeight: "bold",
+                    letterSpacing: "body",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px"
+                  }
+                : null
+            }}
+            className="card"
+          >
+        // show the title and excerpt, maybe a nice picture from your post
+          </div>
+
+```
+
+And thats it, viola! ✌️
