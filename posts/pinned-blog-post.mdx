@@ -14,7 +14,7 @@ There is no magic here, just adding a new value to our posts frontmatter and fil
 
 ## Frontmatter
 
-In the your posts frontmatter add a new filed, pin. This will be a boolean value.
+In the your posts frontmatter add a new field, pin. This will be a boolean value.
 
 ``` mdx
 ---
@@ -31,7 +31,7 @@ pin: true
 
 ## The blog index
 
-In the blog index you'll most likely have a query so that you can fetch your posts and pass them to the MDXRenderer. Add the new filed value to the frontmatter.
+In the blog index you'll most likely have a query so that you can fetch your posts and pass them to the MDXRenderer. Add the new field value to the frontmatter.
 
 ``` mdx
 export const query = graphql`
@@ -65,7 +65,7 @@ Create a new variable called pinned and filter the passed in mdx nodes by the pi
     : data.allMdx.nodes;
 ```
 
-The allPosts variable will be passed used to render the posts in nice cards or however you choose to display them. We can now check the frontmatter and see if a post is pinned or not. I like to use Theme-ui to style my components but this same code can be used with CSS. In the container card for your blog post add a before pseudo element that only shows if the post is pinned.
+The allPosts variable will be passed and used to render the posts in nice cards or however you choose to display them. We can now check the frontmatter and see if a post is pinned or not. I like to use Theme-ui to style my components but this same code can be used with CSS. In the container card for your blog post add a before pseudo element that only shows if the post is pinned.
 
 ``` js
 
