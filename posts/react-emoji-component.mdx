@@ -1,0 +1,46 @@
+---
+title: React Emoji Component
+date: 2020-08-10
+published: true
+category: Whatever
+author: Richard Haines
+keywords: [react, emoji, accessibility]
+pin: false
+---
+
+Im working on a project where I use a lot of emoji (because I love them! 😍), so I decided to create an Emoji component, because you know, it's the right thing to do. I had it setup pretty good I thought, was passing in an aria-label, set the role to img and wrapped it in a span. But the linter was complaining that my emoji wasn't wrapped in a span and that it had to have a role of img and a aria-label. What was going on????
+
+Turns out i didn't take into account how I was rendering the emoji. Lets look at how my first attempt looked.
+
+``` jsx
+import React from 'react';
+
+const Emoji = ({ children, ariaLabel }) => (
+  <span role="img" aria-label={ariaLabel}>
+    {children}
+  </span>
+);
+
+export default Emoji;
+
+// usage
+<Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
+```
+
+Pretty straight forward, im passing in my emoji as a child so that its wrapped in the span. Im also setting the role to img and also passing in the aria-label. But this doesn't pass the linters accessibility tests. 
+
+``` jsx
+import React from 'react';
+
+const Emoji = ({ariaLabel, symbol}) => (
+  <span role="img" aria-label={ariaLabel}>
+      {symbol}
+  </span>
+);
+export default Emoji;
+
+// usage
+<Emoji ariaLabel="Two hands shaking" symbol="🤝🏽"/>
+```
+
+By passing the emoji as an explicit string prop out linter is now content and we can go about our business adding an obscene amount of emoji to our site! 😄
