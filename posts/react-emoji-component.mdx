@@ -12,6 +12,8 @@ Im working on a project where I use a lot of emoji (because I love them! 😍), 
 
 Turns out i didn't take into account how I was rendering the emoji. Lets look at how my first attempt looked.
 
+## Initial attempt
+
 ``` jsx
 import React from 'react';
 
@@ -29,6 +31,8 @@ export default Emoji;
 
 Pretty straight forward, im passing in my emoji as a child so that its wrapped in the span. Im also setting the role to img and also passing in the aria-label. But this doesn't pass the linters accessibility tests. 
 
+## Working solution
+
 ``` jsx
 import React from 'react';
 
@@ -44,3 +48,7 @@ export default Emoji;
 ```
 
 By passing the emoji as an explicit string prop out linter is now content and we can go about our business adding an obscene amount of emoji to our site! 😄
+
+<AccentBox>
+    Im not 100% sure why this fix works, I thought that maybe it had something to do with how React renders children and that by passing the emoji string as a child it wasn't picking it up as an actual string. If anyone know the answer to this please ping me on Twitter and let me know!
+</AccentBox>
