@@ -8,6 +8,8 @@ keywords: [react, emoji, accessibility]
 pin: false
 ---
 
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
 Im working on a project where I use a lot of emoji (because I love them! 😍), so I decided to create an Emoji component, because you know, it's the right thing to do. I had it setup pretty good I thought, was passing in an aria-label, set the role to img and wrapped it in a span. But the linter was complaining that my emoji wasn't wrapped in a span and that it had to have a role of img and a aria-label. What was going on????
 
 Turns out i didn't take into account how I was rendering the emoji. Lets look at how my first attempt looked.
