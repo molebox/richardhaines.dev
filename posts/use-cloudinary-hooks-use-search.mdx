@@ -1,0 +1,209 @@
+---
+title: use-cloudinary - useSearch
+date: 2020-08-11
+published: true
+category: First Look
+author: Richard Haines
+keywords: [use-cloudinary, react hooks]
+pin: false
+---
+
+import AccentBox from "../src/components/site/blog/accent-box.js";
+
+Following on from my article about the use-cloudinary useUpload hook - [use-cloudinary - useUpload hook](/use-cloudinary), this time we'll be taking a look at the useSearch hook, and its a powerful beast!
+
+My use case is simple, I have users upload their profile and cover image to cloudinary via the useUpload hook in [devpack](https://www.devpack.dev/). Each image is saved to a corresponding folder with their name and a suffix of either cover or profile. When the user next logs in to devpack they can choose to upload their previous 3 images that were saved in their cloudinary folders, or just upload a new image and use that one.
+
+This is where useSearch comes into play. I use it by calling a serverless function which I pass a search function with certain search parameters. Lets look at some code to get an idea of what Im talking about.
+
+## Serverless function
+
+``` js
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+exports.handler = async (event) => {
+  const body = JSON.parse(event.body);
+  const res = await cloudinary.search
+    .expression(body.expression)
+    .execute()
+    .then((result) => result);
+  return {
+    statusCode: 200,
+    body: JSON.stringify(res),
+  };
+};
+
+```
+
+This function takes an event, parses the body and calls the cloudinary search method. Its passed the search expression from the body and return an a ok 200.
+
+## useSearch
+
+> I've removed styles from this component
+
+``` jsx
+import React from 'react';
+import Button from './button';
+import LazyImage from '../hub/dev-card/image';
+import Error from '../svg/error';
+import Loading from '../svg/loading';
+import { useSearch } from 'use-cloudinary';
+import { DevCardStateContext } from '../../context/devcard-context';
+
+const SavedProfileImages = () => {
+  const { search, data, isLoading, isSuccess, isError, error } = useSearch({ endpoint: '/.netlify/functions/search' });
+
+  const state = React.useContext(DevCardStateContext);
+
+  const getFolder = () => {
+    if (state.cloudinaryFolderName !== '') {
+      return state.cloudinaryFolderName;
+    }
+    return state.name.replace(/\s/g, '');
+  };
+
+  const customConfigSearch = React.useCallback(
+    () => search({ resourceType: 'image', folder: getFolder(), max_results: 3 }),
+    [search, getFolder()]
+  );
+
+  if (isLoading)
+    return <Loading />
+  if (isError)
+    return (
+      <div>
+        <Error width="90px" height="90px" />
+        <p>
+          {error.message}
+        </p>
+      </div>
+    );
+
+  if (getFolder() !== '' && isSuccess) {
+    return (
+      <div>
+        <div>
+          {data &&
+            data.resources
+              .filter((image) => image.folder === getFolder())
+              .slice(0, 3)
+              .map((image) => {
+                return (
+                  <LazyImage
+                    key={image.etag}
+                    publicId={image.public_id}
+                    width={100}
+                    height={100}
+                    transforms={{ height: 0.2, border: '2px_solid_black' }}
+                    cloudName="xxxxxxx"
+                    secure_url={image.secure_url}
+                  />
+                );
+              })}
+        </div>
+        <em>
+          Your last 3 saves are shown
+        </em>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <Button text="Load Profile Images" onClick={() => customConfigSearch()} />
+      <em>
+        Your last 3 saves are shown
+      </em>
+    </div>
+  );
+};
+
+export default SavedProfileImages;
+```
+
+Lets break this down. 
+
+- The useSearch hook takes an endpoint, in our case our serverless function. Its return a search function, the data and some states. 
+- The context holds both the users previous folder names or a manually entered one for this image. The getFolder function decides which folder to use.
+- The customConfigSearch is the power house of this functionality. You can pass it any number of things to search by, in our case its the folder and a max result of 3. Its wrapped in a useCallback to prevent re-rendering based on the prop changes and stop our serverless function being called again and again. This saves us on our rate limit with cloudinary. It takes the search function itself and the folder as this can be changed outside this component if the user decides to create their own folder manually.
+- The states are handled with custom error and loading components- If the folder is a match and the data was retrieved successfully then the data array is accessed
+
+<AccentBox>
+    At the time of writing the max_results doesn't seem to be working every time so a slice is used to make sure we return only the latest 3 results. Also the folder is confirmed. This notice is only here to point out the code snippet as you might be wondering why I've added the checks when I already passed the params to the search function.
+</AccentBox>
+
+- The image is returned as a lazy image, which we will cover next!
+- A button calls the customConfigSearch function to load the images.
+
+The lazy image is a component that lazy loads an image with a placeholder. Handy!
+
+## Lazy load image
+
+``` jsx
+import React from 'react';
+import { useImage } from 'use-cloudinary';
+import { DevCardDispatchContext } from '../../../context/devcard-context';
+
+// Image w/ Lazy-load + placeholder
+function LazyImage({ publicId, transformations, width, height, cloudName, secure_url, isProfile }) {
+  const { generateUrl, blurredPlaceholderUrl, isError, error, ref, supportsLazyLoading, inView, isSuccess } = useImage({
+    cloudName,
+  });
+  const dispatch = React.useContext(DevCardDispatchContext);
+  React.useEffect(() => {
+    generateUrl({
+      publicId,
+      transformations: {
+        width,
+        height,
+        ...transformations,
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  if (isError) return <p>{error.message}</p>;
+  return (
+    <div
+      ref={!supportsLazyLoading ? ref : undefined}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        background: `no-repeat url(${blurredPlaceholderUrl(publicId, width, height)})`,
+        cursor: 'pointer',
+        outline: 'none',
+      }}
+      role="button"
+      tabindex="0"
+      // aria-pressed="false"
+      onKeyPress={() =>
+        dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })
+      }
+      onClick={() => dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })}
+    >
+      {inView || (supportsLazyLoading && isSuccess) ? (
+        <img
+          src={secure_url}
+          loading="lazy"
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+            border: 'solid 2px',
+          }}
+          alt="Lazy loaded profile"
+        />
+      ) : null}
+    </div>
+  );
+}
+
+export default LazyImage;
+
+```
+
+One thing to note about using this component with Gatsby is that the base image url wont load the image, you have to use the https secure_url for it to work.
+
+And thats it! It's a pretty powerful way to load your images via user defined events. Check the [useSearch docs](https://use-cloudinary.netlify.app/usage/use-search) for a run down of whats possible with the hook. 
