@@ -457,7 +457,7 @@ const reducer = (state, action) => {
   return { ...state, [type]: payload };
 };
 
-const DevCardProvider = ({ children }) => {
+const Provider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialValues);
 
   return (
@@ -467,7 +467,13 @@ const DevCardProvider = ({ children }) => {
   );
 };
 
-export default DevCardProvider;
+export default Provider;
+
+// Wrap your root component in the exported provider.
+// This example uses Gatsby, in a normal React project wrap the App.js
+export const wrapRootElement = ({ element }) => (
+      <Provider>{element}</Provider>
+);
 
 
 // Usage
