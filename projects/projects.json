@@ -1,6 +1,6 @@
 [{
         "name": "devpack.dev",
-        "description": "A SaaS to keep your personal branding consistent across multiple platforms. Manage your social presence, media and domains from one hub. Current status: in development",
+        "description": "A SaaS to keep your personal branding consistent across multiple platforms. Manage your social presence, media and domains from one hub. Current status: ALPHA",
         "image": {
             "src": "./images/devpack-screenshot.PNG",
             "alt": "devpack.dev website screenshot"
