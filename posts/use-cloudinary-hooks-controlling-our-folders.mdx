@@ -1,0 +1,103 @@
+---
+title: use-cloudinary - Controlling our folders
+date: 2020-08-19
+published: true
+category: First Look
+author: Richard Haines
+keywords: [cloudinary, use-cloudinary, hooks]
+pin: false
+---
+
+Following on from my article about the use-cloudinary useSearch hook - [use-cloudinary - useUpload hook](https://richardhaines.dev/use-cloudinary-hooks-use-search/), this time we'll be streamlining our code and diving into some of whats possible with when manipulating our cloudinary folders.
+
+If we recount what we did last time:
+
+- A user could load their 3 previously saved images on the click of a button
+- The search expression told cloudinary that our type of media was image and that we wanted an exact match on the folders
+- Our serverless function set the mex results returned, in our case 3
+
+This is a great, simple solution, but there is one problem. If we are stating that our user can only load their last 3 images but at the same time allowing them to save as many images as they like then we put ourselves and our cloudinary accounts credits at risk of being abused. This of course would be no fault of the users, we are the ones setting up the rules by which they should follow. No, alas it is our fault (well mine.... cough cough). Lets refactor a wee bit and see what we can do to make this process better.
+
+Our search function will remain unchanged, our function will still search for an exact folder based on our users name. Our upload function however could do with some work.
+
+## The previous upload serverless function
+
+```js
+const cloudinary = require("cloudinary").v2;
+const dotenv = require("dotenv");
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+exports.handler = async event => {
+  const { file } = JSON.parse(event.body);
+  const res = await cloudinary.uploader.upload(file, { ...JSON.parse(event.body) });
+  return {
+    statusCode: 200,
+    body: JSON.stringify(res)
+  };
+};
+```
+
+The function takes and parses the passed in event, from which our file to upload is destructured and added to the cloudinary uploader function along with the rest of the image transformations. Cool.
+
+### The super duper upload serverless function
+
+Brace yourselves.....here it comes....
+
+```js
+const cloudinary = require("cloudinary").v2;
+const dotenv = require("dotenv");
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Upload an image with a max of 3 images in a folder
+exports.handler = async event => {
+  const { file } = JSON.parse(event.body);
+  const body = JSON.parse(event.body);
+  // extract the folder from the public_id
+  const folder = body.public_id.split("/")[0];
+
+  // get the images of the folder and sort them by the uploaded date
+  const searchRes = await cloudinary.search
+    .expression(folder)
+    .sort_by("uploaded_at")
+    .execute()
+    .then(searchResult => searchResult);
+
+  // if the folder contains 3 images then delete the oldest one
+  if (searchRes.resources.length === 3) {
+    await cloudinary.uploader.destroy(searchRes.resources[searchRes.resources.length - 1].public_id);
+  }
+
+  // upload our new image to the folder
+  const res = await cloudinary.uploader.upload(file, { ...JSON.parse(event.body) });
+  return {
+    statusCode: 200,
+    body: JSON.stringify(res)
+  };
+};
+```
+
+We'll go through this step by step to understand whats going on.
+
+- As with all our serverless functions it takes an event. We parse and destructure the file that we want to upload and parse the body. We could do this in one but I like to split it out so its easy to read.
+- We extract the folder name from the files public_id, grabbing anything before the forward slash.
+- We run our cloudinary search function and pass our folder as the expression to search for.
+- We sort the results by their uploaded_at date. This will give us the latest uploads first.
+- Notice that we have not included a max_results in this search. This means that we will get back all of the images in the folder.
+- We then check if the returned arrays length is equal to 3, as we only want to have 3 images max in our folder. If their are 3 images we want to remove the oldest one as we will soon be uploading a new image to the folder.
+- Cloudinary has a handy destroy function which along with an optional callback accepts the public_id of the image you wish to remove.
+- We pass in the last index of the search results array, as that will be our oldest entry.
+- Finally we upload our new image to the same folder and return that wonderful 200 and the results!
+
+Now we have ensured that our cloudinary credits are safe from those pesky image uploaders. Our folder is set to only accept 3 images. Of course we could choose any number we like. In an up coming tutorial series I'll walk you through creating an authenticated photo album library which will extensively use this hooks library and cloudinary.
