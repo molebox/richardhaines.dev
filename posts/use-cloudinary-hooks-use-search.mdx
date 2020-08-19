@@ -171,7 +171,6 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
       }}
       role="button"
       tabindex="0"
-      // aria-pressed="false"
       onKeyPress={() =>
         dispatch({ type: isProfile ? "selectedProfileImage" : "selectedCoverImage", payload: secure_url })
       }
@@ -195,7 +194,8 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
 
 export default LazyImage;
 ```
-
+<AccentBox>
 One thing to note about using this component with Gatsby is that the base image url wont load the image, you have to use the https secure_url for it to work.
+</AccentBox>
 
 And thats it! It's a pretty powerful way to load your images via user defined events. Check the [useSearch docs](https://use-cloudinary.netlify.app/usage/use-search) for a run down of whats possible with the hook.
