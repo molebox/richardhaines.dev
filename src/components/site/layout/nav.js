@@ -91,7 +91,7 @@ const Nav = () => {
       >
         Copy/Paste
       </Link>
-      <Link
+      {/* <Link
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
@@ -110,7 +110,7 @@ const Nav = () => {
         className="nav-link"
       >
         Gatsby Themes
-      </Link>
+      </Link> */}
       <a
         sx={{
           textDecoration: "none",

@@ -119,7 +119,7 @@ const LinkContainer = ({ toggle }) => {
           Copy / Paste
         </Link>
       </motion.li>
-      <motion.li
+      {/* <motion.li
         variants={liVariants}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -144,7 +144,7 @@ const LinkContainer = ({ toggle }) => {
         >
           Themes
         </Link>
-      </motion.li>
+      </motion.li> */}
       <motion.li
         variants={liVariants}
         whileHover={{ scale: 1.1 }}
@@ -173,7 +173,7 @@ const LinkContainer = ({ toggle }) => {
         </a>
       </motion.li>
       <SocialSideBar />
-      <Darkmode />
+      {/* <Darkmode /> */}
     </motion.ul>
   );
 };
