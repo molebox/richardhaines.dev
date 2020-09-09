@@ -1,4 +1,15 @@
 [{
+        "name": "garden.richardhaines.dev",
+        "description": "The new home for my digital garden. A fun space for me to experiment with stuff, write tutorials and store my thoughts and notes",
+        "image": {
+            "src": "./images/screencapture-garden-richardhaines-dev.PNG",
+            "alt": "garden.richardhaines.dev website screenshot"
+        },
+        "github": "https://github.com/molebox/rich-haines-digital-garden",
+        "website": "https://garden.richardhaines.dev/",
+        "npm": ""
+    },
+    {
         "name": "devpack.dev",
         "description": "A SaaS to keep your personal branding consistent across multiple platforms. Manage your social presence, media and domains from one hub. Current status: ALPHA",
         "image": {
@@ -19,16 +30,5 @@
         "github": "https://github.com/molebox/serverless-graphql-potter",
         "website": "https://serverless-graphql-potter.netlify.com/",
         "npm": ""
-    },
-    {
-        "name": "gatsby-theme-pocket",
-        "description": "A Gatsby theme that adds your saved pocket app articles to your website. Includes filtering by tag. You control all your articles via the mobile app and they are displayed on your site via the theme",
-        "image": {
-            "src": "./images/gatsby-theme-pocket.PNG",
-            "alt": "gatsby-theme-pocket example website screenshot"
-        },
-        "github": "https://github.com/molebox/gatsby-theme-pocket",
-        "website": "https://gatsby-theme-pocket-example.netlify.com/articleIndex/",
-        "npm": "https://www.npmjs.com/package/gatsby-theme-pocket"
     }
 ]
