@@ -75,23 +75,28 @@ const LinkContainer = ({ toggle }) => {
           margin: "2em auto"
         }}
       >
-        <Link
-          sx={{
-            textDecoration: "none",
-            fontFamily: "heading",
-            fontSize: ["0.8em", "0.9em", "1em"],
-            color: "text",
-            letterSpacing: "text",
-            textTransform: "uppercase",
-            ":hover": {
-              color: "accent"
-            }
-          }}
-          to="/blog"
-          onClick={toggle}
-        >
-          Garden
-        </Link>
+      <a
+        sx={{
+          textDecoration: "none",
+          fontFamily: "heading",
+          fontSize: ["0.8em", "0.9em", "1em"],
+          color: "text",
+          paddingTop: ["1em", null, null],
+          letterSpacing: "text",
+          textTransform: "uppercase",
+          display: ["none", "block", "block"],
+          ":hover": {
+            color: "accent",
+            cursor: "pointer"
+          }
+        }}
+        href="https://garden.richardhaines.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="nav-link"
+      >
+        Garden
+      </a>
       </motion.li>
       <motion.li
         variants={liVariants}
