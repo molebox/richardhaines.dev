@@ -5,6 +5,7 @@ import { Link } from "gatsby";
 import { graphql, useStaticQuery } from "gatsby";
 import { Brain } from "./../../../common/icons";
 import gsap from "gsap";
+import ExternalLink from "../../../common/external-link";
 
 const RecentPosts = () => {
   const data = useStaticQuery(query);
@@ -67,14 +68,23 @@ const RecentPosts = () => {
           justifyContent: "center",
           alignItems: "center",
           justifyItems: "center",
-          marginBottom: "3em"
+          marginBottom: "3em",
+          color: "text",
+          fontFamily: "heading",
+          fontWeight: "body",
+          fontSize: ["0.9em", "1.1em", "1.2em"]
         }}
       >
         <div className="recent-posts">
           <Brain className="brain" />
         </div>
-
-        <ul
+        <div className="recent-posts">
+          <p>
+            Ive moved my garden to a new subdomain. The link in the nav can take your there, or you can follow{" "}
+            <ExternalLink href="https://garden.richardhaines.dev/">garden.richardhaines.dev</ExternalLink>
+          </p>
+        </div>
+        {/* <ul
           sx={{
             justifySelf: ["center", "start"],
             marginTop: "2em"
@@ -105,7 +115,7 @@ const RecentPosts = () => {
               </Link>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </section>
     </section>
   );

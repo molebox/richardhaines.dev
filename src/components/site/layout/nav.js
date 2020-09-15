@@ -52,7 +52,7 @@ const Nav = () => {
       >
         {siteName}
       </Link>
-      <Link
+      <a
         sx={{
           textDecoration: "none",
           fontFamily: "heading",
@@ -63,14 +63,17 @@ const Nav = () => {
           textTransform: "uppercase",
           display: ["none", "block", "block"],
           ":hover": {
-            color: "accent"
+            color: "accent",
+            cursor: "pointer"
           }
         }}
-        to="/blog"
+        href="https://garden.richardhaines.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
         className="nav-link"
       >
         Garden
-      </Link>
+      </a>
       <Link
         sx={{
           textDecoration: "none",
