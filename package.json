@@ -1,10 +1,9 @@
 {
-  "name": "richardhaines.dev",
-  "version": "0.0.1",
-  "description": "My portfolio website",
-  "main": "index.js",
-  "license": "MIT",
   "scripts": {
+    "xdn": "xdn",
+    "xdn:start": "xdn run",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "gatsby clean && xdn deploy",
     "dev": "gatsby develop",
     "build": "gatsby build",
     "clean": "gatsby clean",
@@ -13,6 +12,11 @@
     "sitemap": "gatsby build && gatsby serve",
     "z": "gatsby clean && gatsby develop"
   },
+  "name": "richardhaines.dev",
+  "version": "0.0.1",
+  "description": "My portfolio website",
+  "main": "index.js",
+  "license": "MIT",
   "dependencies": {
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
@@ -59,6 +63,12 @@
     "windups": "^1.0.1"
   },
   "devDependencies": {
+    "@xdn/cli": "^2.26.3",
+    "@xdn/core": "^2.26.3",
+    "@xdn/devtools": "^2.26.3",
+    "@xdn/gatsby": "^2.26.3",
+    "@xdn/prefetch": "^2.26.3",
+    "@xdn/react": "^2.26.3",
     "prettier": "^1.19.1"
   },
   "prettier": {
