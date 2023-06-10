@@ -25,7 +25,7 @@
     "@mdx-js/react": "^1.5.7",
     "@pauliescanlon/gatsby-mdx-embed": "^0.0.17",
     "framer-motion": "^1.8.4",
-    "gatsby": "^2.19.19",
+    "gatsby": "^4.25.7",
     "gatsby-image": "^2.2.41",
     "gatsby-plugin-anchor-links": "^1.1.1",
     "gatsby-plugin-emotion": "^4.1.22",
